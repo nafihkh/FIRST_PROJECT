@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+
+
+                <div class="flex-grow-1 p-4">
+                    <h3 class="fw-bold mb-4">Dashboard Overview</h3>
+
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/clock.svg" alt=""
+                                        style="height: 44px; width: 44px; background-color: #9333eaff" />
+                                    <span style="color: #7c3bedff; font-size: 14px"><img
+                                            style="width: 16px; height: 16px" src="/images/arrowupright-purple.svg"
+                                            alt="" />12.3%</span>
+                                </div>
+                                <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold" >
+                                    OPEN TASKS
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/circlecheck.svg" alt=""
+                                        style="height: 44px; width: 44px; background-color: #16a34aff" />
+                                    <span style="color: #4ade80ff; font-size: 14px"><img
+                                            style="width: 16px; height: 16px" src="/images/arrowupright-green.svg"
+                                            alt="" />12.3%</span>
+                                </div>
+                                <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold" >
+                                    COMPLETED TASKS
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/hourglass.svg" alt="" style="
+                    height: 44px;
+                    width: 44px;
+                    background: linear-gradient(
+                      180deg,
+                      #efb034ff 0%,
+                      #ef5634ff 100%
+                    );
+                  " />
+                                    <span style="color: #fb923cff; font-size: 14px"><img
+                                            style="width: 16px; height: 16px" src="/images/arrowdownright-yellow.svg"
+                                            alt="" />12.3%</span>
+                                </div>
+                                <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold"
+                                    >
+                                    PNDIENG PAYMENTS
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/users.svg" alt=""
+                                        style="height: 44px; width: 44px; background-color: #3b82f6ff" />
+                                    <span style="color: #60a5faff; font-size: 14px"><img
+                                            style="width: 16px; height: 16px" src="/images/arrowupright-blue.svg"
+                                            alt="" />12.3%</span>
+                                </div>
+                                <h3 class="text-white fw-bold ms-1 mt-2" id="activeUsers">0</h3>
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold" >
+                                    ACTIVE USERS
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row g-4">
+                        <div class="col-md-8">
+                            <div class="card p-3">
+                                <h5 class="text-white fw-bold">Recent Tasks</h5>
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3">
+                                <h5 class="text-white fw-bold mb-2">Problem Categories</h5>
+                                <canvas id="pieChart" class="mb-4"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+        <script>
+            const lineCtx = document.getElementById("lineChart");
+            const pieCtx = document.getElementById("pieChart");
+
+            const lineChart = new Chart(lineCtx, {
+                type: "line",
+                data: {
+                    labels: ["Open Tasks", "Completed Tasks"],
+                    datasets: [
+                        {
+                            label: "Tasks",
+                            data: [],
+                            borderColor: "#38bdf8",
+                            fill: true,
+                            backgroundColor: "rgba(56, 189, 248, 0.2)",
+                        },
+                    ],
+                },
+                options: { plugins: { legend: { display: false } } },
+            });
+
+            const pieChart = new Chart(pieCtx, {
+                type: "pie",
+                data: {
+                    labels: ["Admins", "Workers", "Users"],
+                    datasets: [
+                        {
+                            data: [],
+                            backgroundColor: ["#f43f5e", "#f97316", "#6366f1", "#38bdf8", "#22c55e"]
+                        },
+                    ],
+                },
+                options: { plugins: { legend: { display: false } } },
+            });
+
+            fetch("/admin/metrics")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("openTasks").innerText = data.totalTasks - data.completedTasks;
+                    document.getElementById("completedTasks").innerText = data.completedTasks;
+                    document.getElementById("pendingPayments").innerText = data.totalPayments;
+                    document.getElementById("activeUsers").innerText = data.totalUsers;
+
+                    // Update charts
+                    lineChart.data.datasets[0].data = [
+                        data.totalTasks - data.completedTasks,
+                        data.completedTasks
+                    ];
+                    lineChart.update();
+
+                    pieChart.data.datasets[0].data = [
+                        data.totalAdmins,
+                        data.totalWorkers,
+                        data.totalUsers
+                    ];
+                    pieChart.update();
+                })
+                .catch(err => console.error("Metrics fetch error:", err));
+        </script>
+</body>
+
+</html>

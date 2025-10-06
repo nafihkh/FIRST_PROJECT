@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+         .inbox {
+            width: 139px;
+            height: 36px;
+            padding-left: 12px;
+            padding-right: 34px;
+            font-family: Inter;
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+            background: #1f2937ff;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: #1c222bff;
+            border-style: solid;
+            outline: none;
+            color: #BDC1CA;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        input[type="date"]::-moz-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        input[type="date"] {
+            position: relative;
+        }
+
+        input[type="date"]::after {
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            display: inline-block;
+            color: #fff;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .date-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .date-wrapper input[type="date"] {
+            padding-right: 40px;
+        }
+
+        .date-wrapper .calendar-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="date"]:focus {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 8px;
+            left: 9px;
+            width: 20px;
+            height: 20px;
+        }
+
+        #searchFilter {
+            padding-left: 34px;
+            width: 100%;
+        }
+
+        #searchFilter::placeholder {
+            color: #f3f4f6;
+        }
+        .onlineornot {
+            background: #1dd75b;
+            height: 8px;
+            width: 8px;
+            position: absolute;
+            top: 17px;
+            left: 19px;
+        }
+        .top {
+            width: 245px;
+            height : 137.98px;
+        }
+        .cart-img {
+            width: 225px;
+            height: 137px;
+        }
+
+        #cartContainer::-webkit-scrollbar {
+            width: 0; 
+        }
+        #cartContainer {
+            -ms-overflow-style: none;  
+            scrollbar-width: none; 
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+
+
+                <div class="flex-grow-1 p-4">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="fw-bold mb-4">Tasks</h3>
+                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" aria-controls="cart" style="height: 40px;" class="btn btn-primary"><i class="bi bi-cart3"></i>Job Cart</button>
+                    </div>
+                    <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
+                        <div class="d-flex align-items-center">
+                                <label style="color: #bdc1ca; font-size: 14px" for="">Status:</label>
+                                <select id="statusFilter" class="form-select inbox text-white border-0 ms-1" style="width: 150px">
+                                    <option value="all">All Status</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <label style="color: #bdc1ca; font-size: 14px" for="">Date:</label>
+                                <div class="date-wrapper">
+                                    <input type="date" id="dateFilter" name="date" class="form-control text-white border-0 inbox ms-1 w-auto" />
+                                    <span class="calendar-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="search-wrapper">
+                                <img class="search-icon" src="/images/search.svg" alt="" />
+                                <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
+                            </div>
+                        </div>
+
+                    <div class="row g-3 mb-4" id="tasksContainer">
+                        <!-- <div class="col-md-3">
+                            <div class="card rounded-3" style="background-color: #171c26;">
+                                <img class="top rounded-top-3" src="/images/task1.png" alt="">
+                                <div class="d-flex justify-content-between px-2 align-items-center">
+                                    <div class="d-flex mt-2 position-relative align-items-center">
+                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <span class="onlineornot rounded-circle"> </span>
+                                        <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
+                                    </div>
+                                    <h2 class="fw-bold my-auto" style="font-size: 14px; color: #fff;;"><i class="bi bi-star-fill"></i> 2.5</h2>
+                                </div>
+                                <p style="color: #565e6c; font-size: 14px;" class="px-2">need a full stack developer for compleat my project</p>
+                                <div class="d-flex justify-content-between px-2 mb-2">
+                                    <h2 class="fw-bold my-auto" style="font-size: 18px; color:#fff;">$94</h2>
+                                    <span style="color: #565e6c; font-size: 14px;">Due: 2 Days</span>
+                                </div>
+                                <div class="px-2 text-end pb-1 mb-2">
+                                    <button style="font-size: 14px;"  class="btn  rounded-3 btn-primary btn-sm">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-3">
+                            <div class="card rounded-3" style="background-color: #171c26;">
+                                <img class="top rounded-top-3" src="/images/task2.png" alt="">
+                                <div class="d-flex justify-content-between px-2 align-items-center">
+                                    <div class="d-flex mt-2 position-relative align-items-center">
+                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <span class="onlineornot rounded-circle"> </span>
+                                        <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
+                                    </div>
+                                    <h2 class="fw-bold my-auto" style="font-size: 14px; color: #fff;;"><i class="bi bi-star-fill"></i> 2.5</h2>
+                                </div>
+                                <p style="color: #565e6c; font-size: 14px;" class="px-2">need a full stack developer for compleat my project</p>
+                                <div class="d-flex justify-content-between px-2 mb-2">
+                                    <h2 class="fw-bold my-auto" style="font-size: 18px; color:#fff;">$94</h2>
+                                    <span style="color: #565e6c; font-size: 14px;">Due: 2 Days</span>
+                                </div>
+                                <div class="px-2 text-end pb-1 mb-2">
+                                    <button style="font-size: 14px;"  class="btn  rounded-3 btn-primary btn-sm">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-3">
+                            <div class="card rounded-3" style="background-color: #171c26;">
+                                <img class="top rounded-top-3" src="/images/task3.png" alt="">
+                                <div class="d-flex justify-content-between px-2 align-items-center">
+                                    <div class="d-flex mt-2 position-relative align-items-center">
+                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <span class="onlineornot rounded-circle"> </span>
+                                        <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
+                                    </div>
+                                    <h2 class="fw-bold my-auto" style="font-size: 14px; color: #fff;;"><i class="bi bi-star-fill"></i> 2.5</h2>
+                                </div>
+                                <p style="color: #565e6c; font-size: 14px;" class="px-2">need a full stack developer for compleat my project</p>
+                                <div class="d-flex justify-content-between px-2 mb-2">
+                                    <h2 class="fw-bold my-auto" style="font-size: 18px; color:#fff;">$94</h2>
+                                    <span style="color: #565e6c; font-size: 14px;">Due: 2 Days</span>
+                                </div>
+                                <div class="px-2 text-end pb-1 mb-2">
+                                    <button style="font-size: 14px;"  class="btn  rounded-3 btn-primary btn-sm">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card rounded-3" style="background-color: #171c26;">
+                                <img class="top rounded-top-3" src="/images/task4.png" alt="">
+                                <div class="d-flex justify-content-between px-2 align-items-center">
+                                    <div class="d-flex mt-2 position-relative align-items-center">
+                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <span class="onlineornot rounded-circle"> </span>
+                                        <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
+                                    </div>
+                                    <h2 class="fw-bold my-auto" style="font-size: 14px; color: #fff;;"><i class="bi bi-star-fill"></i> 2.5</h2>
+                                </div>
+                                <p style="color: #565e6c; font-size: 14px;" class="px-2">need a full stack developer for compleat my project</p>
+                                <div class="d-flex justify-content-between px-2 mb-2">
+                                    <h2 class="fw-bold my-auto" style="font-size: 18px; color:#fff;">$94</h2>
+                                    <span style="color: #565e6c; font-size: 14px;">Due: 2 Days</span>
+                                </div>
+                                <div class="px-2 text-end pb-1 mb-2">
+                                    <button style="font-size: 14px;"  class="btn  rounded-3 btn-primary btn-sm">Add to cart</button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+        </div>
+        <div class="offcanvas offcanvas-end" style="background: #1a1c1eb9;" tabindex="-1" id="cart" aria-labelledby="cartLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title text-white fw-bold" id="cartLabel" >Job Cart</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" id="cartContainer">
+               <div class="row justify-content-center rounded-3" style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%); border-left: 4px solid #636AE8;">
+                    <img class="cart-img rounded-start-3 col-md-7 m-0 p-0" src="/images/task4.png" alt="">
+                    <div class="col-md-5">
+                        <h6 class="mt-2 mb-0 pb-0" style="color: #fff; font-size: 14px;">Need a full stack developer</h6>
+                        <label class="mt-0 pt-0 mb-1" style="color: #565e6c; font-size: 11px;">by shafipuvattuparambil</label>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="fw-bold my-auto" style="font-size: 16px; color:#fff;">$94</h5>
+                            <span style="color: #565e6c; font-size: 14px;">Due: 2 Days</span>
+                        </div>
+                        <div>
+                             <button style="font-size: 14px;"  class="btn  rounded-2 btn-secondary btn-sm">Cancel</button>
+                             <button style="font-size: 14px; color: #fff;  background-color: #1dd75b;"  class="btn  rounded-2  btn-sm">Proceed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+const tasksContainer = document.getElementById("tasksContainer");
+const cartContainer = document.getElementById("cartContainer");
+
+// Load tasks dynamically
+async function loadTasks() {
+    try {
+        const res = await fetch("/worker/tasks/progress-nontaken");
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        const tasks = await res.json();
+        tasksContainer.innerHTML = "";
+
+        tasks.forEach(task => {
+            const card = document.createElement("div");
+            card.className = "col-md-3";
+            card.innerHTML = `
+                <div class="card rounded-3" style="background-color: #171c26;">
+                    <img class="top rounded-top-3" src="${task.photo || '/images/task1.png'}" alt="">
+                    <div class="d-flex justify-content-between px-2 align-items-center">
+                        <div class="d-flex mt-2 position-relative align-items-center">
+                            <img class="rounded-circle me-2" src="${task.user_id?.profile_photo || '/images/profileeg.jpg'}" width="25" height="25">
+                            <span class="onlineornot rounded-circle"></span>
+                            <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">${task.user_id?.username || 'Unknown'}</span>
+                        </div>
+                        <h2 class="fw-bold my-auto" style="font-size: 14px; color: #fff;"><i class="bi bi-star-fill"></i> ${task.rating || '2.5'}</h2>
+                    </div>
+                    <p style="color: #565e6c; font-size: 14px;" class="px-2">${task.description || 'No description available'}</p>
+                    <div class="d-flex justify-content-between px-2 mb-2">
+                        <h2 class="fw-bold my-auto" style="font-size: 18px; color:#fff;">$${task.amount || 0}</h2>
+                        <span style="color: #565e6c; font-size: 14px;">Due: ${task.duration || 'N/A'}</span>
+                    </div>
+                    <div class="px-2 text-end pb-1 mb-2">
+                        <button data-id="${task._id}" class="btn rounded-3 btn-primary btn-sm add-to-cart">Add to cart</button>
+                    </div>
+                </div>
+            `;
+            tasksContainer.appendChild(card);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Load cart dynamically
+async function loadCart() {
+    try {
+       const res = await fetch("/worker/cart");
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        const cart = await res.json();
+        const tasks = cart.cart || []; // <-- FIXED
+        cartContainer.innerHTML = "";
+
+        tasks.forEach(task => {
+            const itemDiv = document.createElement("div");
+            itemDiv.className = "row justify-content-center rounded-3 mb-3"; // mb-2 instead of mb-3
+            itemDiv.style = "background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%); border-left: 4px solid #636AE8;";
+            itemDiv.innerHTML = `
+                <img class="cart-img rounded-start-3 col-md-7 m-0 p-0" src="${task.photo || '/images/task1.png'}" alt="">
+                <div class="col-md-5">
+                    <h6 class="mt-2 mb-0 pb-0" style="color: #fff; font-size: 14px;">${task.title || task.description || 'No title'}</h6>
+                    <label class="mt-0 pt-0 mb-1" style="color: #565e6c; font-size: 11px;">by ${task.user_id?.username || 'Unknown'}</label>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="fw-bold my-auto" style="font-size: 16px; color:#fff;">$${task.amount || 0}</h5>
+                        <span style="color: #565e6c; font-size: 14px;">Due: ${task.duration || 'N/A'}</span>
+                    </div>
+                    <div >
+                        <button data-id="${task._id}" class="btn rounded-2 btn-secondary btn-sm cancel-btn" style="font-size: 14px;">Cancel</button>
+                        <button data-id="${task._id}" onclick="proceedTask('${task._id}')" class="btn rounded-2 btn-sm" style="font-size: 14px; color: #fff; background-color: #1dd75b;">Proceed</button>
+                    </div>
+                </div>
+            `;
+            cartContainer.appendChild(itemDiv);
+        });
+
+        // Cancel button
+        cartContainer.querySelectorAll(".cancel-btn").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const taskId = e.target.dataset.id;
+                try {
+                    const res = await fetch("/worker/cart/remove", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ taskId })
+                    });
+                    if (res.ok) loadCart();
+                    else alert("Failed to remove task");
+                } catch (err) {
+                    console.error(err);
+                    alert("Server error");
+                }
+            });
+        });
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Add to Cart button (event delegation)
+tasksContainer.addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("add-to-cart")) return;
+    const taskId = e.target.dataset.id;
+    try {
+        const res = await fetch("/worker/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ taskId })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            alert("Task added to cart!");
+             loadCart();
+        } else {
+            alert(data.error || "Error adding task");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Server error");
+    }
+});
+
+// Calendar icon click
+document.querySelector(".calendar-icon")?.addEventListener("click", () => {
+    const input = document.getElementById("dateFilter");
+    if (input.showPicker) input.showPicker(); else input.click();
+});
+
+// Load tasks on page load
+document.addEventListener("DOMContentLoaded", () => {
+    loadTasks();
+});
+
+async function proceedTask(taskId) {
+  try {
+    const res = await fetch("/worker/cart/proceed", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ taskId })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert("Task moved to Active job");
+      loadCart();
+    } else {
+      alert(data.error || "Something went wrong");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+// Load cart when offcanvas opens
+document.getElementById("cart").addEventListener("show.bs.offcanvas", loadCart);
+</script>
+</body> 
+
+
+</html>

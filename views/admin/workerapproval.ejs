@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .bg-blk {
+            background-color: #171c26;
+        }
+
+        .d-4 {
+            width: 31.33%;
+        }
+
+        .custom-table-wrapper {
+            background-color: #171c26;
+            color: #bdc1ca;
+            border-radius: 19px;
+            overflow: hidden;
+            font-size: 14px;
+        }
+
+        .custom-table {
+            background: transparent !important;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            color: #bdc1ca;
+            background: #262a33;
+            border-bottom: 1px solid #2f343d;
+            font-weight: 600;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr {
+            background: transparent;
+            border-bottom: 1px solid #2f343d;
+        }
+
+        .custom-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .custom-table tbody td {
+            color: #f3f4f6;
+
+            background: transparent !important;
+            vertical-align: middle;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .completed {
+            background: #10B98133;
+            color: #10b981;
+            font-size: 12px;
+        }
+
+        .btn-approve,
+        .btn-reject {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+
+                <div class=" w-100"
+                    style="background:#0f172a; min-height:100vh; font-family: 'Inter', sans-serif; color:white; padding: 2.5rem;">
+                    <h6 class="mb-4"><a class="text-decoration-none" style="color: #9590a0;" href="/admin/workers"><i
+                                class="fa-solid fa-arrow-left" style="color: #9590a0;"></i> Back to List</a></h6>
+                    <h5 class="fw-bold mb-4">Worker Approval</h5>
+
+                    <div class="table-responsive custom-table-wrapper" style="position: relative; z-index: 1;">
+                        <table id="table" class="table table-borderless align-middle custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Users</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% workers.forEach(worker=> { %>
+                                    <tr>
+                                        <td>#W<%= worker._id.toString().slice(-5) %>
+                                        </td>
+                                        <td>
+                                            <img src="<%= worker.profile_photo || '/images/profileeg.jpg' %>"
+                                                class="rounded-circle me-2" width="30" height="30" />
+                                            <%= worker.username %>
+                                        </td>
+                                        <td>
+                                            <form action="/admin/approve-worker/<%= worker._id %>" method="POST">
+                                                <button class="btn-approve btn rounded-3 text-white fw-bold" style="font-size: 14px; background-color: #1DD75BFF;">Approve</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="/admin/reject-worker/<%= worker._id %>" method="POST">
+                                                <button
+                                                    class="btn bg-danger rounded-3 text-white fw-bold"
+                                                    style="font-size: 14px">
+                                                    Reject
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                </div>
+
+
+        </div>
+
+
+        </div>
+
+</body>
+
+</html>

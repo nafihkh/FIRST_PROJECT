@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .cart-img {
+            width: 358px;
+            height: 196px;
+        }
+
+        .progress-container {
+            background: #1a1c24;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .step .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #4f46e5;
+            /* active color */
+            color: white;
+            z-index: 1;
+        }
+
+        .step.inactive .circle {
+            background: #444;
+            /* inactive */
+        }
+
+        .step::after {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background: #444;
+            z-index: 0;
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step.active~.step::after {
+            background: #444;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .step-label {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #9095a0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+
+
+                <div class="flex-grow-1 p-4">
+                    <h6 class="mb-4"><a class="text-decoration-none" style="color: #9590a0;" href="/worker/activejobs"><i
+                                class="bi bi-arrow-left" style="color: #9590a0;"></i> Back to List</a></h6>
+                    <div class="row g-4 rounded-3 m-0 p-0"
+                        style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);">
+                        
+                        <div class="col-md-10">
+                            <div class="d-flex mb-3">
+                                <h6 class="mb-0 pb-0 me-3" style="color: #fff; font-size: 20px;">
+                                    <%= task.title %>
+                                </h6>
+                                <label for="" style="font-size: 14px; height: 30px;"
+                                    class="btn btn-primary rounded-4 btn-sm fw-medium">
+                                    <%= task.progress %>
+                                </label>
+                            </div>
+                            <p class="mt-0 pt-0 mb-2" style="color: #fff; font-size: 16px;">
+                                <%= task.description %>
+                            </p>
+                            <div class="row align-items-center mb-2 mt-3">
+
+                                <div class="col-md-4">
+                                    <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:#9095a0;">Budget
+                                    </h5>
+                                    <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #4ade80; font-size: 14px;">$
+                                        <%= task.amount %>
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:#9095a0;">Dead
+                                        line</h5>
+                                    <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #fff; font-size: 14px;">
+                                        <%= new Date(task.deadline).toLocaleDateString('en-US', { month: 'short' ,
+                                            day: 'numeric' , year: 'numeric' }) %>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center mx-auto d-flex">
+                            <img class="rounded-circle me-1"
+                                src="<%= task.user_id?.profile_photo || '/images/profileeg.jpg' %>" alt="" width="30px"
+                                height="30px">
+                            <h6 class="mt-2" style="font-size: 12px;">
+                                <%= task.user_id.username %>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-8">
+                            <div class="card p-3"
+                                style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);">
+                                <h6 class="text-white fw-bold mb-3">Project Progress</h6>
+                                <div class="steps">
+                                    <% 
+                                        const stepOrder = ["Accepted", "Working", "Submitted", "Approved", "Paid"];
+                                        let progressIndex = 0;
+                                        switch(task.progress) {
+                                        case "InProgress": progressIndex = 1; break;
+                                        case "Submitted": progressIndex = 2; break;
+                                        case "Approved": progressIndex = 3; break;
+                                        case "Completed": progressIndex = 4; break;
+                                        default: progressIndex = 0; // Not Taken / Accepted
+                                        }
+                                    %>
+
+                                    <% stepOrder.forEach((step, index) => { %>
+                                        <div class="step <%= index > progressIndex ? 'inactive' : '' %>">
+                                        <div class="circle"><%= index + 1 %></div>
+                                        <div class="step-label"><%= step %></div>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3"
+                                style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);">
+                                <h6 class="text-white fw-bold mb-2"> <img class="p-2 rounded-circle me-2"
+                                        src="/images/clock.svg" alt=""
+                                        style="height: 44px; width: 44px; background-color: #d38d00" />Deadline</h6>
+
+                               <h1 class="text-center fw-bold" style="color: #d38d00; font-size: 24px;" id="countdown"
+                                    data-deadline="<%= task.deadline ? task.deadline.toISOString() : '' %>">
+                                    Loading...
+                                </h1>
+
+                                <h5 class="text-center my-auto mb-1" style="font-size: 12px; color:#9095a0;">Time
+                                    remaining</h5>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+const countdownEl = document.getElementById('countdown');
+const deadlineStr = countdownEl.dataset.deadline;
+
+if(deadlineStr) {
+    const deadline = new Date(deadlineStr);
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = deadline - now;
+
+        if(diff <= 0) {
+            countdownEl.innerText = "Deadline Passed";
+            clearInterval(timer);
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        countdownEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    const timer = setInterval(updateCountdown, 1000);
+    updateCountdown(); // initial call
+} else {
+    countdownEl.innerText = "No deadline set";
+}
+</script>
+
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+
+</html>

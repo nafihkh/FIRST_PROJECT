@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+
+        .custom-table-wrapper {
+            background-color: #171c26;
+            color: #bdc1ca;
+            border-radius: 19px;
+            overflow: hidden;
+            font-size: 14px;
+        }
+
+        .custom-table {
+            background: transparent !important;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            color: #bdc1ca;
+            background: #262a33;
+            border-bottom: 1px solid #2f343d;
+            font-weight: 600;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr {
+            background: transparent;
+            border-bottom: 1px solid #2f343d;
+        }
+
+        .custom-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .custom-table tbody td {
+            color: #f3f4f6;
+            background: transparent !important;
+            vertical-align: middle;
+            padding: 16px 18px;
+        }
+
+        .inbox {
+            width: 139px;
+            height: 36px;
+            padding-left: 12px;
+            padding-right: 34px;
+            font-family: Inter;
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+            background: #1f2937ff;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: #1c222bff;
+            border-style: solid;
+            outline: none;
+            color: #BDC1CA;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        input[type="date"]::-moz-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        input[type="date"] {
+            position: relative;
+        }
+
+        input[type="date"]::after {
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            display: inline-block;
+            color: #fff;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .date-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .date-wrapper input[type="date"] {
+            padding-right: 40px;
+        }
+
+        .date-wrapper .calendar-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="date"]:focus {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 8px;
+            left: 9px;
+            width: 20px;
+            height: 20px;
+        }
+
+        #searchFilter {
+            padding-left: 34px;
+            width: 100%;
+        }
+
+        #searchFilter::placeholder {
+            color: #f3f4f6;
+        }
+
+        .active {
+            background: #10B98133 !important;
+            color: #10b981 !important;
+            font-size: 12px !important;
+            border: none !important;
+        }
+
+        /* .pending {
+            background: #FACC1533;
+            color: #facc15;
+            font-size: 12px;
+        } */
+
+        .hidden {
+            background: #F4403433;
+            color: #f44034;
+            font-size: 12px;
+        }
+
+        .icon-box {
+            width: 20px;
+            height: 36px;
+        }
+
+        .input-box {
+            background-color: #0f172a;
+            width: 100%;
+            height: 40px;
+            padding-left: 12px;
+            padding-right: 12px;
+            font-family: 'Inter';
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: rgb(59, 59, 59);
+            border-style: solid;
+            outline: none;
+            color: #BDC1CA;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+
+    <div class="d-flex">
+        <%- include('../partials/sidebar') %>
+
+        <div class="p-4 w-100" style="background: #0f172a; min-height: 100vh; font-family: 'Inter', sans-serif; color: white;">
+            <div class="d-flex justify-content-between">
+                <h3 class="fw-bold mb-4">Problem Management</h3>
+                <button onclick="window.location.href='/admin/workers/approvals'" class="btn btn-primary rounded-3" style="font-size: 14px; height: 44px;"><i class="bi bi-receipt text-white me-1"></i>Reports</button>
+            </div>
+
+            <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
+                <div class="d-flex align-items-center">
+                    <label style="color: #bdc1ca; font-size: 14px" for="">Status:</label>
+                    <select id="statusFilter" class="form-select inbox text-white border-0 ms-1" style="width: 150px">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="hidden">Hidden</option>
+                    </select>
+                </div>
+                <div class="d-flex align-items-center">
+                    <label style="color: #bdc1ca; font-size: 14px" for="">Date:</label>
+                    <div class="date-wrapper">
+                        <input type="date" id="dateFilter" name="date" class="form-control text-white border-0 inbox ms-1 w-auto" />
+                        <span class="calendar-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                    </div>
+                </div>
+
+                <div class="search-wrapper">
+                    <img class="search-icon" src="/images/search.svg" alt="" />
+                    <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
+                </div>
+            </div>
+
+            <div class="table-responsive custom-table-wrapper">
+                <table id="table" class="table table-borderless align-middle custom-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Service</th>
+                            <th>Agent</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Image</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editdata" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: #0f172a;">
+                <div class="modal-header bg-primary border-bottom-0">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="mb-2" style="font-size: 14px;" for="">Service</label><br>
+                    <input id="service" class="input-box" type="text" placeholder="Serice title">
+                    <label class="mb-2 mt-3" style="font-size: 14px;" for="">Duration</label><br>
+                    <input id="duration" class="input-box" type="text" placeholder="Duration">
+                    <label class="mb-2 mt-3" style="font-size: 14px;" for="">Amount</label><br>
+                    <input id="amount" class="input-box" type="text" placeholder="Amount">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #0f172a; color: white;">
+                <div class="modal-header bg-primary border-0">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this task?
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="confirmDeleteBtn" type="button" class="btn btn-danger">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script>
+    document.querySelector(".calendar-icon").addEventListener("click", () => {
+        document.getElementById("dateFilter").showPicker();
+    });
+    let tasks = [];
+    let allTasks = [];
+    async function loadTask() {
+        try {
+            const res = await fetch("/admin/tasks");    
+            allTasks = await res.json();
+            
+            tasks = allTasks;
+            renderTasks(tasks);
+        } catch (err) {
+            console.error("Error loading tasks:", err);
+        }
+    }
+
+    function renderTasks(list) {
+        const tbody = document.getElementById("tbody");
+        tbody.innerHTML = "";
+        list.forEach((task) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+      <td>#${task._id.slice(-5)}</td>
+      <td>${task.title}</td>
+      <td>
+        <img src="${task.user_id?.profile_photo || "/images/profileeg.jpg"}"
+             class="rounded-circle me-2" width="30" height="30">
+        ${task.user_id?.username || "No Agent"}
+      </td>
+      <td>$${task.amount || 0}</td>
+      <td>
+        <button class="btn fw-semibold status-btn ${task.status?.toLowerCase()} rounded-5"
+          data-id="${task._id}">
+          ${capitalizeFirstLetter(task.status)}
+        </button>
+      </td>
+      <td><img src="${task.image || "/images/profileeg.jpg"}" class="rounded" width="40" height="40"></td>
+      <td class="d-flex justify-content-between align-items-center">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#editdata"
+          class="text-info me-2 bg-transparent border-0">
+          <img class="icon-box" src="/images/edit.svg" alt="">
+        </button>
+        <button class="text-danger bg-transparent border-0 delete-btn">
+          <img class="icon-box" src="/images/delete.svg" alt="">
+        </button>
+      </td>
+    `;
+            tbody.append(row);
+        });
+        attachStatusEvents();
+    }
+
+    function applyFilters() {
+        const statusValue = document.getElementById("statusFilter").value.toLowerCase();
+        const dateValue = document.getElementById("dateFilter").value;
+        const searchValue = document.getElementById("searchFilter").value.toLowerCase();
+
+        tasks = allTasks.filter((t) => {
+            const taskStatus = (t.status || "").toLowerCase();
+            let statusMatch = statusValue === "all" || taskStatus === statusValue;
+            let dateMatch = true;
+            if (dateValue && t.created_at) {
+                const taskDate = new Date(t.created_at).toISOString().slice(0, 10);
+                dateMatch = taskDate === dateValue;
+            }
+            let searchMatch =
+                !searchValue ||
+                (t.title || "").toLowerCase().includes(searchValue) ||
+                (t.user_id?.username || "").toLowerCase().includes(searchValue);
+
+            return statusMatch && dateMatch && searchMatch;
+        });
+
+        renderTasks(tasks);
+    }
+
+    document.getElementById("statusFilter").addEventListener("change", applyFilters);
+    document.getElementById("dateFilter").addEventListener("change", applyFilters);
+    document.getElementById("searchFilter").addEventListener("input", applyFilters);
+
+    loadTask();
+
+    function attachStatusEvents() {
+        document.querySelectorAll(".status-btn").forEach((btn) => {
+            btn.addEventListener("click", async () => {
+                const id = btn.dataset.id;
+                let newStatus;
+                if (btn.innerText.toLowerCase() === "active") newStatus = "hidden";
+                else newStatus = "active";
+                try {
+                    const res = await fetch(`/admin/tasks/${id}/status`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: newStatus }),
+                    });
+                    const updated = await res.json();
+                    btn.innerText = capitalizeFirstLetter(updated.status);
+                    btn.className =
+                        "btn fw-semibold status-btn rounded-5 " +
+                        (updated.status === "active"
+                            ? "active"
+                            : updated.status === "hidden"
+                                ? "hidden" : "active");
+                   // setTimeout(() => location.reload(), 0)
+                } catch (err) {
+                    console.error("Error updating status:", err);
+                }
+            });
+        });
+    }
+
+    document.getElementById("tbody").addEventListener("click", (e) => {
+        const editBtn = e.target.closest("button[data-bs-toggle='modal']");
+        if (!editBtn) return;
+
+        const row = editBtn.closest("tr");
+        const taskId = row.querySelector(".status-btn").dataset.id;
+
+        const task = tasks.find(t => t._id === taskId);
+        if (!task) return;
+
+        const modal = document.getElementById("editdata");
+        modal.dataset.id = taskId;
+        modal.querySelector("#service").value = task.title;
+        modal.querySelector("#duration").value = task.duration || "";
+        modal.querySelector("#amount").value = task.amount || 0;
+    });
+
+    document.querySelector("#editdata .btn-primary").addEventListener("click", async () => {
+        const modal = document.getElementById("editdata");
+        const taskId = modal.dataset.id;
+        const title = modal.querySelector("#service").value;
+        const amount = modal.querySelector("#amount").value;
+        const duration = modal.querySelector("#duration").value;
+
+        try {
+            const res = await fetch(`/admin/tasks/${taskId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({title,amount,duration}),
+                    
+            });
+
+            const updatedTask = await res.json();
+            await loadTask();
+            bootstrap.Modal.getInstance(modal).hide();
+        } catch (err) {
+            console.error("Error updating task:", err);
+        }
+    });
+
+    let deleteTaskId = null;
+
+    document.getElementById("tbody").addEventListener("click", (e) => {
+        const deleteBtn = e.target.closest(".delete-btn");
+        if (!deleteBtn) return;
+
+        const row = deleteBtn.closest("tr");
+        deleteTaskId = row.querySelector(".status-btn").dataset.id;
+
+        const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal")  );
+        deleteModal.show();
+    });
+
+    document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
+        if (!deleteTaskId) return;
+
+        try {
+            const res = await fetch(`/admin/tasks/${deleteTaskId}`, { method: "DELETE" });
+            const result = await res.json();
+
+            await loadTask();
+            bootstrap.Modal.getInstance(document.getElementById("deleteModal")).hide();
+        } catch (err) {
+            console.error("Error deleting task:", err);
+        }
+    });
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+</script>
+
+</html>

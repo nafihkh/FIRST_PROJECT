@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+
+        .profile-card {
+            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4f46e5;
+        }
+
+        .star-rating {
+            color: gold;
+        }
+
+        .skills-badge {
+            background: #565e6c;
+            border: 1px solid #636AE8;
+            color: #fff;
+            margin: 5px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .btn-skill {
+            background: #4f46e5;
+            border: none;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .stats-card,
+        .review-card {
+            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .review-star {
+            color: gold;
+            font-size: 1rem;
+        }
+
+        .hidden-input {
+            display: none;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .hidden-input:focus {
+            border: 0px;
+            background: transparent;
+            color: #fff;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #bcc1ca;
+            font-family: 'Inter';
+        }
+
+        .info-text {
+            font-size: 14px;
+        }
+
+        .change-profile {
+            top: 0px;
+            left: 0px;
+            display: none;
+        }
+
+        .position-relative:hover .change-profile {
+            display: block !important;
+        }
+
+        .text-per {
+            color: #9095a0;
+            font-size: 14px;
+        }
+
+        .verification-card {
+            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-weight: 600;
+        }
+
+        .verification-row {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            background-color: rgb(55 65 81);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            margin-right: 15px;
+        }
+
+        .verify-button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            border: none;
+        }
+
+        .verify-button:hover {
+            background-color: #4338ca;
+        }
+
+        .otp-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .otp-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .otp-input:focus {
+            border-color: #4f46e5;
+            /* Accent color */
+            box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25);
+        }
+        
+        .card {
+            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+
+        .inbox {
+            width: 100%;
+            height: 36px;
+            padding-left: 12px;
+            padding-right: 12px;
+            font-family: Inter;
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+            background: #323743FF;
+            border-radius: 9999px;
+            border-width: 1px;
+            border-color: #323743FF;
+            border-style: solid;
+            outline: none;
+            color: #bcc1ca;
+        }
+
+        .label-set {
+            color: #9095a0;
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+
+
+                <div class="flex-grow-1 p-4">
+                    <div class="container py-2">
+                        <h3 class="fw-bold mb-4">Settings</h3>
+                        <div class="row g-4">
+                            <!-- Profile Card -->
+                            <div class="col-md-4">
+                                <div class="profile-card">
+                                    <div class="text-center">
+                                        <label for="profileUpload" style="cursor: pointer;" class="position-relative">
+                                            <img src="<%= user.profile_photo || '/images/profileeg.jpg' %>"
+                                                alt="Profile" class="profile-img mb-3" id="profilePreview">
+                                            <div class="change-profile position-absolute p-4 rounded-circle"
+                                                style="background-color: #00000059; height: 120px; width: 120px;">
+                                                <br>Change
+                                            </div>
+                                        </label>
+                                        <br>
+                                        <h5 style="font-size: 20px;" class="info-text text-white"><%= user.username %></h5>
+                                        <input type="text" style="font-size: 20px;"
+                                            class="form-control text-center hidden-input" value="<%= user.username %>">
+
+                                        <p class="mb-2 text-center">
+                                            <span style="color: #bcc1ca; font-size: 16px;"
+                                                class="info-text text-center">Full stack developer</span>
+                                            <input style="color: #bcc1ca; font-size: 16px;" type="text"
+                                                class="form-control text-center hidden-input"
+                                                value="Full stack developer">
+                                        </p>
+                                        <p class="star-rating">★★★★★</p>
+                                        <input type="file" id="profileUpload" accept="image/*" class="d-none">
+                                        <hr class="border-secondary">
+                                    </div>
+
+                                    <!-- Profile Info -->
+                                    <div id="profileInfo">
+                                        <p class="mb-2">
+                                            <span class="info-label">Email</span><br>
+                                            <span class="info-text"><%= user.email %></span>
+                                            <input type="email" class="form-control hidden-input"
+                                                value="<%= user.email %>">
+                                        </p>
+
+                                        <p class="mb-2">
+                                            <span class="info-label">Phone</span><br>
+                                            <span class="info-text"><%= user.phone %></span>
+                                            <input type="text" class="form-control hidden-input"
+                                                value="<%= user.phone %>">
+                                        </p>
+
+                                        <p class="mb-2">
+                                            <span class="info-label">Location</span><br>
+                                            <span class="info-text">San Francisco, CA</span>
+                                            <input type="text" class="form-control hidden-input"
+                                                value="San Francisco, CA">
+                                        </p>
+
+                                        <p class="mb-2">
+                                            <span class="info-label">Member Since</span><br>
+                                            <span style="font-size: 14px;">January 2025</span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Button Row (Initially hidden) -->
+                                    <div id="actionBtns" class="text-end d-none mt-3">
+                                        <button id="saveBtn" class="btn btn-primary btn-sm">Save Changes</button>
+                                        <button id="cancelBtn" class="btn btn-secondary btn-sm">Cancel</button>
+                                    </div>
+
+                                    <!-- Edit Trigger -->
+                                    <div class="text-end mt-2">
+                                        <button id="editBtn" class="btn btn-outline-light btn-sm mb-3">
+                                            <i class="bi bi-pencil-square me-1"></i>Edit Profile
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Skills & Stats -->
+                            <div class="col-md-8">
+                                <!-- Skills -->
+                                <div class="profile-card">
+                                    <h5 class="fw-bold mb-3">Skills & Expertise</h5>
+                                    <div>
+                                        <span class="skills-badge">JavaScript</span>
+                                        <span class="skills-badge">React</span>
+                                        <span class="skills-badge">Node.js</span>
+                                        <span class="skills-badge">Python</span>
+                                        <span class="skills-badge">MongoDB</span>
+                                        <span class="skills-badge">AWS</span>
+                                        <span class="skills-badge">UI/UX Design</span>
+                                        <span class="skills-badge">WordPress</span>
+                                    </div>
+                                    <button class="btn btn-skill mt-3 fw-semibold">+ Add Skill</button>
+                                </div>
+
+                                <!-- Stats -->
+                                <div class="stats-card">
+                                    <h5 class="mb-3 fw-bold">Performance Stats</h5>
+                                    <div class="row text-center align-items-center">
+                                        <div class="col-md-3">
+                                            <h5 class="fw-semibold" style="font-size: 20px;">127</h5>
+                                            <p class="text-per small">Total Reviews</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="fw-semibold" style="color: #4ade80; font-size: 20px;">90%</h5>
+                                            <p class="text-per small">Success Rate</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="fw-semibold" style="font-size: 20px;">47</h5>
+                                            <p class="text-per small">Total Reviews</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="fw-semibold" style="font-size: 20px;">2.5</h5>
+                                            <p class="text-per small">Completed Tasks</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reviews -->
+                                <div class="review-card">
+                                    <h5 class="fw-bold mb-3">Recent Reviews</h5>
+                                    <div class="d-flex align-items-start">
+                                        <div>
+                                            <strong>Alexw</strong><br>
+                                            <p class="small text-white mb-1">
+                                                "Excellent work on the e-commerce website. Professional, timely, and
+                                                exceeded expectations!"
+                                            </p>
+                                            <span class="review-star">★★★☆☆</span> <span>2.5</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="verification-card">
+                                    <h5 class="fw-bold mb-3">Two-Step Verification</h5>
+                                    <p style="color: #bcc1ca; font-size: 14px;">Secure your account with additional
+                                        verification steps</p>
+                                    <h6 class="d-flex align-items-center fw-semibold">
+                                        <div style="width: 1.5rem; height: 1.5rem;"
+                                            class="step-indicator rounded-circle d-flex align-items-center justify-content-center me-2">
+                                            1</div>Email Verification
+                                    </h6>
+
+                                    <div
+                                        class="verification-row d-flex align-items-center justify-content-between p-4 rounded-3">
+                                        <div class="d-flex align-items-center flex-grow-1">
+                                            <div class="icon-box">
+                                                <i class="bi bi-envelope text-white"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <p class="mb-0 fw-medium"><%= user.email %></p>
+                                                <small style="color: rgb(156, 163, 175);">Primary email address</small>
+                                            </div>
+                                        </div>
+                                        <button id="emailVerifyBtn"
+                                            class="verify-button px-4 py-2 text-white fw-semibold rounded-3">
+                                            Verify
+                                        </button>
+                                    </div>
+                                    <div class="verify-section d-none">
+                                        <input type="text" id="emailOtp" class="otp-input mt-3"
+                                            placeholder="Enter 6-digit OTP sent to your email" maxlength="6">
+
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <p style="color: rgb(156, 163, 175); font-size: 14px;"
+                                                class="otp-info mb-0">
+                                                Code expires in <span id="emailTimer"
+                                                    style="color:  rgb(99 102 241);">00:46</span>
+                                            </p>
+                                            <button id="resendEmailBtn" class="bg-transparent border-0"
+                                                style="color:  rgb(99 102 241); font-size: 14px;">Resend Code</button>
+                                        </div>
+                                    </div>
+                                    <h6 class="d-flex align-items-center fw-semibold mt-3">
+                                        <div style="width: 1.5rem; height: 1.5rem;"
+                                            class="step-indicator rounded-circle d-flex align-items-center justify-content-center me-2">
+                                            2</div>Phone Verification
+                                    </h6>
+
+                                    <div
+                                        class="verification-row d-flex align-items-center justify-content-between p-4 rounded-3">
+                                        <div class="d-flex align-items-center flex-grow-1">
+                                            <div class="icon-box">
+                                                <i class="bi bi-telephone text-white"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <p class="mb-0 fw-medium"><%= user.phone %></p>
+                                                <small style="color: rgb(156, 163, 175);">Registered mobile
+                                                    number</small>
+                                            </div>
+                                        </div>
+                                        <button id="emailVerifyBtn"
+                                            class="verify-button px-4 py-2 text-white fw-semibold rounded-3">
+                                            Verify
+                                        </button>
+
+                                    </div>
+                                    <div class="verify-section d-none">
+                                        <input type="text" id="emailOtp" class="otp-input mt-3"
+                                            placeholder="Enter 6-digit SMS Code" maxlength="6">
+
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <p style="color: rgb(156, 163, 175); font-size: 14px;"
+                                                class="otp-info mb-0">
+                                                Code expires in <span id="emailTimer"
+                                                    style="color:  rgb(99 102 241);">00:46</span>
+                                            </p>
+                                            <button id="resendEmailBtn" class="bg-transparent border-0"
+                                                style="color:  rgb(99 102 241); font-size: 14px;">Resend Code</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3">
+                                    <h5 class="text-white fw-bold mb-2">Security Settings</h5>
+                                    <form id="passwordForm" action="/admin/settings/password" method="POST">
+                                        <label class="label-set fw-semibold mb-1" for="currentPassword">Current
+                                            Password</label>
+                                        <input type="password" name="currentPassword" class="inbox fw-semibold mb-3"
+                                            placeholder="Current Password">
+
+                                        <label class="label-set fw-semibold mb-1" for="newPassword">New Password</label>
+                                        <input type="password" name="newPassword" class="inbox fw-semibold mb-3"
+                                            placeholder="New Password">
+
+                                        <label class="label-set fw-semibold mb-1" for="confirmPassword">Confirm
+                                            Password</label>
+                                        <input type="password" name="confirmPassword" class="inbox fw-semibold mb-3"
+                                            placeholder="Confirm Password">
+
+                                        <button type="submit" class="btn btn-primary"
+                                            style="font-size: 14px; height: 35px; width: 150px; margin-bottom: 58px;">Update
+                                            Password</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <script>
+                    const editBtn = document.getElementById("editBtn");
+                    const saveBtn = document.getElementById("saveBtn");
+                    const cancelBtn = document.getElementById("cancelBtn");
+                    const actionBtns = document.getElementById("actionBtns");
+                    const infoTexts = document.querySelectorAll(".info-text");
+                    const inputs = document.querySelectorAll(".hidden-input");
+
+                    editBtn.addEventListener("click", () => {
+                        infoTexts.forEach(text => text.style.display = "none");
+                        inputs.forEach(input => input.style.display = "block");
+
+                        actionBtns.classList.remove("d-none"); // show bottom buttons
+                        editBtn.classList.add("d-none"); // hide edit button
+                    });
+
+                    // Save changes
+                    saveBtn.addEventListener("click", () => {
+                        infoTexts.forEach((text, index) => {
+                            text.innerText = inputs[index].value;
+                            text.style.display = "inline";
+                            inputs[index].style.display = "none";
+                        });
+
+                        actionBtns.classList.add("d-none");
+                        editBtn.classList.remove("d-none");
+                    });
+
+                    // Cancel changes
+                    cancelBtn.addEventListener("click", () => {
+                        infoTexts.forEach((text, index) => {
+                            inputs[index].value = text.innerText;
+                            text.style.display = "inline";
+                            inputs[index].style.display = "none";
+                        });
+
+                        actionBtns.classList.add("d-none");
+                        editBtn.classList.remove("d-none");
+                    });
+                    const profileUpload = document.getElementById("profileUpload");
+                    const profilePreview = document.getElementById("profilePreview");
+                    profileUpload.addEventListener("change", (event) => {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                profilePreview.src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                </script>
+</body>
+
+</html>

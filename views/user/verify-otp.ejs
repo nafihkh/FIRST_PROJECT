@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>
+        <%= title %> | MyApp
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/login.css" />
+</head>
+
+<body>
+    <h2 class="text-center text-primary h2-login mt-4">NEIGHBOURHOOD</h2>
+    <p class="text-center login-p">
+        We’ll send a verification code to your email address
+        <%= email ? email : "your registered email" %>
+    </p>
+    <div class="mx-auto login-box">
+        <h2 class="login-text mb-3">Reset Password</h2>
+        <p class="text-center login-p">
+            A password reset OTP will be sent to your email address.
+        </p>
+        <form id="verify-otp">
+            <input id="otp" name="otp" type="text" maxlength="6" class="input-box mb-3" placeholder="Enter 6-digit OTP"
+                required />
+            <label id="resend-label" class="text-center d-block" style="color: #bcc1ca; font-size: 12px">
+                Resend OTP in <span id="countdown">10:00</span>
+            </label>
+            <button type="submit" class="btn btn-primary login-btn">Submit</button>
+        </form>
+
+        <p class="label">
+            Remember your password? <a href="/user/login">Login</a>
+        </p>
+        <p id="error-msg" class="text-danger"></p>
+    </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
+        <div id="loginToast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function showToast(message, type = "success") {
+            const toastEl = document.getElementById("loginToast");
+            const toastBody = document.getElementById("toast-message");
+
+            toastBody.innerText = message;
+            toastEl.classList.remove("text-bg-success", "text-bg-danger");
+            toastEl.classList.add(
+                type === "success" ? "text-bg-success" : "text-bg-danger"
+            );
+
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+        let timeLeft = 600;
+        const countdownEl = document.getElementById("countdown");
+        const resendLabel = document.getElementById("resend-label");
+
+        const timer = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                resendLabel.innerHTML = `<a href="/verify-otp?email=<%= email %>">Resend OTP</a>`;
+            }
+            timeLeft--;
+        }, 1000);
+
+        document.getElementById("verify-otp").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = "<%= email %>";
+            const otp = document.getElementById("otp").value;
+
+            try {
+                const res = await fetch("/auth/user/verify-otp", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, otp }),
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    showToast(data.message, "success");
+                    setTimeout(() => {
+                        window.location.href = "/user/reset-password?email=" + email;
+                    }, 1500);
+                } else {
+                    showToast(data.error || "Invalid OTP", "danger");
+                }
+            } catch (err) {
+                showToast("Something went wrong!", "danger");
+            }
+        });
+    </script>
+</body>
+
+</html>

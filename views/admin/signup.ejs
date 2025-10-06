@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | MyApp
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/login.css" />
+</head>
+
+<body>
+    <!-- <h2 class="text-center text-primary h2-login mt-4">NEIGHBOURHOOD</h2>
+        <p class="text-center login-p">
+            Welcome back! Please sign in to your account
+        </p> -->
+    <div class="mx-auto login-box">
+        <h4 class="login-text mb-1">Create Account</h4>
+        <p class="text-center login-p mb-3">Join us to get started</p>
+
+        <form id="signupForm">
+            <input id="username" name="username" type="text" class="input-box mb-3" placeholder="Full name" required />
+            <input id="phone" name="phone" type="text" class="input-box mb-3" placeholder="Phone Number" required />
+            <input id="email" name="email" type="email" class="input-box mb-3" placeholder="Email Address" required />
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Password" class="input-box mb-4"
+                    required />
+                <span class="toggle-password" onclick="togglePassword()">
+                    <img id="eye" src="/images/eyeclose.svg" alt="" />
+                </span>
+            </div>
+            <div class="conpassword-wrapper">
+                <input type="password" id="conpassword" name="conpassword" placeholder="Confirm Password"
+                    class="input-box mb-4" required />
+                <span class="contoggle-password" onclick="contogglePassword()">
+                    <img id="eye2" src="/images/eyeclose.svg" alt="" />
+                </span>
+            </div>
+            <button type="submit" class="btn btn-primary login-btn">Sign Up</button>
+        </form>
+
+        <p id="error-msg" class="text-danger"></p>
+
+        <p class="label text-center">
+            By signing up, you agree to our
+            <a href="" style="color: #ffff; font-weight: 700">Terms of Service</a>
+            and
+            <a href="" style="color: #ffff; font-weight: 700"><br />Privacy Policy</a>
+        </p>
+        <p class="label">
+            Already have an account? <a href="/admin/login">Login</a>
+        </p>
+        <p id="error-msg" class="text-danger"></p>
+    </div>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
+        <div id="signupToast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById("password");
+            const eyeIcon = document.getElementById("eye");
+
+            if (input.type === "password") {
+                input.type = "text";
+                eyeIcon.src = "/images/eye.svg";
+            } else {
+                input.type = "password";
+                eyeIcon.src = "/images/eyeclose.svg";
+            }
+        }
+        function contogglePassword() {
+            const input = document.getElementById("conpassword");
+            const eyeIcon = document.getElementById("eye2");
+
+            if (input.type === "password") {
+                input.type = "text";
+                eyeIcon.src = "/images/eye.svg";
+            } else {
+                input.type = "password";
+                eyeIcon.src = "/images/eyeclose.svg";
+            }
+        }
+        function showToast(message, type = "success") {
+            const toastEl = document.getElementById("signupToast");
+            const toastBody = document.getElementById("toast-message");
+
+        
+            toastBody.innerText = message;
+            toastEl.classList.remove("text-bg-success", "text-bg-danger");
+            toastEl.classList.add(type === "success" ? "text-bg-success" : "text-bg-danger");
+
+            
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 }); 
+            toast.show();
+        }
+
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const password = document.getElementById("password").value;
+            const conpassword = document.getElementById("conpassword").value;
+
+            
+            if (password !== conpassword) {
+                showToast("Passwords do not match", "danger");
+                return;
+            }
+
+            try {
+                const res = await fetch("/auth/admin/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, phone, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showToast("Account created successfully! Please login.", "success");
+                    setTimeout(() => {
+                        window.location.href = "/admin/login";
+                    }, 2000);
+                } else {
+                    showToast(data.errors?.[0]?.msg || data.error || "Registration failed", "danger");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Something went wrong!", "danger");
+            }
+        });
+
+    </script>
+</body>
+
+</html>

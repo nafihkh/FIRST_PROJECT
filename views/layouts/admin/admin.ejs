@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title><%= title || 'Admin' %></title>
+<link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+<%- include('../partials/header') %>
+
+
+<div class="page-shell">
+<%- include('../partials/sidebar') %>
+
+
+<main class="main-content">
+<div class="container">
+<%- body %>
+</div>
+</main>
+</div>
+
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<div class="d-flex" style="min-height: 100vh;">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white sidebarmain" style="width: 250px;">
+    <ul class="nav nav-pills flex-column mb-auto">
+
+      <% if(user.role === 'admin'){ %>
+        <li><a href="/admin/dashboard" class="nav-link <%= activePage==='overview'?'active':'' %>"><i class="bi bi-grid me-2"></i>Overview</a></li>
+        <li><a href="/admin/problems" class="nav-link <%= activePage==='problems'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Problem Management</a></li>
+        <li><a href="/admin/users" class="nav-link <%= activePage==='users'?'active':'' %>"><i class="bi bi-people me-2"></i>User Management</a></li>
+        <li><a href="/admin/workers" class="nav-link <%= activePage==='workers'?'active':'' %>"><i class="bi bi-person-workspace me-2"></i>Worker Management</a></li>
+        <li><a href="/admin/payments" class="nav-link <%= activePage==='payments'?'active':'' %>"><i class="bi bi-credit-card me-2"></i>Payments</a></li>
+        <li><a href="/admin/reports" class="nav-link <%= activePage==='reports'?'active':'' %>"><i class="bi bi-bar-chart me-2"></i>Reports</a></li>
+        <li><a href="/admin/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
+      <% } else if(user.role === 'worker'){ %>
+        <li><a href="/worker/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
+        <li><a href="/worker/tasks" class="nav-link <%= activePage==='tasks'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Tasks</a></li>
+        <li><a href="/worker/activejobs" class="nav-link <%= activePage==='activejobs'?'active':'' %>"><i class="bi bi-check-circle me-2"></i>Active Jobs</a></li>
+        <li><a href="/worker/earnings" class="nav-link <%= activePage==='earnings'?'active':'' %>"><i class="bi bi-currency-dollar me-2"></i>Earnings</a></li>
+        <li><a href="/worker/messages" class="nav-link <%= activePage==='messages'?'active':'' %>"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
+        <li><a href="/worker/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
+      <% } else if(user.role === 'user'){ %>
+        <li><a href="/user/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
+        <li><a href="/user/overview" class="nav-link <%= activePage==='overview'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Overview</a></li>
+        <li><a href="/user/createpost" class="nav-link <%= activePage==='createpost'?'active':'' %>"><i class="bi bi-plus-circle me-2"></i>Create Post</a></li>
+        <li><a href="/user/messages" class="nav-link <%= activePage==='messages'?'active':'' %>"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
+        <li><a href="/user/payments" class="nav-link <%= activePage==='payments'?'active':'' %>"><i class="bi bi-credit-card me-2"></i>Payments</a></li>
+        <li><a href="/user/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
+      <% } %>
+
+    </ul>
+
+    <div class="mt-auto text-center">
+      <div class="d-flex text-start">
+        <img class="rounded-circle me-3" src="<%= user.profile_photo || '/images/profileeg.jpg' %>" alt="" height="35" width="35">
+        <p class="mb-1">
+          <%= user.username %><br>
+          <small style="font-size: 12px;"><%= user.email %></small>
+        </p>
+      </div>
+      <a href="/<%= user.role %>/logout" class="btn btn-danger w-100">
+        <i class="bi bi-box-arrow-right"></i> Log out
+      </a>
+    </div>
+  </div>
+</div>
+<style>
+    @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Regular.ttf');
+  }
+
+  body {
+    font-family: 'Inter';
+  }
+.sidebarmain {
+  background: #1a1c1e;
+}
+
+.sidebarmain .nav-link {
+  color: #565e6c;      
+}
+
+.sidebarmain .nav-link i {
+  color: inherit;      
+}
+
+
+.sidebarmain .nav-link.active {
+  background-color: #6366f1 !important;
+  color: #fff !important;
+}
+</style>

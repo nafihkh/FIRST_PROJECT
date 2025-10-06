@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+
+        .card-summary {
+            border: none;
+            border-radius: 12px;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .card-blue {
+            background: #2563EBFF;
+        }
+
+        .card-orange {
+            background:  #CA8A04FF;
+        }
+
+        .card-green {
+            background:  #16A34AFF;
+        }
+
+        .summary-title {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .summary-amount {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .withdraw-btn {
+            background: #22c55e;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .custom-table-wrapper {
+            background-color: #171c26;
+            color: #bdc1ca;
+            border-radius: 19px;
+            overflow: hidden;
+            font-size: 14px;
+        }
+
+        .custom-table {
+            background: transparent !important;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            color: #bdc1ca;
+            background: #262a33;
+            border-bottom: 1px solid #2f343d;
+            font-weight: 600;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr {
+            background: transparent;
+            border-bottom: 1px solid #2f343d;
+        }
+
+        .custom-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .custom-table tbody td {
+            color: #f3f4f6;
+
+            background: transparent !important;
+            vertical-align: middle;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status-completed {
+            background: #16a34a;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .status-pending {
+            background: #d97706;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .status-active {
+            background: #dc2626;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+
+
+                <div class="flex-grow-1 p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="fw-bold">Earnings & Payments</h3>
+                            <button class="withdraw-btn">Withdraw Funds</button>
+                    </div>
+
+
+
+                    <!-- Header -->
+
+                    <!-- Summary Cards -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="card-summary card-blue">
+                                <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/box-check.svg" alt=""
+                                            style="height: 44px; width: 44px; background-color: #ffffff36" />
+                                    <h3 class="summary-amount">$3,680</h3>
+                                </div>
+                                <p class="summary-title mt-1 mb-1">Total Earnings</p>
+                                
+                                <p class="mb-0 small">Lifetime earnings</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-summary card-orange">
+                                <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/clock.svg" alt=""
+                                            style="height: 44px; width: 44px; background-color: #ffffff36" />
+                                    <h3 class="summary-amount">$3,680</h3>
+                                </div>
+                                <p class="summary-title mt-1 mb-1">Pending</p>
+                                <p class="mb-0 small">3 payments processing</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-summary card-green">
+                                 <div class="d-flex justify-content-between">
+                                    <img class="p-2 rounded-4" src="/images/valut.svg" alt=""
+                                            style="height: 44px; width: 44px; background-color: #ffffff36" />
+                                    <h3 class="summary-amount">$3,680</h3>
+                                </div>
+                                <p class="summary-title mt-1 mb-1">Pending Payments</p>
+                                <p class="mb-0 small">Ready to withdraw</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class=" fw-bold mb-3">Transaction History</h5>
+                    <div class="table-responsive custom-table-wrapper">
+                        <table id="table" class="table table-borderless align-middle custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Task</th>
+                                    <th >Amount</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                <tr>
+                                    <td>#T2845</td>
+                                    <td><strong>E-commerce Website Development</strong></td>
+                                    <td class="text-danger">+$2500</td>
+                                    <td class="text-center"><span class="status-active">Active</span></td>
+                                    <td class="text-center">Dec 8, 2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+</body>
+
+</html>
