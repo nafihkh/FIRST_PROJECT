@@ -1,18 +1,30 @@
 const jwt = require('jsonwebtoken');
 
-function checkLogin(req, res, next) {
+const userService = require("../services/userService");
+
+async function checkLogin(req, res, next) {
     const token = req.cookies.token;
     if (!token) return res.redirect("/user/login");
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; 
 
-       
+        // use userId from JWT
+        const user = await userService.findById(decoded.userId);
+
+        if (!user) {
+            res.clearCookie("token");
+            return res.redirect("/user/login");
+        }
+
+        if (user.accessibility === false) {
+            return res.render("partials/banned"); // blocked users
+        }
+
+        req.user = user; // attach full user
         next();
     } catch (err) {
-        res.clearCookie('token');
-        
+        res.clearCookie("token");
         return res.redirect("/user/login");
     }
 }

@@ -88,8 +88,8 @@ router.get("/reports", checkLogin, auth(["admin"]), (req, res) => {
 
 
 router.get("/settings", checkLogin, auth(["admin"]), adminController.settingsPage);
-router.post("/settings/profile", checkLogin, auth(["admin"]), upload.single("profile_photo"), adminController.updateProfile);
-router.post("/settings/password", checkLogin, auth(["admin"]), adminController.updatePassword);
+router.post("/settings/profile", checkLogin, auth(["admin"]), upload.single("profile_photo"), userController.updateProfile);
+router.post("/settings/password", checkLogin, auth(["admin"]), userController.updatePassword);
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token");

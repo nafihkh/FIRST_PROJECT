@@ -1,5 +1,6 @@
 const userService = require("../services/userService");
 
+
 exports.getUsers = async (req, res) => {
   try {
     const users = await userService.getUsers();
@@ -42,5 +43,30 @@ exports.toggleBlock = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    await userService.updateProfile(req.user._id, req.body, req.file);
+    res.json({ success: true, message: "Profile updated successfully" });
+  } catch (err) {
+    console.error("Update Profile Error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    await userService.updatePassword(
+      req.user._id,
+      req.body.currentPassword,
+      req.body.newPassword,
+      req.body.confirmPassword
+    );
+    res.json({ success: true, message: "Password updated successfully" });
+  } catch (err) {
+    console.error("Update Password Error:", err);
+    res.status(400).json({ error: err.message });
   }
 };

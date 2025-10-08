@@ -1,4 +1,5 @@
 const workerService = require("../services/workerService");
+const userService = require("../services/userService");
 
 
 const getWorkers = async (req, res) => {
@@ -84,9 +85,14 @@ const showWorkerApprovals = async (req, res) => {
 
 const approveWorker = async (req, res) => {
   try {
-    await workerService.approveWorker(req.params.id);
+    const worker = await workerService.approveWorker(req.params.id);
+    
+    // Create empty profile in Worker collection if not exists
+    await workerService.createWorkerProfileIfNotExists(worker._id);
+
     res.redirect("/admin/workers/approvals");
   } catch (err) {
+    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -101,6 +107,94 @@ const rejectWorker = async (req, res) => {
   }
 };
 
+const getSkills = async (req, res) => {
+  try {
+    const skills = await workerService.getSkills(req.user._id);
+    if (!skills)
+      return res.status(404).json({ success: false, message: "Worker not found" });
+
+    res.json({ success: true, skills });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
+const addSkill = async (req, res) => {
+  try {
+    const userId = req.user._id; // set from auth middleware
+    const { skill } = req.body;
+
+    const result = await workerService.addSkill(userId, skill);
+    if (!result) return res.status(404).json({ success: false, error: "Worker not found" });
+    if (result === "exists") return res.status(400).json({ success: false, error: "Skill already exists" });
+
+    return res.json({ success: true, skills: result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
+// Remove Skill
+const removeSkill = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const skill = req.params.skill; // get skill from URL param
+
+    if (!skill) {
+      return res.status(400).json({ success: false, error: "Skill is required" });
+    }
+
+    const result = await workerService.removeSkill(userId, skill);
+
+    if (!result) return res.status(404).json({ success: false, error: "Worker not found" });
+
+    res.json({ success: true, skills: result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
+
+
+const getSettings = async (req, res) => {
+  try {
+    const { worker, user } = await workerService.getWorkerSettings(req.user._id);
+
+    res.render("worker/settings", {
+      title: "Settings",
+      activePage: "settings",
+      user,
+      worker,
+    });
+  } catch (err) {
+    console.error(err);
+    if (err.message === "Worker not found") {
+      return res.status(404).send(err.message);
+    }
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getmessages = async (req, res) => {
+  try {
+    // Fetch all "user" accounts so worker can chat with them
+    const users = await userService.getUsers();
+
+    // Render the page, now passing both worker and users
+    res.render("worker/messages", {
+      title: "Messages",
+      activePage: "messages",
+      worker: req.user,  // comes from your auth middleware
+      users,
+    });
+  } catch (err) {
+    console.error("Error loading messages page:", err);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   getWorkers,
   deleteWorker,
@@ -110,4 +204,9 @@ module.exports = {
   showWorkerApprovals,
   approveWorker,
   rejectWorker,
+  getSkills,
+  addSkill,
+  removeSkill,
+  getSettings,
+  getmessages,
 };

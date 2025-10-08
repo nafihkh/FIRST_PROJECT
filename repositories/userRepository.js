@@ -10,6 +10,7 @@ const updateById = (id, updateData) =>
 
 
 const findByEmail = (email) => User.findOne({ email });
+const findByPhone = (phone) => User.findOne({ phone });
 
 const findByEmailAndRole = (email, role) => User.findOne({ email, role });
 
@@ -39,4 +40,5 @@ module.exports = {
   updateUser,
   deleteByIdAndRole,
   getAllByRole,
+  findByPhone,
 };

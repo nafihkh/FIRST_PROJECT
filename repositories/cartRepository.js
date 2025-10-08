@@ -4,10 +4,10 @@ const Task = require("../models/Tasks");
 async function getWorkerById(workerId) {
   return Worker.findById(workerId)
         .populate({
-      path: "cart",           // first populate the cart array (tasks)
+      path: "cart",           
       populate: {
-        path: "user_id",      // then inside each task, populate user_id
-        select: "username profile_photo" // only get these fields
+        path: "user_id",     
+        select: "username profile_photo" 
       }
     });
 }

@@ -13,7 +13,7 @@ function auth(roleArray = []) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      const user = await User.findById(decoded.userId).select("username email role profile_photo phone");
+      const user = await User.findById(decoded.userId).select("username email role profile_photo phone location jobtittle mail_verified phone_verified");
 
       if (roleArray.length && !roleArray.includes(user.role)) {
         return res

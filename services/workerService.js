@@ -1,4 +1,5 @@
 const workerRepository = require("../repositories/workerRepository");
+const userRepository = require("../repositories/userRepository");
 
 
 const getWorkers = () => workerRepository.getAllWorkers();
@@ -49,6 +50,56 @@ const approveWorker = (id) => workerRepository.approveWorker(id);
 
 const rejectWorker = (id) => workerRepository.rejectWorker(id);
 
+const createWorkerProfile = async (userId, jobtitle, skills) => {
+  return await workerRepository.createWorkerProfile({ user_id: userId, username: "", jobtitle, skills });
+};
+
+const updateWorkerProfile = async (userId, updates) => {
+  return await workerRepository.updateWorkerProfile(userId, updates);
+};
+
+const getWorkerProfile = async (userId) => {
+  return await workerRepository.getWorkerProfile(userId);
+};
+
+const getSkills = async (userId) => {
+  const worker = await workerRepository.findByUserId(userId);
+  if (!worker) return null;
+  return worker.skills;
+};
+
+const addSkill = async (userId, skill) => {
+  const worker = await workerRepository.findByUserId(userId);
+  if (!worker) return null;
+
+  if (worker.skills.includes(skill)) return "exists";
+
+  worker.skills.push(skill);
+  await worker.save();
+  return worker.skills;
+};
+
+const removeSkill = async (userId, skill) => {
+  const worker = await workerRepository.findByUserId(userId);
+  if (!worker) return null;
+
+  worker.skills = worker.skills.filter((s) => s !== skill);
+  await worker.save();
+  return worker.skills;
+};
+
+const getWorkerSettings = async (userId) => {
+  const worker = await workerRepository.findByUserId(userId);
+  if (!worker) {
+    throw new Error("Worker not found");
+  }
+
+  const user = await userRepository.findById(userId);
+  return { worker, user };
+};
+
+
+
 module.exports = {
   getWorkers,
   deleteWorker,
@@ -58,4 +109,13 @@ module.exports = {
   getPendingWorkers,
   approveWorker,
   rejectWorker,
+
+  ...workerRepository,
+  createWorkerProfile,
+  updateWorkerProfile,
+  getWorkerProfile,
+  getSkills,
+  addSkill,
+  removeSkill,
+  getWorkerSettings,
 };

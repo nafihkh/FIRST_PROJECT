@@ -18,15 +18,15 @@ const deleteById = (id) => Tasks.findByIdAndDelete(id);
 
 const getInprogressTasksByWorker = (workerId) =>
   Tasks.find({ worker_id: workerId })
-       .select("title location description duration amount progress status") // <-- Task fields
+       .select("title location description duration amount progress status") 
        .populate("user_id", "username profile_photo");
 
        
 const getProgressNonTaken = () =>
   Tasks.find({
     status: {$in: ["active"]},
-    progress: { $in: ["Not Taken"] }, // progress statuses
-    helper_id: { $exists: false },              // not taken (no helper)
+    progress: { $in: ["Not Taken"] }, 
+    helper_id: { $exists: false },              
   })
     .sort({ createdAt: -1 })
     .populate("user_id", "username profile_photo");
