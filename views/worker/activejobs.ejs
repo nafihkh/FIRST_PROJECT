@@ -105,7 +105,11 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:#fff;">Deadline</h5>
-                                                <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #fff; font-size: 14px;">${task.deadline || 'N/A'}</label>
+                                                <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #fff; font-size: 14px;">${new Date(task.deadline).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+})}</label>
                                             </div>
                                         </div>
                                     </div>

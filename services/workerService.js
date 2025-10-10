@@ -98,7 +98,11 @@ const getWorkerSettings = async (userId) => {
   return { worker, user };
 };
 
-
+const approvestaff = async (userId) => {
+  const user = await userRepository.findById(userId);
+  await workerRepository.createWorkerProfileIfNotExists(userId, user.username);
+  return user;
+};
 
 module.exports = {
   getWorkers,
@@ -118,4 +122,5 @@ module.exports = {
   addSkill,
   removeSkill,
   getWorkerSettings,
+  approvestaff,
 };

@@ -11,11 +11,15 @@ exports.getTask = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
+   console.log("📸 FILE:", req.file);
+console.log("📦 BODY:", req.body);
   try {
-    const task = await taskService.createTask(req.body);
-    res.status(201).json(task);
+    req.body.user_id = req.user._id;
+    const task = await taskService.createTask(req.body, req.file);
+   
+    res.status(201).json({ message: "Task Created Successfully", task });
   } catch (err) {
-    console.error(err);
+      console.error("TASK CREATE ERROR:", err.message);
     res.status(500).json({ error: "Server Error" });
   }
 };
@@ -105,3 +109,18 @@ exports.viewMoreTask = async (req, res) => {
   }
 };
 
+exports.getUserTasks = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const tasks = await taskService.getTasksByUser(userId);
+
+    res.render("user/createpost", {
+      title: "Create Post",
+      activePage: "createpost",
+      tasks,
+    });
+  } catch (err) {
+    console.error("GET USER TASKS ERROR:", err);
+    res.status(500).render("error", { message: "Server Error" });
+  }
+};

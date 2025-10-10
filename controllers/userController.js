@@ -70,3 +70,36 @@ exports.updatePassword = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.settingsPage = async (req, res) => {
+  try {
+    const user = await userService.getSettings(req.user._id);
+    res.render("user/settings", {
+      title: "Settings",
+      user,
+      activePage: "settings",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
+exports.requestWorker = async (req, res) => {
+  try {
+    const { identifier } = req.body;
+    const result = await userService.requestWorker(identifier);
+
+    if (!result.success) {
+      return res.status(404).json(result);
+    }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};

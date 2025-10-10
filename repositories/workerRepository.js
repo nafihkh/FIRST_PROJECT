@@ -75,6 +75,24 @@ const removeSkill = async (userId, skill) => {
   return worker.skills;
 };
 
+const createWorkerProfileIfNotExists = async (userId, username = "") => {
+  const existingWorker = await Worker.findOne({ user_id: userId });
+  if (!existingWorker) {
+    await Worker.create({
+      user_id: userId,
+      username: username,
+      skills: [],
+      total_work_done: 0,
+      work_in_Progress: 0,
+      total_money_saved: 0,
+      rating: 0,
+      cart: []
+    });
+    console.log("✅ Worker profile created for:", userId);
+  }
+  return existingWorker;
+};
+
 module.exports = {
   getAllWorkers,
   findWorkerById,
@@ -94,6 +112,8 @@ module.exports = {
   getSkills,
   addSkill,
   removeSkill,
+
+  createWorkerProfileIfNotExists,
 
   
 };

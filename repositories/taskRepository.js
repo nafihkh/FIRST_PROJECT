@@ -4,34 +4,50 @@ const countAll = () => Tasks.countDocuments();
 const countCompleted = () => Tasks.countDocuments({ status: "completed" });
 
 const getAll = () =>
-  Tasks.find().sort({ createdAt: -1 }).populate("user_id", "username profile_photo");
+  Tasks.find()
+    .sort({ createdAt: -1 })
+    .populate("user_id", "username profile_photo");
 
-const getById = (id) => Tasks.findOne({ _id: id}) 
+const getById = (id) =>
+  Tasks.findOne({ _id: id })
     .populate("worker_id", "username profile_photo")
-    .populate("user_id", "username profile_photo");;
+    .populate("user_id", "username profile_photo");
 
 const create = (data) => new Tasks(data).save();
 
-const updateById = (id, data) => Tasks.findByIdAndUpdate(id, data, { new: true });
+const updateById = (id, data) =>
+  Tasks.findByIdAndUpdate(id, data, { new: true });
 
 const deleteById = (id) => Tasks.findByIdAndDelete(id);
 
+const getTasksByUser = (userId) =>
+  Tasks.find({ user_id: userId })
+    .sort({ createdAt: -1 })
+    .populate("user_id", "username profile_photo");
+
 const getInprogressTasksByWorker = (workerId) =>
   Tasks.find({ worker_id: workerId })
-       .select("title location description duration amount progress status") 
-       .populate("user_id", "username profile_photo");
+    .select("title location description duration amount progress status photo deadline")
+    .populate("user_id", "username profile_photo");
 
-       
 const getProgressNonTaken = () =>
   Tasks.find({
-    status: {$in: ["active"]},
-    progress: { $in: ["Not Taken"] }, 
-    helper_id: { $exists: false },              
+    status: { $in: ["active"] },
+    progress: { $in: ["Not Taken"] },
+    helper_id: { $exists: false },
   })
     .sort({ createdAt: -1 })
     .populate("user_id", "username profile_photo");
 
-
-
-
-module.exports = { countAll, countCompleted, getAll, create, updateById, deleteById,  getProgressNonTaken, getById,  getInprogressTasksByWorker,};
+module.exports = {
+  countAll,
+  countCompleted,
+  getAll,
+  create,
+  updateById,
+  deleteById,
+  getProgressNonTaken,
+  getById,
+  getInprogressTasksByWorker,
+  getTasksByUser,
+};

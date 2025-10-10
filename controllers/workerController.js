@@ -88,7 +88,7 @@ const approveWorker = async (req, res) => {
     const worker = await workerService.approveWorker(req.params.id);
     
     // Create empty profile in Worker collection if not exists
-    await workerService.createWorkerProfileIfNotExists(worker._id);
+    await workerService.approvestaff(worker._id);
 
     res.redirect("/admin/workers/approvals");
   } catch (err) {

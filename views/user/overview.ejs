@@ -44,87 +44,56 @@
 
 
                     <div class="row g-4 mb-4">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/clock.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #9333eaff" />
-                                    <span style="color: #7c3bedff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowupright-purple.svg"
-                                            alt="" />12.3%</span>
+                                    <img class="p-2 rounded-4" src="/images/form.svg" alt=""
+                                        style="height: 44px; width: 44px; background-color: #00FFDD33" />
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
                                 </div>
-                                <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold" >
-                                    OPEN TASKS
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                                    Total Posts Created
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/circlecheck.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #16a34aff" />
-                                    <span style="color: #4ade80ff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowupright-green.svg"
-                                            alt="" />12.3%</span>
+                                    <img class="p-2 rounded-4" src="/images/doublecheck.svg" alt=""
+                                        style="height: 44px; width: 44px; background-color:#16A34A33" />
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
                                 </div>
-                                <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold" >
-                                    COMPLETED TASKS
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-1 ">
+                                    Completed Tasks
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/hourglass.svg" alt="" style="
-                    height: 44px;
-                    width: 44px;
-                    background: linear-gradient(
-                      180deg,
-                      #efb034ff 0%,
-                      #ef5634ff 100%
-                    );
-                  " />
-                                    <span style="color: #fb923cff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowdownright-yellow.svg"
-                                            alt="" />12.3%</span>
+                                    <img class="p-2 rounded-4" src="/images/orengeclock.svg" alt="" style="
+                                            height: 44px;
+                                            width: 44px;
+                                            background: #FF4C0033;
+                                        " />
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
                                 </div>
-                                <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold"
-                                    >
-                                    PNDIENG PAYMENTS
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/users.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #3b82f6ff" />
-                                    <span style="color: #60a5faff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowupright-blue.svg"
-                                            alt="" />12.3%</span>
-                                </div>
-                                <h3 class="text-white fw-bold ms-1 mt-2" id="activeUsers">0</h3>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold" >
-                                    ACTIVE USERS
+                                <p style="color: #bdc1ca; font-size: 14px" class="mb-1 ">
+                                    Ongoing Tasks
                                 </p>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="row g-4">
                         <div class="col-md-8">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold">Recent Tasks</h5>
+                                <h5 class="text-white fw-bold">User Activity</h5>
                                 <canvas id="lineChart"></canvas>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold mb-2">Problem Categories</h5>
+                                <h5 class="text-white fw-bold mb-2">Spending vs Savings</h5>
                                 <canvas id="pieChart" class="mb-4"></canvas>
                             </div>
                         </div>

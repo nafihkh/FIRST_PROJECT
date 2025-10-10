@@ -2,7 +2,7 @@ const Worker = require("../models/Worker");
 const Task = require("../models/Tasks");
 
 async function getWorkerById(workerId) {
-  return Worker.findById(workerId)
+  return Worker.findOne({user_id: workerId})
         .populate({
       path: "cart",           
       populate: {

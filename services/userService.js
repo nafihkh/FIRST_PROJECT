@@ -35,7 +35,7 @@ async function updateProfile(userId, data, file) {
   if (!existingUser) throw new Error("User not found");
 
   if (file && file.path) {
-    const result = await cloudinary.uploader.upload(file.path, { folder: "profiles" });
+    const result = await cloudinary.uploader.upload(file.path, { folder: "profile_photos" });
     updateData.profile_photo = result.secure_url;
   }
 
@@ -66,6 +66,27 @@ async function updatePassword(userId, currentPassword, newPassword, confirmPassw
 
   return true;
 }
+
+async function getSettings(userId) {
+  return userRepository.findById(userId);
+}
+
+const requestWorker = async (identifier) => {
+  const user = await userRepository.findByEmailOrPhone(identifier);
+  if (!user) {
+    return { success: false, message: "User not found" };
+  }
+
+  const updatedUser = await userRepository.updateWorkerStatus(user._id, false);
+
+  return {
+    success: true,
+    message: "Wait for Admin approval to become a Worker",
+    data: updatedUser,
+  };
+};
+
+
 module.exports = {
   findById,
   getUsers,
@@ -74,4 +95,6 @@ module.exports = {
   toggleBlock,
   updateProfile,
   updatePassword,
+  getSettings,
+  requestWorker,
 };

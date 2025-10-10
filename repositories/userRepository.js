@@ -24,6 +24,19 @@ const updateUser = (id, data) =>
 const deleteByIdAndRole = (id, role) => 
   User.findOneAndDelete({ _id: id, role });
 
+const findByEmailOrPhone = async (identifier) => {
+  return await User.findOne({
+    $or: [{ email: identifier }, { phone: identifier }],
+  });
+};
+
+const updateWorkerStatus = async (userId, status) => {
+  return await User.findByIdAndUpdate(
+    userId,
+    { worker_status: status },
+    { new: true }
+  );
+};
 
 const getAllByRole = (role) => 
   User.find({ role })
@@ -41,4 +54,6 @@ module.exports = {
   deleteByIdAndRole,
   getAllByRole,
   findByPhone,
+  findByEmailOrPhone,
+  updateWorkerStatus,
 };
