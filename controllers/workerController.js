@@ -177,23 +177,6 @@ const getSettings = async (req, res) => {
   }
 };
 
-const getmessages = async (req, res) => {
-  try {
-    // Fetch all "user" accounts so worker can chat with them
-    const users = await userService.getUsers();
-
-    // Render the page, now passing both worker and users
-    res.render("worker/messages", {
-      title: "Messages",
-      activePage: "messages",
-      worker: req.user,  // comes from your auth middleware
-      users,
-    });
-  } catch (err) {
-    console.error("Error loading messages page:", err);
-    res.status(500).send("Server Error");
-  }
-};
 
 module.exports = {
   getWorkers,
@@ -208,5 +191,4 @@ module.exports = {
   addSkill,
   removeSkill,
   getSettings,
-  getmessages,
 };

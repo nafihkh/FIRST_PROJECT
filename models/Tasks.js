@@ -11,5 +11,6 @@ const taskSchema = new mongoose.Schema({
     created_at:{type: Date, default: Date.now},
     duration:{type:String, required: true},
     deadline:{type: Date, required: true},
+    response: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 })
 module.exports = mongoose.model('Task', taskSchema);

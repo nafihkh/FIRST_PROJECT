@@ -10,8 +10,8 @@ const getAll = () =>
 
 const getById = (id) =>
   Tasks.findOne({ _id: id })
-    .populate("worker_id", "username profile_photo")
-    .populate("user_id", "username profile_photo");
+    .populate("worker_id", "username profile_photo role")
+    .populate("user_id", "username profile_photo role");
 
 const create = (data) => new Tasks(data).save();
 

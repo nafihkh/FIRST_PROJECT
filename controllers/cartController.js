@@ -42,7 +42,7 @@ exports.proceedTask = async (req, res) => {
     const result = await cartService.proceedTask(workerId, taskId);
     res.json({
       success: true,
-      message: "Task moved to in-progress",
+      message: "Wait for task approval",
       task: result.task,
       cart: result.worker.cart,
     });

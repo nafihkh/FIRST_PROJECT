@@ -54,11 +54,27 @@ router.get("/settings", checkLogin, auth(["worker"]), workerController.getSettin
 router.get("/earnings", checkLogin, auth(["worker"]), (req, res) => {
   res.render("worker/earnings", { title: "Earnings", activePage: "earnings" });
 });
-router.get("/messages", checkLogin, auth(["worker"]), workerController.getmessages);
 router.get("/tasks/progress-nontaken", taskController.getProgressNonTakenTasks);
 
 router.post("/cart/add", checkLogin, auth(["worker"]), cartController.addToCart);
 
+router.get("/create/:userId/:type/:title", messageController.createConversation);
+router.post("/send-message",checkLogin, auth(["worker"]), messageController.sendMessage);
+
+router.get("/messages",
+  checkLogin,
+  auth(["worker"]),
+  messageController.getUserConversationsworker
+);
+
+router.get("/messages/:conversationId",
+  checkLogin,
+  auth(["worker"]),
+  messageController.getMessagesByConversationworker
+);
+
+
+ router.get("/user/:userId/chats",checkLogin, auth(["worker"]), messageController.getUserChats);
 // Get cart
 router.get("/cart", checkLogin, auth(["worker"]), cartController.getCart);
 
@@ -84,9 +100,5 @@ router.post("/phone/send", checkLogin, auth(["worker"]), otpController.sendPhone
 
 router.post("/phone/verify", checkLogin, auth(["worker"]), otpController.verifyPhoneOtp);
 
-router.post("/messages", messageController.sendMessage);
-router.get("/messages/:conversation_id", messageController.getMessages);
-router.put("/messages/:message_id/read", messageController.markAsRead);
-router.get("/messages/:conversation_id/unread/:user_id", messageController.getUnread);
  
 module.exports = router;

@@ -3,6 +3,7 @@ const { checkLogin, checkAlreadyLoggedIn } = require("../middleware/checklogin")
 const auth = require("../middleware/auth")
 const taskController = require("../controllers/tasksController");
 const userController = require("../controllers/userController");
+const messageController = require("../controllers/messageController");
 const upload = require("../config/cloudinary");
 
 const router = express.Router();
@@ -58,11 +59,32 @@ router.post(
   taskController.createTask
 );
 
+// router.get("/chat", (req, res) => {
+//   res.render("user//messages");
+// });
 
 
-router.get("/messages", checkLogin, auth(["user"]), (req, res) => {
-  res.render("user/messages", { title: "Message", activePage: "messages" });
-});
+//router.get("/create/:userId/:type/:title", messageController.createConversation);
+router.post("/send-message",checkLogin, auth(["user"]), messageController.sendMessage);
+
+router.get("/messages",
+  checkLogin,
+  auth(["user"]),
+  messageController.getUserConversations
+);
+
+router.get("/messages/:conversationId",
+  checkLogin,
+  auth(["user"]),
+  messageController.getMessagesByConversationUser
+);
+
+
+
+router.get("/postapproval", checkLogin, auth(["user"]), userController.getWorkerRequests);
+router.post("/approve/:taskId/:userId", checkLogin, auth(["user"]), userController.approveWorker);
+router.post("/reject/:taskId/:userId", checkLogin, auth(["user"]), userController.rejectWorker);
+
 router.get("/payments", checkLogin, auth(["user"]), (req, res) => {
   res.render("user/payments", { title: "Payments", activePage: "payments" });
 });
