@@ -69,9 +69,9 @@
                                         <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold">
                                             TOTAL REVENUE
                                         </p>
-                                        <h5 class="text-white fw-bold ms-1 mt-2">$2400</h5>
+                                        <h5 class="text-white fw-bold ms-1 mt-2"><%= totalRevenue %></h5>
                                     </div>
-                                    <img class="p-2 rounded-4" src="/images/money-green.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538440/money-green_woj7ev.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #10b98130" />
                                 </div>
                             </div>
@@ -83,9 +83,9 @@
                                         <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold">
                                             PENDING PAYMENTS
                                         </p>
-                                        <h5 class="text-white fw-bold ms-1 mt-2">$2400</h5>
+                                        <h5 class="text-white fw-bold ms-1 mt-2">$<%= pending %></h5>
                                     </div>
-                                    <img class="p-2 rounded-4" src="/images/clock-yellow.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538418/clock-yellow_ykbk5a.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #eab30836" />
                                 </div>
                             </div>
@@ -97,9 +97,9 @@
                                         <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold">
                                             COMPLETED
                                         </p>
-                                        <h5 class="text-white fw-bold ms-1 mt-2">$2400</h5>
+                                        <h5 class="text-white fw-bold ms-1 mt-2">$<%= completed %></h5>
                                     </div>
-                                    <img class="p-2 rounded-4" src="/images/check-blue.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538412/check-blue_d97azf.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #3b82f630" />
                                 </div>
                             </div>
@@ -111,9 +111,9 @@
                                         <p style="color: #bdc1ca; font-size: 14px" class="mb-0 fw-semibold">
                                             FAILED
                                         </p>
-                                        <h5 class="text-white fw-bold ms-1 mt-2">$2400</h5>
+                                        <h5 class="text-white fw-bold ms-1 mt-2">$<%= failed %></h5>
                                     </div>
-                                    <img class="p-2 rounded-4" src="/images/circle-cross-red.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538417/circle-cross-red_qommux.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #ef444436" />
                                 </div>
                             </div>
@@ -141,11 +141,11 @@
     new Chart(lineCtx, {
         type: "line",
         data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            labels: ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
             datasets: [
                 {
-                    label: "Tasks",
-                    data: [800, 950, 900, 1000, 1400, 1450, 1400],
+                    label: "Revenue",
+                    data: <%= JSON.stringify(chartData) %>,
                     borderColor: "#38bdf8",
                     fill: true,
                     backgroundColor: "rgba(56, 189, 248, 0.2)",

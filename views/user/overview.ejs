@@ -47,9 +47,9 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/form.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/form_rkyg16.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #00FFDD33" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks"><%= totalPosts %></h3>
                                 </div>
                                 <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
                                     Total Posts Created
@@ -59,9 +59,9 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/doublecheck.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/doublecheck_ev0k20.svg" alt=""
                                         style="height: 44px; width: 44px; background-color:#16A34A33" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks"><%= completedTasks %></h3>
                                 </div>
                                 <p style="color: #bdc1ca; font-size: 14px" class="mb-1 ">
                                     Completed Tasks
@@ -71,12 +71,12 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/orengeclock.svg" alt="" style="
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538447/orengeclock_f0aofm.svg" alt="" style="
                                             height: 44px;
                                             width: 44px;
                                             background: #FF4C0033;
                                         " />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments"><%= ongoingTasks %></h3>
                                 </div>
                                 <p style="color: #bdc1ca; font-size: 14px" class="mb-1 ">
                                     Ongoing Tasks
@@ -113,7 +113,7 @@
                     datasets: [
                         {
                             label: "Tasks",
-                            data: [],
+                            data: [100, 200, 500],
                             borderColor: "#38bdf8",
                             fill: true,
                             backgroundColor: "rgba(56, 189, 248, 0.2)",
@@ -129,7 +129,7 @@
                     labels: ["Admins", "Workers", "Users"],
                     datasets: [
                         {
-                            data: [],
+                            data: [100,200,300,4000],
                             backgroundColor: ["#f43f5e", "#f97316", "#6366f1", "#38bdf8", "#22c55e"]
                         },
                     ],

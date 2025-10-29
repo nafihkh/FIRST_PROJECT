@@ -100,7 +100,6 @@
                     style="background:#0f172a; min-height:100vh; font-family: 'Inter', sans-serif; color:white; padding: 2.5rem;">
                     <h6 class="mb-4"><a class="text-decoration-none" style="color: #9590a0;" href="/user/createpost"><i
                                 class="fa-solid fa-arrow-left" style="color: #9590a0;"></i> Back to List</a></h6>
-                    <h5 class="fw-bold mb-4">Worker Approval</h5>
 
                     <div class="table-responsive custom-table-wrapper" style="position: relative; z-index: 1;">
                         <table id="table" class="table table-borderless align-middle custom-table">
@@ -128,7 +127,7 @@
                                                     <%= task.title %>
                                                 </td>
                                                 <td>
-                                                    <img src="<%= user.profile_photo || '/default.jpg' %>"
+                                                    <img src="<%= user.profile_photo %>"
                                                         alt="Worker Photo"
                                                         style="width:40px; height:40px; border-radius:50%;" />
                                                 </td>

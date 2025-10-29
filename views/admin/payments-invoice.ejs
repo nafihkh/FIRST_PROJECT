@@ -106,7 +106,7 @@
                     <h3 class="fw-bold mb-4">Payments</h3>
 
                     <div class="topbar mb-5">
-                        <a class="text-decoration-none" href="">Transactions</a>
+                        <a class="text-decoration-none" href="/admin/payments">Transactions</a>
                         <a class="text-decoration-none" href="">Invoice</a>
                     </div>
                     <div >
@@ -124,18 +124,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                              <% invoices.forEach((inv, index)=> { %>
                                             <tr>
-                                                <td class="text-start">#W01</td>
+                                                <td class="text-start">#<%= inv._id.toString().slice(-6) %></td>
                                                 <td class="text-start">
-                                                    Jude Bellingam
+                                                    <%= inv.user_id?.username || 'Unknown' %>
                                                 </td>
-                                                <td>$3500</td>
-                                                <td class="text-center"><span class="btn completed fw-semibold rounded-5">Completed</span></td>
-                                                <td>Dec 15,2024</td>
-                                                <td class="text-center"><a href="#" class="text-danger"><img class="icon-box" src="/images/delete.svg"
-                                                alt="" /></a></td>
+                                                <td><%= inv.total_amount %></td>
+                                                <td class="text-center"><span class="btn completed  <%= inv.status %> fw-semibold rounded-5"> <%= inv.status %></span></td>
+                                                <td> <%= inv.createdAt.toLocaleDateString("en-US", { month: 'short' ,
+                                                    day: 'numeric' , year: 'numeric' }) %></td>
+                                                <td class="text-center">
+                                                <a href="/admin/invoice/delete/<%= inv._id %>" class="text-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this invoice?');">
+                                                    <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg" alt="Delete" />
+                                                </a>
+                                            </td>
                                             
                                             </tr>
+                                              <% }) %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -143,30 +150,5 @@
                 </div>
         </div>
 </body>
-<script>
-    const lineCtx = document.getElementById("lineChart");
-    new Chart(lineCtx, {
-        type: "line",
-        data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            datasets: [
-                {
-                    label: "Tasks",
-                    data: [800, 950, 900, 1000, 1400, 1450, 1400],
-                    borderColor: "#38bdf8",
-                    fill: true,
-                    backgroundColor: "rgba(56, 189, 248, 0.2)",
-                },
-            ],
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-        },
-    });
-</script>
 
 </html>

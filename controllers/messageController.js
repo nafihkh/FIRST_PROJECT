@@ -2,32 +2,6 @@ const Conversation = require("../models/Conversation");
 const Message = require("../models/message");
 const jwt = require("jsonwebtoken");
 
-exports.getConversationMessages = async (req, res) => {
-  try {
-    const { conversationId } = req.params;
-    const messages = await Message.find({ conversationId }).sort({ createdAt: 1 });
-    res.json({ success: true, messages });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-
-// 📃 Get all user’s conversations
-exports.getUserChats = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const chats = await Conversation.find({
-      "participants.participantId": userId,
-    })
-      .populate("lastMessage")
-      .sort({ updatedAt: -1 });
-
-    res.json({ success: true, chats });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-
 exports.createConversation = async (req, res) => {
   try {
     // 1️⃣ Get Token from Cookie
@@ -42,15 +16,13 @@ exports.createConversation = async (req, res) => {
     // 3️⃣ Get target user from URL
     const targetUserId = req.params.userId;
     const targetUserType = req.params.type;
-    const tasktitle = req.params.title; // Add type in your URL
-
+    const tasktitle = req.params.title;
+    const taskId = req.params.taskId; // Add type in your URL
     console.log("Logged In:", loggedUserId, loggedUserType);
     console.log("Target:", targetUserId, targetUserType);
 
     // 4️⃣ Check if conversation already exists
-    const existingConversation = await Conversation.findOne({
-      "participants.participantId": { $all: [loggedUserId, targetUserId] }
-    });
+   const existingConversation = await Conversation.findOne({task_id: taskId});
 
     if (existingConversation) {
       return res.redirect(`/${loggedUserType}/messages/${existingConversation._id}`);
@@ -59,6 +31,7 @@ exports.createConversation = async (req, res) => {
     // 5️⃣ Create new conversation
     const newConversation = new Conversation({
       title: tasktitle,
+      task_id: taskId,
       participants: [
         { participantId: loggedUserId, participantType: loggedUserType },
         { participantId: targetUserId, participantType: targetUserType }
@@ -90,19 +63,18 @@ exports.sendMessage = async (req, res) => {
   try {
     const { conversationId, message } = req.body;
 
-    // 1️⃣ Get user from Token (Sender)
+   
     const token = req.cookies.token;
     if (!token) return res.status(401).send("Not logged in");
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const senderId = decoded.userId;
-    const senderType = decoded.role; // "worker" or "user"
+    const senderType = decoded.role; 
 
-    // 2️⃣ Find Conversation to Detect Receiver
     const conversation = await Conversation.findById(conversationId);
     if (!conversation) return res.status(404).send("Conversation not found");
 
-    // Find the participant that is NOT the sender
+   
     const receiver = conversation.participants.find(
       (p) => p.participantId.toString() !== senderId
     );
@@ -112,7 +84,7 @@ exports.sendMessage = async (req, res) => {
     const receiverId = receiver.participantId;
     const receiverType = receiver.participantType;
 
-    // 3️⃣ Create Message in DB
+   
     await Message.create({
       conversationId,
       senderId,
@@ -122,7 +94,7 @@ exports.sendMessage = async (req, res) => {
       message,
     });
 
-    // 4️⃣ Redirect back to chat page
+    
     res.redirect(`/${senderType}/messages/${conversationId}`);
 
   } catch (error) {
@@ -141,8 +113,8 @@ exports.getUserConversations = async (req, res) => {
     });
 
     res.render("user/messages", {
-      conversations,     // LEFT
-      messages: [],      // RIGHT EMPTY
+      conversations,   
+      messages: [],     
       currentConv: null,
       title: "Messages",
       activePage: "messages"
@@ -166,8 +138,8 @@ exports.getMessagesByConversationUser = async (req, res) => {
     const currentConv = await Conversation.findById(conversationId);
 
     res.render("user/messages", {
-      conversations,      // LEFT
-      messages,           // RIGHT
+      conversations,    
+      messages,           
       currentConv,
       title: "Messages",
       activePage: "messages"
@@ -188,8 +160,8 @@ exports.getUserConversationsworker = async (req, res) => {
     });
 
     res.render("worker/messages", {
-      conversations,     // LEFT
-      messages: [],      // RIGHT EMPTY
+      conversations,   
+      messages: [],     
       currentConv: null,
       title: "Messages",
       activePage: "messages"
@@ -213,8 +185,8 @@ exports.getMessagesByConversationworker = async (req, res) => {
     const currentConv = await Conversation.findById(conversationId);
 
     res.render("worker/messages", {
-      conversations,      // LEFT
-      messages,           // RIGHT
+      conversations,      
+      messages,           
       currentConv,
       title: "Messages",
       activePage: "messages"

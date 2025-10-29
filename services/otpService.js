@@ -17,7 +17,7 @@ exports.sendEmailOtp = async (userId) => {
   const user = await userRepo.findById(userId);
   if (!user) throw new Error("User not found");
 
-  // ✅ Generate secure 6-digit OTP
+  // Generate secure 6-digit OTP
   const otp = crypto.randomInt(100000, 999999).toString();
   const expires = Date.now() + 2 * 60 * 1000; // 2 minutes
 
@@ -116,7 +116,7 @@ exports.sendPhoneOtp = async (userId) => {
   resetOtpExpires: expires,
   });
 
-  console.log("📱 Phone OTP sent:", otp);
+  console.log("Phone OTP sent:", otp);
   const toNumber = user.phone.startsWith('+') ? user.phone : '+91' + user.phone;
   let support = 8921232409;
   await client.messages.create({
@@ -133,8 +133,8 @@ exports.verifyPhoneOtp = async (userId, otpInput) => {
   const user = await userRepo.findById(userId);
   if (!user) throw new Error("User not found");
 
-  console.log("🔹 Entered OTP:", otpInput);
-  console.log("🔹 Stored OTP:", user.resetOtp);
+  console.log("Entered OTP:", otpInput);
+  console.log("Stored OTP:", user.resetOtp);
 
   if (!user.resetOtp || !user.resetOtpExpires) {
     return { success: false, message: "No OTP found" };

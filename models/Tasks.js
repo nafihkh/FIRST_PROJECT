@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
     user_id:{type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
-    worker_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Worker'},
+    worker_id:{type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     title:{type:String, required: true},
     description:{type:String, required: true},
     photo:{type:String},
@@ -12,5 +12,8 @@ const taskSchema = new mongoose.Schema({
     duration:{type:String, required: true},
     deadline:{type: Date, required: true},
     response: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    rating: { type: Number, default: 0 },
+    razorpay_order_id: String,
+    razorpay_payment_id: String,
 })
 module.exports = mongoose.model('Task', taskSchema);

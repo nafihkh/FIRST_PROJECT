@@ -210,132 +210,137 @@
             <%- include('../partials/sidebar') %>
 
 
+
                 <div class="flex-grow-1 p-4">
-                    <div class="d-flex justify-content-between">
-                        <h3 class="fw-bold mb-4">Dashboard Overview</h3>
-                        <button onclick="window.location.href='/user/postapproval'" class="btn btn-primary rounded-3" style="font-size: 14px; height: 44px;"><i class="bi bi-receipt text-white me-1"></i>Responce</button>
-                    </div>
-
-
-                    <div class="dashboard-container">
-                        <!-- Upload Image Section -->
-                        <!-- Task Form -->
-                        <!-- Task Form -->
-                        <form id="taskForm" method="POST" enctype="multipart/form-data">
-
-                            <div class="upload-box" id="dropZone">
-                                <i id="icon" class="bi bi-cloud-upload fs-1 text-secondary"></i>
-                                <p id="info">Drag and drop files here, or click to browse</p>
-
-                                <label id="label" class="btn-upload">
-                                    <input type="file" name="task_photo" id="taskPhotoInput" accept="image/*" hidden
-                                        required>
-                                    Upload Task Image
-                                </label>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Task Title</label>
-                                    <input name="title" type="text" class="form-control"
-                                        placeholder="Enter Task Title..." required />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Location</label>
-                                    <input name="location" type="text" class="form-control"
-                                        placeholder="Enter Location..." required />
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Brief Description</label>
-                                <textarea name="description" class="form-control" rows="4"
-                                    placeholder="Describe your task details"></textarea>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label class="form-label">Duration</label>
-                                    <input name="duration" class="form-control">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Deadline</label>
-                                    <input name="deadline" type="datetime-local" class="form-control" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Budget Offered</label>
-                                    <input name="amount" type="number" class="form-control" placeholder="₹ 0" />
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn-post">Post Task</button>
-                        </form>
-
-                    </div>
-
-                    <h5 class=" fw-bold mb-3">My Posts</h5>
-                    <div class="table-responsive custom-table-wrapper">
-                        <table id="table" class="table table-borderless align-middle custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Task ID</th>
-                                    <th>Title</th>
-                                    <th>Budget</th>
-                                    <th class="text-center">Date</th>
-                                    <th class="text-center">Dadline</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody">
-                                <% tasks.forEach(task=> { %>
-                                    <tr>
-                                        <td>#<%= task._id.toString().slice(0, 6) %>...</td>
-                                        <td><strong>
-                                                <%= task.title %>
-                                            </strong></td>
-                                        <td class="text-danger">+₹<%= task.amount %>
-                                        </td>
-                                        <td class="text-center">
-                                            <%= task.created_at ? new Date(task.created_at).toLocaleDateString('en-US',
-                                                { month: 'short' , day: 'numeric' , year: 'numeric' }) : "N/A" %>
-                                        </td>
-                                        <td class="text-center">
-                                            <%= task.deadline ? new Date(task.deadline).toLocaleDateString('en-US', {
-                                                month: 'short' , day: 'numeric' , year: 'numeric' }) : "N/A" %>
-                                        </td>
-                                        <td class="text-center"><span class="status-active">
-                                                <%= task.status %>
-                                            </span></td>
-                                        <td class="d-flex justify-content-between align-items-center">
-                                            <button type="button" data-id="<%= task._id %>" data-bs-toggle="modal"
-                                                data-bs-target="#editdata"
-                                                class="text-info me-2 bg-transparent border-0">
-                                                <img class="icon-box" src="/images/edit.svg" alt="">
-                                            </button>
-
-
-                                            <button class="text-danger bg-transparent border-0 delete-btn"
-                                                data-id="<%= task._id %>">
-                                                <img class="icon-box" src="/images/delete.svg" alt="">
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
-                    <div id="signupToast" class="toast align-items-center text-bg-success border-0" role="alert"
-                        aria-live="assertive" aria-atomic="true">
-                        <div class="d-flex">
-                            <div class="toast-body" id="toast-message"></div> <button type="button"
-                                class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    <%- include('../partials/tosta') %>
+                        <div class="d-flex justify-content-between">
+                            <h3 class="fw-bold mb-4">Dashboard Overview</h3>
+                            <button onclick="window.location.href='/user/postapproval'"
+                                class="btn btn-primary rounded-3" style="font-size: 14px; height: 44px;"><i
+                                    class="bi bi-receipt text-white me-1"></i>Responce</button>
                         </div>
-                    </div>
+
+
+                        <div class="dashboard-container">
+                            <!-- Upload Image Section -->
+                            <!-- Task Form -->
+                            <!-- Task Form -->
+                            <form id="taskForm" method="POST" enctype="multipart/form-data">
+
+                                <div class="upload-box" id="dropZone">
+                                    <i id="icon" class="bi bi-cloud-upload fs-1 text-secondary"></i>
+                                    <p id="info">Drag and drop files here, or click to browse</p>
+
+                                    <label id="label" class="btn-upload">
+                                        <input type="file" name="task_photo" id="taskPhotoInput" accept="image/*" hidden
+                                            required>
+                                        Upload Task Image
+                                    </label>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Task Title</label>
+                                        <input name="title" type="text" class="form-control"
+                                            placeholder="Enter Task Title..." required />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Location</label>
+                                        <input name="location" type="text" class="form-control"
+                                            placeholder="Enter Location..." required />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Brief Description</label>
+                                    <textarea name="description" class="form-control" rows="4"
+                                        placeholder="Describe your task details"></textarea>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Duration</label>
+                                        <input name="duration" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Deadline</label>
+                                        <input name="deadline" type="datetime-local" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Budget Offered</label>
+                                        <input name="amount" type="number" class="form-control" placeholder="₹ 0" />
+                                    </div>
+                                </div>
+
+                                <button type="submit" id="postBtn" class="btn-post" aria-busy="false"
+                                    style="min-width: 140px;">
+                                    <span class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                                        aria-hidden="true"></span>
+                                    <span class="btn-label">Post Task</span>
+                                </button>
+                            </form>
+
+                        </div>
+
+                        <h5 class=" fw-bold mb-3">My Posts</h5>
+                        <div class="table-responsive custom-table-wrapper">
+                            <table id="table" class="table table-borderless align-middle custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Task ID</th>
+                                        <th>Title</th>
+                                        <th>Budget</th>
+                                        <th class="text-center">Date</th>
+                                        <th class="text-center">Dadline</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                    <% tasks.forEach(task=> { %>
+                                        <tr>
+                                            <td>#<%= task._id.toString().slice(0, 6) %>...</td>
+                                            <td><strong>
+                                                    <%= task.title %>
+                                                </strong></td>
+                                            <td class="text-danger">+₹<%= task.amount %>
+                                            </td>
+                                            <td class="text-center">
+                                                <%= task.created_at ? new
+                                                    Date(task.created_at).toLocaleDateString('en-US', { month: 'short' ,
+                                                    day: 'numeric' , year: 'numeric' }) : "N/A" %>
+                                            </td>
+                                            <td class="text-center">
+                                                <%= task.deadline ? new Date(task.deadline).toLocaleDateString('en-US',
+                                                    { month: 'short' , day: 'numeric' , year: 'numeric' }) : "N/A" %>
+                                            </td>
+                                            <td class="text-center"><span class="status-active">
+                                                    <%= task.status %>
+                                                </span></td>
+                                            <td class="d-flex justify-content-between align-items-center">
+                                                <button type="button" data-id="<%= task._id %>" data-bs-toggle="modal"
+                                                    data-bs-target="#editdata"
+                                                    class="text-info me-2 bg-transparent border-0">
+                                                    <img class="icon-box"
+                                                        src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/edit_yaubxq.svg"
+                                                        alt="">
+                                                </button>
+
+
+                                                <button class="text-danger bg-transparent border-0 delete-btn"
+                                                    data-id="<%= task._id %>">
+                                                    <img class="icon-box"
+                                                        src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg"
+                                                        alt="">
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
+
 
                 <div class="modal fade" id="editdata" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -368,8 +373,22 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            document.getElementById("taskForm").addEventListener("submit", async (e) => {
+            const form = document.getElementById("taskForm");
+            const postBtn = document.getElementById("postBtn");
+            const postSpinner = postBtn.querySelector(".spinner-border");
+            const postLabel = postBtn.querySelector(".btn-label");
+
+            function setPosting(state) {
+                postBtn.disabled = state; // prevent double submits
+                postBtn.setAttribute("aria-busy", state ? "true" : "false"); // a11y busy state
+                postSpinner.classList.toggle("d-none", !state); // show/hide spinner
+                postLabel.textContent = state ? "Posting..." : "Post Task"; // update label
+            }
+
+            form.addEventListener("submit", async (e) => {
                 e.preventDefault();
+                setPosting(true);
+
                 const formData = new FormData(e.target);
 
                 try {
@@ -379,27 +398,24 @@
                     });
 
                     const result = await response.json();
+
                     if (response.ok) {
-                        showToast("Task Created Successfully!", "success");
+                        showToast('success', 'Service Created Successfully!', 'Your job application has been successfully submitted.');
                         e.target.reset();
+                        // keep loading until the page reloads
                         location.reload();
                     } else {
-                        showToast(result.error || "Failed to create task", "danger");
+                        showToast('warning', 'Failed to create Service', 'There was an error submitting your application. Please try again.');
+                        setPosting(false);
                     }
                 } catch (error) {
-                    showToast("Server Error! Try again later.", "danger");
+                    showToast('error', 'Server Error!', 'Try again later.');
+                    setPosting(false);
                 }
             });
 
-            function showToast(message, type = "success") {
-                const toastEl = document.getElementById("signupToast");
-                const toastBody = document.getElementById("toast-message");
-                toastBody.innerText = message;
-                toastEl.classList.remove("text-bg-success", "text-bg-danger");
-                toastEl.classList.add(type === "success" ? "text-bg-success" : "text-bg-danger");
-                const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-                toast.show();
-            }
+
+
 
 
             // ✅ FIXED EDIT MODAL LOGIC
@@ -447,15 +463,15 @@
 
                     const result = await res.json();
                     if (res.ok) {
-                        showToast("Task Updated Successfully!", "success");
+                        showToast('success', 'Service Updated Successfully!', 'Your job application has been Updated successfully.')
                         bootstrap.Modal.getInstance(modal).hide();
                         setTimeout(() => location.reload(), 1000);
                     } else {
-                        showToast(result.error || "Failed to update task", "danger");
+                        showToast('error', 'Failed to update Service', 'There was an error submitting your application. Please try again.')
                     }
                 } catch (err) {
                     console.error("Error updating task:", err);
-                    showToast("Server Error!", "danger");
+                    showToast('error', 'Server Error!', 'Try again later.');
                 }
             });
 
@@ -466,10 +482,11 @@
                     if (confirm("Are you sure you want to delete?")) {
                         const response = await fetch(`/user/deletetask/${id}`, { method: 'DELETE' });
                         if (response.ok) {
-                            showToast("Task Deleted!", "success");
-                            setTimeout(() => location.reload(), 800);
+                            showToast('success', 'Servies Deleted!', 'Your job application has been Deleted successfully.');
+                            setTimeout(() => window.reload(), 800);
                         } else {
-                            showToast("Delete Failed", "danger");
+
+                            showToast('error', 'Delete Failed!', 'Try again later.');
                         }
                     }
                 });

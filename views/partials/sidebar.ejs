@@ -1,4 +1,4 @@
-<div class="d-flex" style="min-height: 100vh;">
+<div class="d-flex" style="min-height: 100vh; top: 0; position:sticky !important;">
   <div class="d-flex flex-column flex-shrink-0 p-3 text-white sidebarmain" style="width: 250px;">
     <ul class="nav nav-pills flex-column mb-auto">
 
@@ -21,6 +21,7 @@
         <li><a href="/user/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
         <li><a href="/user/overview" class="nav-link <%= activePage==='overview'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Overview</a></li>
         <li><a href="/user/createpost" class="nav-link <%= activePage==='createpost'?'active':'' %>"><i class="bi bi-plus-circle me-2"></i>Create Post</a></li>
+        <li><a href="/user/approvals" class="nav-link <%= activePage==='approvals'?'active':'' %>"><i class="bi bi-check2-circle me-2"></i>Approvals</a></li>
         <li><a href="/user/messages" class="nav-link <%= activePage==='messages'?'active':'' %>"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
         <li><a href="/user/payments" class="nav-link <%= activePage==='payments'?'active':'' %>"><i class="bi bi-credit-card me-2"></i>Payments</a></li>
         <li><a href="/user/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
@@ -30,7 +31,7 @@
 
     <div class="mt-auto text-center">
       <div class="d-flex text-start">
-        <img class="rounded-circle me-3" src="<%= user.profile_photo || '/images/profileeg.jpg' %>" alt="" height="35" width="35">
+        <img class="rounded-circle me-3" src="<%= user.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>" alt="" height="35" width="35">
         <p class="mb-1">
           <%= user.username %><br>
           <small style="font-size: 12px;"><%= user.email %></small>

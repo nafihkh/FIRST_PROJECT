@@ -4,6 +4,9 @@ const auth = require("../middleware/auth")
 const taskController = require("../controllers/tasksController");
 const userController = require("../controllers/userController");
 const messageController = require("../controllers/messageController");
+const paymentController = require("../controllers/paymentController");
+
+const otpController = require("../controllers/otpController");
 const upload = require("../config/cloudinary");
 
 const router = express.Router();
@@ -40,9 +43,7 @@ router.get("/dashboard", checkLogin, auth(["user"]), (req, res) => {
 });
 router.get("/tasks/progress-nontaken", taskController.getProgressNonTakenTasks);
 
-router.get("/overview", checkLogin, auth(["user"]), (req, res) => {
-  res.render("user/overview", { title: "Overview", activePage: "overview" });
-});
+router.get("/overview", checkLogin, auth(["user"]), userController.getDashboard);
 
 router.get("/createpost", checkLogin, auth(["user"]), taskController.getUserTasks);
 
@@ -63,7 +64,8 @@ router.post(
 //   res.render("user//messages");
 // });
 
-
+router.get("/payments/invoice",checkLogin, auth(["user"]), paymentController.renderInvoicesuser);
+router.get("/invoice/delete/:id", auth(["user"]), paymentController.deleteInvoice);
 //router.get("/create/:userId/:type/:title", messageController.createConversation);
 router.post("/send-message",checkLogin, auth(["user"]), messageController.sendMessage);
 
@@ -85,16 +87,36 @@ router.get("/postapproval", checkLogin, auth(["user"]), userController.getWorker
 router.post("/approve/:taskId/:userId", checkLogin, auth(["user"]), userController.approveWorker);
 router.post("/reject/:taskId/:userId", checkLogin, auth(["user"]), userController.rejectWorker);
 
-router.get("/payments", checkLogin, auth(["user"]), (req, res) => {
-  res.render("user/payments", { title: "Payments", activePage: "payments" });
-});
+router.get("/payments", checkLogin, auth(["user"]), paymentController.getPayments);
 router.get("/settings", checkLogin, auth(["user"]), (req, res) => {
   res.render("user/settings", { title: "Settings", activePage: "settings" });
 });
+router.get("/approvals", checkLogin, auth(["user"]), taskController.getSubmittedTasks);
 router.get("/workerapproval", checkLogin, auth(["user"]), (req, res) => {
   res.render("user/workerapproval", { title: "worker approval" });
 });
 router.post("/workerrequest", userController.requestWorker);
+
+router.put("/rating/:id", checkLogin, auth(["user"]), taskController.rateTask);
+router.patch("/tasks/:task/approve", auth(["user"]), taskController.taskapprove);
+router.patch("/tasks/:task/reject", auth(["user"]), taskController.taskreject);
+
+router.get("/create-order/:id/pay", checkLogin, auth(["user"]), paymentController.createOrder); // ✅ URL param
+router.post("/verify-payment", checkLogin, auth(["user"]), paymentController.verifyPayment);
+
+router.get("/pay/:id", checkLogin, auth(["user"]), paymentController.renderPayPage);
+// verify payment (from checkout handler)
+// router.post('/verify-payment', paymentController.verifyPayment);
+
+router.post("/email/send", checkLogin, auth(["user"]), otpController.sendEmailOtp);
+
+router.post("/email/verify", checkLogin, auth(["user"]), otpController.verifyEmailOtp);
+
+router.post("/phone/send", checkLogin, auth(["user"]), otpController.sendPhoneOtp);
+
+router.post("/phone/verify", checkLogin, auth(["user"]), otpController.verifyPhoneOtp);
+
+  router.get("/invoice/:id",  checkLogin, auth(["user"]), paymentController.showInvoice);
 
 router.get("/settings", checkLogin, auth(["user"]), userController.settingsPage);
 router.post("/settings/profile", checkLogin, auth(["user"]), upload.single("profile_photo"), userController.updateProfile);

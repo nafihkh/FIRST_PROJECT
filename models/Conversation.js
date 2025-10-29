@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const conversationSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
+    task_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: true},
     participants: [
       {
         participantId: { type: mongoose.Schema.Types.ObjectId, required: true },

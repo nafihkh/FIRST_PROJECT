@@ -34,132 +34,253 @@
 
     <%- include('../partials/header') %>
 
-        <div class="d-flex">
+    <div class="d-flex">
 
-            <%- include('../partials/sidebar') %>
+        <%- include('../partials/sidebar') %>
 
+        <div class="flex-grow-1 p-4">
+            <h3 class="fw-bold mb-4">Dashboard Overview</h3>
 
-                <div class="flex-grow-1 p-4">
-                    <h3 class="fw-bold mb-4">Dashboard Overview</h3>
-
-
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-4">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/box-check.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #9333eaff" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
-                                </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
-                                    Active Tasks
-                                </p>
-                                <span style="color:  #4ade80ff; font-size: 14px">
-                                    +2 from yesterday</span>
-                            </div>
+            <div class="row g-4 mb-4">
+                <!-- Active Tasks Card -->
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between">
+                            <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538411/box-check_wqpg1k.svg" alt=""
+                                style="height: 44px; width: 44px; background-color: #9333eaff" />
+                            <h3 class="text-white fw-bold ms-1 mt-2" id="activeTasks">0</h3>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/circlecheck.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #16a34aff" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
-                                </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 ">
-                                    Completed Tasks
-                                </p>
-                                <span style="color: #4ade80ff; font-size: 14px">+5 this week</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/clock.svg" alt="" style="
-                                            height: 44px;
-                                            width: 44px;
-                                            background: linear-gradient(
-                                            180deg,
-                                            #efb034ff 0%,
-                                            #ef5634ff 100%
-                                            );
-                                        " />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
-                                </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 ">
-                                    Pending Payments
-                                </p>
-                                <span style="color: #fb923cff; font-size: 14px">$1,250 total</span>
-                            </div>
-                        </div>
-                         <div class="col-md-4">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/money.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #9333eaff" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
-                                </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
-                                    Total Earnings
-                                </p>
-                                <span style="color:  #4ade80ff; font-size: 14px">
-                                    +15% this month</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/calendar.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #16a34aff" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
-                                </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 ">
-                                    Monthly Earnings
-                                </p>
-                                <span style="color: #4ade80ff; font-size: 14px">December 2025</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/star.svg" alt="" style="
-                                            height: 44px;
-                                            width: 44px;
-                                            background: linear-gradient(
-                                            180deg,
-                                            #efb034ff 0%,
-                                            #ef5634ff 100%
-                                            );
-                                        " />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
-                                </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0 ">
-                                    Average Rating
-                                </p>
-                                <span style="color: #fb923cff; font-size: 14px">Based on 127 reviews</span>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="row g-4">
-                        <div class="col-md-8">
-                            <div class="card p-3">
-                                <h5 class="text-white fw-bold">Task Progress & Earnings</h5>
-                                <canvas id="lineChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-3">
-                                <h5 class="text-white fw-bold mb-2">Recent Notifications</h5>
-                                <canvas id="pieChart" class="mb-4"></canvas>
-                            </div>
-                        </div>
+                        <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                            Active Tasks
+                        </p>
+                        <span style="color: #4ade80ff; font-size: 14px" id="activeTasksChange">
+                            Loading...
+                        </span>
                     </div>
                 </div>
+
+                <!-- Completed Tasks Card -->
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between">
+                            <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538416/circlecheck_vsob2l.svg" alt=""
+                                style="height: 44px; width: 44px; background-color: #16a34aff" />
+                            <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
+                        </div>
+                        <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                            Completed Tasks
+                        </p>
+                        <span style="color: #4ade80ff; font-size: 14px" id="completedTasksChange">
+                            Loading...
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Pending Payments Card -->
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between">
+                            <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538417/clock_zdpr3e.svg" alt="" style="
+                                    height: 44px;
+                                    width: 44px;
+                                    background: linear-gradient(180deg, #efb034ff 0%, #ef5634ff 100%);
+                                " />
+                            <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
+                        </div>
+                        <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                            Pending Payments
+                        </p>
+                        <span style="color: #fb923cff; font-size: 14px" id="pendingTotal">$0.00 total</span>
+                    </div>
+                </div>
+
+                <!-- Total Earnings Card -->
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between">
+                            <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538439/money_t3x5py.svg" alt=""
+                                style="height: 44px; width: 44px; background-color: #9333eaff" />
+                            <h3 class="text-white fw-bold ms-1 mt-2" id="totalEarnings">$0.00</h3>
+                        </div>
+                        <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                            Total Earnings
+                        </p>
+                        <span style="color: #4ade80ff; font-size: 14px" id="totalEarningsChange">
+                            Loading...
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Monthly Earnings Card -->
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between">
+                            <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538412/calendar_kjcrye.svg" alt=""
+                                style="height: 44px; width: 44px; background-color: #16a34aff" />
+                            <h3 class="text-white fw-bold ms-1 mt-2" id="monthlyEarnings">$0.00</h3>
+                        </div>
+                        <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                            Monthly Earnings
+                        </p>
+                        <span style="color: #4ade80ff; font-size: 14px" id="currentMonth">Loading...</span>
+                    </div>
+                </div>
+
+                <!-- Average Rating Card -->
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between">
+                            <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538455/star_xtytgs.svg" alt="" style="
+                                    height: 44px;
+                                    width: 44px;
+                                    background: linear-gradient(180deg, #efb034ff 0%, #ef5634ff 100%);
+                                " />
+                            <h3 class="text-white fw-bold ms-1 mt-2" id="averageRating">0.0</h3>
+                        </div>
+                        <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                            Average Rating
+                        </p>
+                        <span style="color: #fb923cff; font-size: 14px" id="totalReviews">Based on 0 reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="card p-3">
+                        <h5 class="text-white fw-bold">Task Progress & Earnings</h5>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h5 class="text-white fw-bold mb-2">Task Distribution</h5>
+                        <canvas id="pieChart" class="mb-4"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <script>
+        const lineCtx = document.getElementById("lineChart");
+        const pieCtx = document.getElementById("pieChart");
+
+        // Initialize Line Chart
+        const lineChart = new Chart(lineCtx, {
+            type: "line",
+            data: {
+                labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                datasets: [
+                    {
+                        label: "Tasks",
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: "#38bdf8",
+                        fill: true,
+                        backgroundColor: "rgba(56, 189, 248, 0.2)",
+                        tension: 0.4
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#bdc1ca' }
+                    },
+                    x: {
+                        ticks: { color: '#bdc1ca' }
+                    }
+                }
+            },
+        });
+
+        // Initialize Pie Chart
+        const pieChart = new Chart(pieCtx, {
+            type: "pie",
+            data: {
+                labels: ["Active", "Completed", "Pending"],
+                datasets: [
+                    {
+                        data: [0, 0, 0],
+                        backgroundColor: ["#9333ea", "#16a34a", "#fb923c"]
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: { color: '#bdc1ca' }
+                    }
+                }
+            },
+        });
+
+        // Load Dashboard Data
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/worker/dashboarddata', { credentials: 'include' });
+                if (!response.ok) throw new Error('Failed to fetch dashboard data');
+
+                const data = await response.json();
+                console.log('Dashboard data:', data);
+
+                // Update Active Tasks
+                document.getElementById('activeTasks').innerText = data.activeTasks ?? 0;
+
+                // Update Completed Tasks
+                document.getElementById('completedTasks').innerText = data.completedTasks ?? 0;
+
+                // Update Pending Payments
+                document.getElementById('pendingPayments').innerText = data.pendingPayments ?? 0;
+                document.getElementById('pendingTotal').innerText = `$${data.pendingTotal?.toFixed(2) ?? '0.00'} total`;
+
+                // Update Total Earnings
+                document.getElementById('totalEarnings').innerText = `$${data.totalEarnings?.toFixed(2) ?? '0.00'}`;
+
+                // Update Monthly Earnings
+                document.getElementById('monthlyEarnings').innerText = `$${data.monthlyEarnings?.toFixed(2) ?? '0.00'}`;
+                const monthName = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+                document.getElementById('currentMonth').innerText = monthName;
+
+                // Update Average Rating
+                document.getElementById('averageRating').innerText = data.avgRating?.toFixed(1) ?? '0.0';
+                document.getElementById('totalReviews').innerText = `Based on ${data.totalReviews ?? 0} reviews`;
+
+                // Update Pie Chart with task distribution
+                pieChart.data.datasets[0].data = [
+                    data.activeTasks ?? 0,
+                    data.completedTasks ?? 0,
+                    data.pendingPayments ?? 0
+                ];
+                pieChart.update();
+
+                // Update Line Chart if weekly data is available
+                if (data.weeklyTasks && Array.isArray(data.weeklyTasks)) {
+                    lineChart.data.datasets[0].data = data.weeklyTasks;
+                    lineChart.update();
+                }
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert('Failed to load dashboard data. Please refresh the page.');
+            }
+        }
+
+        // Optional: Auto-refresh every 60 seconds
+        // setInterval(loadDashboardData, 60000);
+    </script>
+
 </body>
 
 </html>

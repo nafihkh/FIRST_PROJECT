@@ -57,13 +57,11 @@
             font-weight: 700;
         }
 
-        .withdraw-btn {
-            background: #22c55e;
-            border: none;
+        .invoice-btn {
             border-radius: 8px;
             padding: 8px 16px;
             font-weight: 600;
-            color: #fff;
+
         }
 
         .custom-table-wrapper {
@@ -133,6 +131,29 @@
             padding: 3px 10px;
             border-radius: 12px;
         }
+        
+        .topbar {
+            width: 100%;
+            border-bottom: 1px solid #777777;
+        }
+
+        .topbar a {
+            font-size: 14px;
+            color: #bcc1ca;
+            margin-right: 10px;
+        }
+          
+         .status-paid {
+            background: #10B98133;
+            color: #10b981;
+            font-size: 12px;
+        }
+
+        .status-pending {
+            background: #ff000033;
+            color: #db0000;
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -146,11 +167,11 @@
 
 
                 <div class="flex-grow-1 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h3 class="fw-bold">Earnings & Payments</h3>
-                            <button class="withdraw-btn">Withdraw Funds</button>
+                                            <h3 class="fw-bold">Earnings</h3>
+                     <div class="topbar mb-5">
+                        <a class="text-decoration-none" href="/worker/earnings">Transactions</a>
+                        <a class="text-decoration-none" href="/worker/earnings/invoice">Invoice</a>
                     </div>
-
 
 
                     <!-- Header -->
@@ -160,21 +181,21 @@
                         <div class="col-md-4">
                             <div class="card-summary card-blue">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/box-check.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538411/box-check_wqpg1k.svg" alt=""
                                             style="height: 44px; width: 44px; background-color: #ffffff36" />
-                                    <h3 class="summary-amount">$3,680</h3>
+                                    <h3 class="summary-amount"><%= totalPayments %></h3>
                                 </div>
-                                <p class="summary-title mt-1 mb-1">Total Earnings</p>
+                                <p class="summary-title mt-1 mb-1">Total Payments</p>
                                 
-                                <p class="mb-0 small">Lifetime earnings</p>
+                                <p class="mb-0 small">Lifetime earnings count</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card-summary card-orange">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/clock.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538417/clock_zdpr3e.svg" alt=""
                                             style="height: 44px; width: 44px; background-color: #ffffff36" />
-                                    <h3 class="summary-amount">$3,680</h3>
+                                    <h3 class="summary-amount">₹<%= totalpending %></h3>
                                 </div>
                                 <p class="summary-title mt-1 mb-1">Pending</p>
                                 <p class="mb-0 small">3 payments processing</p>
@@ -185,10 +206,10 @@
                                  <div class="d-flex justify-content-between">
                                     <img class="p-2 rounded-4" src="/images/valut.svg" alt=""
                                             style="height: 44px; width: 44px; background-color: #ffffff36" />
-                                    <h3 class="summary-amount">$3,680</h3>
+                                    <h3 class="summary-amount">₹<%= totalSpent %></h3>
                                 </div>
-                                <p class="summary-title mt-1 mb-1">Pending Payments</p>
-                                <p class="mb-0 small">Ready to withdraw</p>
+                                <p class="summary-title mt-1 mb-1">Total Earnings</p>
+                                <p class="mb-0 small">Lifetime earnings</p>
                             </div>
                         </div>
                     </div>
@@ -205,13 +226,31 @@
                                 </tr>
                             </thead>
                             <tbody id="tbody">
+                                <% if (payments.length===0) { %>
+                                      <tr>
+                                        <td colspan="6" class="text-center">No transactions found</td>
+                                    </tr>
+                                      <% } %>
+                                      <% payments.forEach(payment=> { %>
                                 <tr>
-                                    <td>#T2845</td>
-                                    <td><strong>E-commerce Website Development</strong></td>
-                                    <td class="text-danger">+$2500</td>
-                                    <td class="text-center"><span class="status-active">Active</span></td>
-                                    <td class="text-center">Dec 8, 2024</td>
+                                    <td>#<%= payment._id.toString().substring(0, 8) %>/td>
+                                    <td><strong><strong>
+                                                        <%= payment.task_id ? payment.task_id.title : 'No Task' %>
+                                                    </strong></strong></td>
+                                    <td class="text-danger">₹<%= payment.amount %></td>
+                                    <td class="text-center">
+                                                    <% if(payment.status==='completed' ){ %>
+                                                        <span class="btn status-paid rounded-5">Paid</span>
+                                                        <% } else { %>
+                                                            <span class="btn status-pending rounded-5">
+                                                                <%= payment.status %>
+                                                            </span>
+                                                            <% } %>
+                                                </td>
+                                    <td class="text-center"><%= new Date(payment.created_at).toLocaleDateString("en-US", { month: 'short' ,
+                                                    day: 'numeric' , year: 'numeric' }) %></td>
                                 </tr>
+                                    <% }) %>
                             </tbody>
                         </table>
                     </div>

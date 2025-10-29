@@ -11,7 +11,7 @@ async function addToCart(workerId, taskId) {
   worker.cart.push(taskId);
   await cartRepository.saveWorker(worker);
 
-  // return updated cart with tasks populated
+
   return await cartRepository.getWorkerById(workerId);
 }
 
@@ -33,7 +33,7 @@ async function proceedTask(workerId, taskId) {
   const task = await cartRepository.getTaskById(taskId);
   if (!task) throw new Error("Task not found");
 
-  // task.progress = "InProgress";
+ 
   task.response.push(workerId);
   await task.save();
 

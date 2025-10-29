@@ -47,10 +47,10 @@
                         <div class="col-md-3">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/clock.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538417/clock_zdpr3e.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #9333eaff" />
                                     <span style="color: #7c3bedff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowupright-purple.svg"
+                                            style="width: 16px; height: 16px" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538411/arrowupright-purple_wfgnxj.svg"
                                             alt="" />12.3%</span>
                                 </div>
                                 <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
@@ -62,10 +62,10 @@
                         <div class="col-md-3">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/circlecheck.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538416/circlecheck_vsob2l.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #16a34aff" />
                                     <span style="color: #4ade80ff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowupright-green.svg"
+                                            style="width: 16px; height: 16px" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538411/arrowupright-green_pognoo.svg"
                                             alt="" />12.3%</span>
                                 </div>
                                 <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
@@ -77,7 +77,7 @@
                         <div class="col-md-3">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/hourglass.svg" alt="" style="
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538431/hourglass_zyqr1z.svg" alt="" style="
                     height: 44px;
                     width: 44px;
                     background: linear-gradient(
@@ -87,7 +87,7 @@
                     );
                   " />
                                     <span style="color: #fb923cff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowdownright-yellow.svg"
+                                            style="width: 16px; height: 16px" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538410/arrowdownright-yellow_ddik06.svg"
                                             alt="" />12.3%</span>
                                 </div>
                                 <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
@@ -103,7 +103,7 @@
                                     <img class="p-2 rounded-4" src="/images/users.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #3b82f6ff" />
                                     <span style="color: #60a5faff; font-size: 14px"><img
-                                            style="width: 16px; height: 16px" src="/images/arrowupright-blue.svg"
+                                            style="width: 16px; height: 16px" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538411/arrowupright-blue_yg2sjg.svg"
                                             alt="" />12.3%</span>
                                 </div>
                                 <h3 class="text-white fw-bold ms-1 mt-2" id="activeUsers">0</h3>
@@ -135,7 +135,7 @@
 
         <script>
             const lineCtx = document.getElementById("lineChart");
-            const pieCtx = document.getElementById("pieChart");
+            
 
             const lineChart = new Chart(lineCtx, {
                 type: "line",
@@ -153,7 +153,7 @@
                 },
                 options: { plugins: { legend: { display: false } } },
             });
-
+            const pieCtx = document.getElementById("pieChart");
             const pieChart = new Chart(pieCtx, {
                 type: "pie",
                 data: {
@@ -171,14 +171,14 @@
             fetch("/admin/metrics")
                 .then(res => res.json())
                 .then(data => {
-                    document.getElementById("openTasks").innerText = data.totalTasks - data.completedTasks;
+                    document.getElementById("openTasks").innerText = data.totalTasks;
                     document.getElementById("completedTasks").innerText = data.completedTasks;
                     document.getElementById("pendingPayments").innerText = data.totalPayments;
                     document.getElementById("activeUsers").innerText = data.totalUsers;
 
                     // Update charts
                     lineChart.data.datasets[0].data = [
-                        data.totalTasks - data.completedTasks,
+                        data.totalTasks,
                         data.completedTasks
                     ];
                     lineChart.update();

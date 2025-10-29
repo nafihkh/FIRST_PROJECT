@@ -213,7 +213,7 @@
         <div class="p-4 w-100" style="background: #0f172a; min-height: 100vh; font-family: 'Inter', sans-serif; color: white;">
             <div class="d-flex justify-content-between">
                 <h3 class="fw-bold mb-4">Problem Management</h3>
-                <button onclick="window.location.href='/admin/workers/approvals'" class="btn btn-primary rounded-3" style="font-size: 14px; height: 44px;"><i class="bi bi-receipt text-white me-1"></i>Reports</button>
+                <button onclick="window.location.href='/admin/problems/reports'" class="btn btn-primary rounded-3" style="font-size: 14px; height: 44px;"><i class="bi bi-receipt text-white me-1"></i>Reports</button>
             </div>
 
             <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
@@ -234,7 +234,7 @@
                 </div>
 
                 <div class="search-wrapper">
-                    <img class="search-icon" src="/images/search.svg" alt="" />
+                    <img class="search-icon" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538455/search_lxfgxx.svg" alt="" />
                     <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
                 </div>
             </div>
@@ -330,7 +330,7 @@
       <td>#${task._id.slice(-5)}</td>
       <td>${task.title}</td>
       <td>
-        <img src="${task.user_id?.profile_photo || "/images/profileeg.jpg"}"
+        <img src="${task.user_id?.profile_photo || "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg"}"
              class="rounded-circle me-2" width="30" height="30">
         ${task.user_id?.username || "No Agent"}
       </td>
@@ -341,14 +341,14 @@
           ${capitalizeFirstLetter(task.status)}
         </button>
       </td>
-      <td><img src="${task.image || "/images/profileeg.jpg"}" class="rounded" width="40" height="40"></td>
+      <td><img src="${task.photo || "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg"}" class="rounded" width="40" height="40"></td>
       <td class="d-flex justify-content-between align-items-center">
         <button type="button" data-bs-toggle="modal" data-bs-target="#editdata"
           class="text-info me-2 bg-transparent border-0">
-          <img class="icon-box" src="/images/edit.svg" alt="">
+          <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/edit_yaubxq.svg" alt="">
         </button>
         <button class="text-danger bg-transparent border-0 delete-btn">
-          <img class="icon-box" src="/images/delete.svg" alt="">
+          <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg" alt="">
         </button>
       </td>
     `;

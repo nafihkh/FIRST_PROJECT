@@ -22,3 +22,29 @@ exports.settingsPage = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+exports.getUserGrowth = async (req, res) => {
+  try {
+    const data = await adminService.getUserGrowthLast7Days();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+exports.getWorkerRating = async (req, res) => {
+  try {
+    const data = await adminService.getWorkerRatingLast7Days();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+exports.getTasksCompleted = async (req, res) => {
+  try {
+    const data = await adminService.getTasksCompletedLast7Days();
+    res.json(data);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: err.message });
+  }
+}

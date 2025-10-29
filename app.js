@@ -53,7 +53,7 @@ app.use("/user", userRoutes);
 app.use("/worker", workerRoutes);
 
 app.get("/", (req, res) => {
-  res.redirect("user/login");
+  res.render("jobseek");
 });
 
 // Setup Socket.IO chat system

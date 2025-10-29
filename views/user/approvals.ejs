@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+
+        .dashboard-container {
+            margin: 40px auto;
+            background-color: #171C26FF;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+
+        .upload-box {
+            border: 2px dashed #4a5568;
+            border-radius: 10px;
+            text-align: center;
+            padding: 40px;
+
+            margin-bottom: 25px;
+        }
+
+        .upload-box:hover {
+            border-color: #00bfa6;
+        }
+
+        .upload-box p {
+            color: #a0aec0;
+            margin-top: 10px;
+        }
+
+        .btn-upload {
+            background-color: #00bfa6;
+            color: #fff;
+            border: none;
+            margin-top: 10px;
+            padding: 6px 20px;
+            border-radius: 6px;
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #1A1C1EFF;
+            border: 1px solid #2d3748;
+            color: #fff;
+        }
+
+        .form-control::placeholder,
+        .form-select::placeholder {
+
+            color: #bcc1ca;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #00bfa6;
+            box-shadow: none;
+            background-color: #1A1C1EFF;
+            color: #fff;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .btn-post {
+            background-color: #22CCB2;
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            /* font-weight: 600; */
+            border-radius: 6px;
+        }
+
+        .btn-post:hover {
+            background-color: #5c6e6c;
+        }
+
+        .custom-table-wrapper {
+            background-color: #171c26;
+            color: #bdc1ca;
+            border-radius: 19px;
+            overflow: hidden;
+            font-size: 14px;
+        }
+
+        .custom-table {
+            background: transparent !important;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            color: #bdc1ca;
+            background: #262a33;
+            border-bottom: 1px solid #2f343d;
+            font-weight: 600;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr {
+            background: transparent;
+            border-bottom: 1px solid #2f343d;
+        }
+
+        .custom-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .custom-table tbody td {
+            color: #f3f4f6;
+
+            background: transparent !important;
+            vertical-align: middle;
+            padding: 16px 18px;
+        }
+
+        .custom-table tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status-completed {
+            background: #16a34a;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .status-pending {
+            background: #d97706;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .status-active {
+            background: #1DD75B30;
+            color: #1dd75b;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .icon-box {
+            width: 20px;
+            height: 36px;
+        }
+
+        .input-box {
+            background-color: #0f172a;
+            width: 100%;
+            height: 40px;
+            padding-left: 12px;
+            padding-right: 12px;
+            font-family: 'Inter';
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: rgb(59, 59, 59);
+            border-style: solid;
+            outline: none;
+            color: #BDC1CA;
+        }
+
+        .approval-card {
+            background: #1f2a38;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-approve {
+            background: #22c55e;
+            border: none;
+            color: #fff;
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            border: none;
+            color: #fff;
+        }
+
+        .table-dark-custom {
+            background: #1f2a38;
+        }
+
+        .status-approved {
+            background: #22c55e;
+            padding: 2px 10px;
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        .status-rejected {
+            background: #ef4444;
+            padding: 2px 10px;
+            border-radius: 8px;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+
+            <%- include('../partials/sidebar') %>
+            <%- include('../partials/tosta') %>
+
+                <div class="flex-grow-1 p-4">
+                    <h3 class="fw-bold mb-4">Work Pending Your Approval</h3>
+
+
+                    <div class="row">
+
+                        <% tasks.forEach(task=> { %> <!-- Card 1 -->
+                            <div class="col-md-4">
+                                <div class="approval-card">
+                                    <h5>
+                                        <%= task.title %>
+                                    </h5>
+                                    <p><strong>Worker:</strong>
+                                        <%= task.worker_id?.username %>
+                                    </p>
+                                    <p>
+                                        <%= task.description %>.
+                                    </p>
+                                    <form action="/user/tasks/<%= task._id %>/approve?_method=PATCH"
+                                            method="POST" style="display:inline;"
+                                            onsubmit="return confirm('Are you sure you want to mark this task as complete?');">
+                                            <button type="submit" class="btn btn-approve fw-lighter">
+                                                approve
+                                            </button>
+                                        </form>
+                                    <form action="/user/tasks/<%= task._id %>/reject?_method=PATCH"
+                                            method="POST" style="display:inline;"
+                                            onsubmit="return confirm('Are you sure you want to mark this task as not Compleated?');">
+                                            <button type="submit" class="btn btn-reject fw-lighter">
+                                                Reject
+                                            </button>
+                                        </form>
+                                </div>
+                            </div>
+                            <% }) %>
+
+
+
+                                <h5 class=" fw-bold mb-3">Service History</h5>
+                                <div class="table-responsive custom-table-wrapper">
+                                    <table id="table" class="table table-borderless align-middle custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Service Title</th>
+                                                <th>Worker</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Rating</th>
+                                                <th class="text-center">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                            <% history.forEach(hisu=> { %>
+                                                <tr>
+                                                    <td><strong>
+                                                            <%= hisu.title %>
+                                                        </strong></td>
+                                                    <td>
+                                                        <%= hisu.worker_id?.username %>
+                                                    </td>
+                                                    <td class="text-center"><span class="status-active">
+                                                            <%= hisu.progress %>
+                                                        </span></td>
+                                                    <td>
+                                                        <select class="input-box rating-select"
+                                                            data-id="<%= hisu._id %>">
+                                                            <option value="5" <%=hisu.rating===5 ? "selected" : "" %>
+                                                                >⭐⭐⭐⭐⭐</option>
+                                                            <option value="4" <%=hisu.rating===4 ? "selected" : "" %>
+                                                                >⭐⭐⭐⭐</option>
+                                                            <option value="3" <%=hisu.rating===3 ? "selected" : "" %>
+                                                                >⭐⭐⭐</option>
+                                                            <option value="2" <%=hisu.rating===2 ? "selected" : "" %>>⭐⭐
+                                                            </option>
+                                                            <option value="1" <%=hisu.rating===1 ? "selected" : "" %>>⭐
+                                                            </option>
+                                                        </select>
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <%= hisu.created_at ? new
+                                                            Date(hisu.created_at).toLocaleDateString('en-US', {
+                                                            month: 'short' , day: 'numeric' , year: 'numeric' }) : "N/A"
+                                                            %>
+                                                    </td>
+
+                                                </tr>
+                                                <% }) %>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                    </div>
+
+                    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
+                        <div id="signupToast" class="toast align-items-center text-bg-success border-0" role="alert"
+                            aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body" id="toast-message"></div> <button type="button"
+                                    class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="editdata" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="background-color: #0f172a;">
+                                <div class="modal-header bg-primary border-bottom-0">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Post</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <label class="mb-2" style="font-size: 14px;" for="">Service</label><br>
+                                    <input id="service" class="input-box" type="text" placeholder="Serice title">
+                                    <label class="mb-2 mt-3" style="font-size: 14px;" for="">Duration</label><br>
+                                    <input id="duration" class="input-box" type="text" placeholder="Duration">
+                                    <label class="mb-2 mt-3" style="font-size: 14px;" for="">Deadline</label><br>
+                                    <input id="deadline" class="input-box" type="datetime-local" placeholder="Deadline">
+                                    <label class="mb-2 mt-3" style="font-size: 14px;" for="">Amount</label><br>
+                                    <input id="amount" class="input-box" type="text" placeholder="Amount">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    document.querySelectorAll(".rating-select").forEach(select => {
+                        select.addEventListener("change", async (e) => {
+                            const id = e.target.dataset.id;
+                            const rating = e.target.value;
+                            try {
+                                const res = await fetch(`/user/rating/${id}`, {
+                                    method: "PUT",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ rating }),
+                                });
+                                const data = await res.json();
+                                showToast(data.message, res.ok ? 'success' : 'warning', 'Rating updated successfully.', `Done! Your rating helps others decide.`)
+                            } catch (error) {
+                                showToast('error', 'Something went wrong', `${error}`)
+                            }
+                        });
+                    });
+                </script>
+</body>
+
+</html>

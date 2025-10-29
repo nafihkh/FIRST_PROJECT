@@ -160,7 +160,7 @@
                 <div class="flex-grow-1 p-4">
                     <div class="d-flex justify-content-between">
                         <h3 class="fw-bold mb-4">Tasks</h3>
-                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" aria-controls="cart" style="height: 40px;" class="btn btn-primary"><i class="bi bi-cart3"></i>Job Cart</button>
+                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" aria-controls="cart" style="height: 40px;" class="btn btn-primary"><i class="bi bi-bookmark-check-fill me-2"></i>Saved Jobs</button>
                     </div>
                     <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
                         <div class="d-flex align-items-center">
@@ -181,7 +181,7 @@
                             </div>
 
                             <div class="search-wrapper">
-                                <img class="search-icon" src="/images/search.svg" alt="" />
+                                <img class="search-icon" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538455/search_lxfgxx.svg" alt="" />
                                 <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                                 <img class="top rounded-top-3" src="/images/task1.png" alt="">
                                 <div class="d-flex justify-content-between px-2 align-items-center">
                                     <div class="d-flex mt-2 position-relative align-items-center">
-                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <img class="rounded-circle me-2" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg" width="25px" height="25px" alt="">
                                         <span class="onlineornot rounded-circle"> </span>
                                         <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
                                     </div>
@@ -213,7 +213,7 @@
                                 <img class="top rounded-top-3" src="/images/task2.png" alt="">
                                 <div class="d-flex justify-content-between px-2 align-items-center">
                                     <div class="d-flex mt-2 position-relative align-items-center">
-                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <img class="rounded-circle me-2" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg" width="25px" height="25px" alt="">
                                         <span class="onlineornot rounded-circle"> </span>
                                         <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
                                     </div>
@@ -234,7 +234,7 @@
                                 <img class="top rounded-top-3" src="/images/task3.png" alt="">
                                 <div class="d-flex justify-content-between px-2 align-items-center">
                                     <div class="d-flex mt-2 position-relative align-items-center">
-                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <img class="rounded-circle me-2" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg" width="25px" height="25px" alt="">
                                         <span class="onlineornot rounded-circle"> </span>
                                         <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
                                     </div>
@@ -255,7 +255,7 @@
                                 <img class="top rounded-top-3" src="/images/task4.png" alt="">
                                 <div class="d-flex justify-content-between px-2 align-items-center">
                                     <div class="d-flex mt-2 position-relative align-items-center">
-                                        <img class="rounded-circle me-2" src="/images/profileeg.jpg" width="25px" height="25px" alt="">
+                                        <img class="rounded-circle me-2" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg" width="25px" height="25px" alt="">
                                         <span class="onlineornot rounded-circle"> </span>
                                         <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">shafi</span>
                                     </div>
@@ -321,7 +321,7 @@ async function loadTasks() {
                     <img class="top rounded-top-3" src="${task.photo || '/images/task1.png'}" alt="">
                     <div class="d-flex justify-content-between px-2 align-items-center">
                         <div class="d-flex mt-2 position-relative align-items-center">
-                            <img class="rounded-circle me-2" src="${task.user_id?.profile_photo || '/images/profileeg.jpg'}" width="25" height="25">
+                            <img class="rounded-circle me-2" src="${task.user_id?.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg'}" width="25" height="25">
                             <span class="onlineornot rounded-circle"></span>
                             <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">${task.user_id?.username || 'Unknown'}</span>
                         </div>
@@ -333,7 +333,7 @@ async function loadTasks() {
                         <span style="color: #565e6c; font-size: 14px;">Due: ${task.duration || 'N/A'}</span>
                     </div>
                     <div class="px-2 text-end pb-1 mb-2">
-                        <button data-id="${task._id}" class="btn rounded-3 btn-primary btn-sm add-to-cart">Add to cart</button>
+                        <button data-id="${task._id}" class="btn rounded-3 btn-primary btn-sm add-to-cart"><i class="bi bi-bookmark-fill me-2"></i> Save</button>
                     </div>
                 </div>
             `;
@@ -411,7 +411,7 @@ tasksContainer.addEventListener("click", async (e) => {
         });
         const data = await res.json();
         if (res.ok) {
-            alert("Task added to cart!");
+            alert("Task added to saved jobs!");
              loadCart();
         } else {
             alert(data.error || "Error adding task");

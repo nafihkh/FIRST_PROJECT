@@ -40,8 +40,20 @@ const updateWorkerStatus = async (userId, status) => {
 
 const getAllByRole = (role) => 
   User.find({ role })
-    .select("username profile_photo status accessibility last_active")
+    .select("username profile_photo email status accessibility")
     .sort({ created_at: -1 });
+
+async function getUserGrowthLast7Days() {
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // last 7 days
+
+  return await User.aggregate([
+    { $match: { created_at: { $gte: sevenDaysAgo } } },
+    { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$created_at" } }, count: { $sum: 1 } } },
+    { $sort: { _id: 1 } }
+  ]);
+}
+
 
 module.exports = {
   countByRole,
@@ -56,4 +68,5 @@ module.exports = {
   findByPhone,
   findByEmailOrPhone,
   updateWorkerStatus,
+  getUserGrowthLast7Days,
 };

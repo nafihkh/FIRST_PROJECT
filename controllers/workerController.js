@@ -87,7 +87,7 @@ const approveWorker = async (req, res) => {
   try {
     const worker = await workerService.approveWorker(req.params.id);
     
-    // Create empty profile in Worker collection if not exists
+    
     await workerService.approvestaff(worker._id);
 
     res.redirect("/admin/workers/approvals");
@@ -161,12 +161,14 @@ const removeSkill = async (req, res) => {
 const getSettings = async (req, res) => {
   try {
     const { worker, user } = await workerService.getWorkerSettings(req.user._id);
+    const stats = await workerService.getPerformanceStats(req.user._id);
 
     res.render("worker/settings", {
       title: "Settings",
       activePage: "settings",
       user,
       worker,
+      stats,
     });
   } catch (err) {
     console.error(err);
@@ -176,7 +178,15 @@ const getSettings = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
+const getDashboard = async (req, res) => {
+  try {
+    const data = await workerService.getDashboardData(req.user._id);
+    res.json(data);
+  } catch (error) {
+    console.error("Dashboard fetch error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 module.exports = {
   getWorkers,
@@ -191,4 +201,5 @@ module.exports = {
   addSkill,
   removeSkill,
   getSettings,
+  getDashboard,
 };

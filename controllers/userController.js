@@ -109,7 +109,7 @@ const Tasks = require("../models/Tasks");
 exports.getWorkerRequests = async (req, res) => {
   try {
     const tasks = await Tasks.find()
-      .populate("response", "username profile_photo"); // only name & photo
+      .populate("response", "username profile_photo");
 
     res.render("user/postapproval", { 
       tasks ,
@@ -129,7 +129,7 @@ exports.approveWorker = async (req, res) => {
     await Tasks.findByIdAndUpdate(taskId, {
       worker_id: userId,
       progress: "InProgress" ,
-      response: []    // Or "Approved"
+      response: []  
     });
 
     res.redirect("/user/postapproval");
@@ -144,7 +144,7 @@ exports.rejectWorker = async (req, res) => {
     const { taskId, userId } = req.params;
 
     await Tasks.findByIdAndUpdate(taskId, {
-      $pull: { response: userId }  // 🔥 Remove only this user from responses
+      $pull: { response: userId }  
     });
 
     res.redirect("/user/postapproval");
@@ -153,3 +153,44 @@ exports.rejectWorker = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+const Task = require("../models/Tasks"); 
+exports.getDashboard = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        // 1️⃣ Total Posts Created
+        const totalPosts = await Task.countDocuments({ user_id: userId });
+
+        // 2️⃣ Completed Tasks
+        const completedTasks = await Task.countDocuments({ user_id: userId, progress: "Completed" });
+
+        // 3️⃣ Ongoing Tasks
+        const ongoingTasks = await Task.countDocuments({ user_id: userId, progress: "InProgress" });
+
+
+     
+        const spendSave = await Task.aggregate([
+            { $match: { user_id: userId, status: "completed" } },
+            {
+                $group: {
+                    _id: null,
+                    totalSave: { $sum: "$amount" },
+                }
+            }
+        ]);
+
+        res.render("user/overview", {
+            totalPosts,
+            completedTasks,
+            ongoingTasks,
+            spendSave: spendSave[0] || { totalSpend: 0, totalSave: 0 },
+            title: "Overview", 
+            activePage: "overview"
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+};
+

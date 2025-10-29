@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Your existing CSS here unchanged */
         @font-face {
             font-family: "Inter";
             src: url("/fonts/Inter-Regular.ttf");
@@ -161,7 +162,9 @@
             outline: none;
             color: #BDC1CA;
         }
-        #pieChart, #barChart2 {
+
+        #pieChart,
+        #barChart2 {
             height: 268px !important;
             max-height: 268px;
         }
@@ -196,38 +199,36 @@
                 </div>
 
                 <div class="search-wrapper">
-                    <img class="search-icon" src="/images/search.svg" alt="" />
+                    <img class="search-icon" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538455/search_lxfgxx.svg" alt="" />
                     <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
                 </div>
             </div>
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold">Recent Tasks</h5>
+                        <h5 class="text-white fw-bold">User Growth</h5>
                         <canvas id="lineChart"></canvas>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold mb-2">Problem Categories</h5>
-                        <canvas id="barChart" ></canvas>
+                        <h5 class="text-white fw-bold mb-2">Problem Resolution Time</h5>
+                        <canvas id="barChart"></canvas>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold mb-2">Recent Tasks</h5>
+                        <h5 class="text-white fw-bold mb-2">Department Performance</h5>
                         <canvas id="pieChart" class=""></canvas>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold">Problem Categories</h5>
-                        <canvas id="barChart2" ></canvas>
+                        <h5 class="text-white fw-bold">Worker Ratings Distribution</h5>
+                        <canvas id="barChart2"></canvas>
                     </div>
                 </div>
             </div>
-
-            
         </div>
     </div>
 </body>
@@ -238,73 +239,124 @@
     document.querySelector(".calendar-icon").addEventListener("click", () => {
         document.getElementById("dateFilter").showPicker();
     });
-            const lineCtx = document.getElementById("lineChart");
-            const barCtx = document.getElementById("barChart");
 
-            const lineChart = new Chart(lineCtx, {
+    // Utility: Convert date strings to day names (Sun, Mon, ...)
+    function getDayLabels(dates) {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        return dates.map(dateStr => days[new Date(dateStr).getDay()]);
+    }
+
+    async function fetchChartData(url) {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    }
+
+    async function loadUserGrowth() {
+        try {
+            const data = await fetchChartData('/admin/user-growth');
+            const labels = getDayLabels(data.map(d => d._id));
+            const values = data.map(d => d.count);
+
+            new Chart(document.getElementById("lineChart"), {
                 type: "line",
                 data: {
-                    labels: ["Sun", "Mon", "Tue", "Wed" , "Thu" , "Fri" ,"Sat"],
-                    datasets: [
-                        {
-                            label: "Tasks",
-                            data: [100,200,300,350,450,470,500],
-                            borderColor: "#38bdf8",
-                            fill: true,
-                            backgroundColor: "rgba(56, 189, 248, 0.2)",
-                        },
-                    ],
+                    labels,
+                    datasets: [{
+                        label: "Users",
+                        data: values,
+                        borderColor: "#38bdf8",
+                        fill: true,
+                        backgroundColor: "rgba(56, 189, 248, 0.2)",
+                    }]
                 },
                 options: { plugins: { legend: { display: false } } },
             });
+        } catch (error) {
+            console.error("Error loading user growth data:", error);
+        }
+    }
 
-            const barChart = new Chart(barCtx, {
+    async function loadTasksCompleted() {
+        try {
+            const data = await fetchChartData('/admin/tasks-completed');
+            const labels = getDayLabels(data.map(d => d._id));
+            const values = data.map(d => d.count);
+
+            new Chart(document.getElementById("barChart"), {
                 type: "bar",
                 data: {
-                    labels: ["tasks", "user", "admin","drerer","sirr"],
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: "#6366f1"
+                    }]
+                },
+                options: { plugins: { legend: { display: false } } },
+            });
+        } catch (error) {
+            console.error("Error loading tasks completed data:", error);
+        }
+    }
+      const pieCtx = document.getElementById("pieChart");
+            const pieChart = new Chart(pieCtx, {
+                type: "pie",
+                data: {
+                    labels: ["Admins", "Workers", "Users"],
                     datasets: [
                         {
-                            data: [100,200,300,400,500],
+                            data: [],
                             backgroundColor: ["#f43f5e", "#f97316", "#6366f1", "#38bdf8", "#22c55e"]
                         },
                     ],
                 },
                 options: { plugins: { legend: { display: false } } },
-            });
-            const pieCtx = document.getElementById("pieChart");
-            const barCtx2 = document.getElementById("barChart2");
 
-            const pieChart = new Chart(pieCtx, {
-                type: "pie",
-                data: {
-                    labels: ["Sun", "Mon", "Tue", "Wed" , "Thu" , "Fri" ,"Sat"],
-                    datasets: [
-                        {
-                            label: "Tasks",
-                            data: [100,200,300,350,450,470,500],
-                            fill: true,
-                            backgroundColor: ["#f43f5e", "#f97316", "#6366f1", "#38bdf8", "#22c55e"],
-                        },
-                    ],
-                },
-                options: { plugins: { legend: { display: false } } },
             });
 
-            const barChart2 = new Chart(barCtx2, {
+             fetch("/admin/metrics")
+                .then(res => res.json())
+                .then(data => {
+                    pieChart.data.datasets[0].data = [
+                        data.totalAdmins,
+                        data.totalWorkers,
+                        data.totalUsers
+                    ];
+                    pieChart.update();
+                })
+                .catch(err => console.error("Metrics fetch error:", err));
+       
+  
+      
+
+    async function loadUserRatings() {
+        try {
+            const data = await fetchChartData('/admin/user-rating');
+            const labels = getDayLabels(data.map(d => d._id));
+            const values = data.map(d => d.avgRating);
+
+            new Chart(document.getElementById("barChart2"), {
                 type: "bar",
                 data: {
-                    labels: ["tasks", "user", "admin","drerer","sirr"],
-                    datasets: [
-                        {
-                            data: [100,200,300,400,500],
-                            backgroundColor: '#6366f1'
-                        },
-                    ],
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: "#10b981"
+                    }]
                 },
                 options: { plugins: { legend: { display: false } } },
             });
+        } catch (error) {
+            console.error("Error loading user ratings data:", error);
+        }
+    }
 
-
+    window.addEventListener('DOMContentLoaded', () => {
+        loadUserGrowth();
+        loadTasksCompleted();
+        loadUserRatings();
+    });
+    
 </script>
 
 </html>

@@ -230,7 +230,7 @@
                         </div>
 
                         <div class="search-wrapper">
-                            <img class="search-icon" src="/images/search.svg" alt="" />
+                            <img class="search-icon" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538455/search_lxfgxx.svg" alt="" />
                             <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
                         </div>
                     </div>
@@ -241,8 +241,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Users</th>
-                                    <th class="text-center">Status</th>
-                                    <th>Last Active</th>
+                                    <th>Email</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -250,7 +249,7 @@
                                 <tr>
                                     <td>#T2845</td>
                                     <td>
-                                        <img src="/images/profileeg.jpg" class="rounded-circle me-2" width="30"
+                                        <img src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg" class="rounded-circle me-2" width="30"
                                             height="30" />
                                         Alex Rodriguez
                                     </td>
@@ -263,9 +262,9 @@
                                     <td class="d-flex justify-content-between align-items-center">
                                         <span class="btn bg-danger rounded-3 text-white fw-bold"
                                             style="font-size: 12px">Block</span>
-                                        <a href="#" class="text-info me-2"><img class="icon-box" src="/images/edit.svg"
+                                        <a href="#" class="text-info me-2"><img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/edit_yaubxq.svg"
                                                 alt="" /></a>
-                                        <a href="#" class="text-danger"><img class="icon-box" src="/images/delete.svg"
+                                        <a href="#" class="text-danger"><img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg"
                                                 alt="" /></a>
                                     </td>
                                 </tr>
@@ -299,16 +298,11 @@
             row.innerHTML = `
                 <td>#${user._id.slice(-5)}</td>
                 <td>
-                    <img src="${user.profile_photo || "/images/profileeg.jpg"}"
+                    <img src="${user.profile_photo || "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg"}"
                         class="rounded-circle me-2" width="30" height="30">
                     ${user.username}
                 </td>
-                <td class="text-center">
-                    <span class="btn fw-semibold rounded-5 ${user.status}">
-                        ${user.status}
-                    </span>
-                </td>
-                <td class="last-active">${formatTimeAgo(user.last_active)}</td>
+                <td class="last-active">${user.email}</td>
                 
                 <td class="d-flex justify-content-between align-items-center">
                     <button onclick="toggleBlock('${user._id}')" 
@@ -317,7 +311,7 @@
                         ${user.accessibility ? "Block" : "Unblock"}
                     </button>
                     <a onclick="deleteUser('${user._id}')" href="#" class="text-danger">
-                        <img class="icon-box" src="/images/delete.svg" alt="" />
+                        <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg" alt="" />
                     </a>
                 </td>
             `;

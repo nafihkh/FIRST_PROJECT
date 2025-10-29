@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Task = require("../models/Tasks");
 const Worker = require("../models/Worker");
+const mongoose = require('mongoose');
 
 
 const getAllWorkers = () =>
@@ -75,6 +76,17 @@ const removeSkill = async (userId, skill) => {
   return worker.skills;
 };
 
+async function getworkerRatingLast7Days() {
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+
+  return await Worker.aggregate([
+    { $match: { updatedAt: { $gte: sevenDaysAgo }, rating: { $exists: true } } },
+    { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$updatedAt" } }, avgRating: { $avg: "$rating" } } },
+    { $sort: { _id: 1 } }
+  ]);
+}
+
 const createWorkerProfileIfNotExists = async (userId, username = "") => {
   const existingWorker = await Worker.findOne({ user_id: userId });
   if (!existingWorker) {
@@ -91,6 +103,83 @@ const createWorkerProfileIfNotExists = async (userId, username = "") => {
     console.log("✅ Worker profile created for:", userId);
   }
   return existingWorker;
+};
+const getAverageRating = async (userId) => {
+  const worker = await Worker.findOne({ user_id: userId });
+  return worker?.rating || 0;
+};
+
+const getTotalReviews = async (userId) => {
+  const worker = await Worker.findOne({ user_id: userId });
+  return worker?.total_reviews || 0;
+};
+const getTotalReviewsCount = async (userId) => {
+  const worker = await Worker.findOne({ user_id: userId });
+  return worker?.total_reviews || 0;
+};
+
+// Get overall task completion percentage
+const getTaskCompletionRate = async (workerId) => {
+  const totalTasks = await Task.countDocuments({ worker_id: workerId });
+  const completedTasks = await Task.countDocuments({ 
+    worker_id: workerId, 
+    progress: "Completed" 
+  });
+
+  if (totalTasks === 0) return 0;
+  return ((completedTasks / totalTasks) * 100).toFixed(1);
+};
+
+// Get average rating from tasks where worker completed work
+const getAverageTaskRating = async (workerId) => {
+  const result = await Task.aggregate([
+    { 
+      $match: { 
+        worker_id: new mongoose.Types.ObjectId(workerId),
+        progress: "Completed",
+        rating: { $exists: true, $ne: null, $gt: 0 }
+      } 
+    },
+    { 
+      $group: { 
+        _id: null, 
+        avgRating: { $avg: "$rating" },
+        count: { $sum: 1 }
+      } 
+    }
+  ]);
+
+  return result[0]?.avgRating?.toFixed(1) || 0;
+};
+
+// Get completed tasks count
+const getCompletedTasksCount = async (workerId) => {
+  return await Task.countDocuments({ 
+    worker_id: workerId, 
+    progress: "Completed" 
+  });
+};
+
+// Get all performance stats at once
+const getPerformanceStats = async (userId) => {
+  const worker = await Worker.findOne({ user_id: userId });
+  if (!worker) return null;
+
+  const workerId = userId;
+
+  const [totalReviews, completionRate, avgRating, completedTasks] = await Promise.all([
+    getTotalReviewsCount(userId),
+    getTaskCompletionRate(workerId),
+    getAverageTaskRating(workerId),
+    getCompletedTasksCount(workerId),
+  ]);
+
+  return {
+    totalReviews,
+    successRate: completionRate,
+    avgRating,
+    completedTasks,
+  };
 };
 
 module.exports = {
@@ -114,6 +203,14 @@ module.exports = {
   removeSkill,
 
   createWorkerProfileIfNotExists,
+   getworkerRatingLast7Days,
+   getAverageRating,
+   getTotalReviews,
+    getTotalReviewsCount,
+  getTaskCompletionRate,
+  getAverageTaskRating,
+  getCompletedTasksCount,
+  getPerformanceStats,
 
   
 };

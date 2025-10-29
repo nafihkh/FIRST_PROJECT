@@ -98,7 +98,7 @@
                                 class="fa-solid fa-arrow-left" style="color: #9590a0;"></i> Back to List</a></h6>
                     <div class="d-flex gap-3 w-100">
                         <div class="left rounded-4 bg-blk text-center py-5" style="width: 33.33%;">
-                            <img class="rounded-circle" src="<%= worker.profile_photo || '/images/profileeg.jpg' %>" alt="" height="100px" width="100px">
+                            <img class="rounded-circle" src="<%= worker.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>" alt="" height="100px" width="100px">
                             <h3 class="fw-semibold my-1"><%= worker.username %></h3>
                             <h6 style="color: #BDC1CAFF; font-size: 14px;">#W<%= worker._id.toString().slice(-5) %></h6>
                             <h6 style="color: #BDC1CAFF; font-size: 14px;" class="email"><%= worker.email %></h6>
@@ -106,21 +106,21 @@
                         <div class="right col-8" width="66.66%">
                             <div class="top d-flex justify-content-between">
                                 <div class="content p-3 d-4 rounded-4 bg-blk">
-                                    <img class="p-2 rounded-4" src="/images/check-blue.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538412/check-blue_d97azf.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #3B82F630" />
                                     <h3 class="fw-bold ms-1 my-1"><%= stats.totalWorksDone %></h3>
                                     <h6 style="font-size: 14px; color:#BDC1CAFF;" class="fw-semibold">TOTAL WORKS DONE
                                     </h6>
                                 </div>
                                 <div class="content p-3 d-4 rounded-4 bg-blk">
-                                    <img class="p-2 rounded-4" src="/images/clock-yellow.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538418/clock-yellow_ykbk5a.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #EAB30836" />
                                     <h3 class="fw-bold ms-1 my-1"><%= stats.worksInProgress %></h3>
                                     <h6 style="font-size: 14px; color:#BDC1CAFF; " class="fw-semibold">WORKS IN PROGRESS
                                     </h6>
                                 </div>
                                 <div class="content p-3 d-4  rounded-4 bg-blk">
-                                    <img class="p-2 rounded-4" src="/images/money-green.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538440/money-green_woj7ev.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #10B98130" />
                                     <h3 class="fw-bold ms-1 my-1">$<%= stats.totalMoneyEarned %></h3>
                                     <h6 style="font-size: 14px; color:#BDC1CAFF;" class="fw-semibold">TOTAL MONEY SAVED

@@ -8,18 +8,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// 1️⃣ Default Folder Upload (for existing 100 routes)
+
 const defaultStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "default_uploads",   // change folder name as per need
+    folder: "default_uploads",  
     allowed_formats: ["jpg", "png", "jpeg", "webp", "gif"],
   },
 });
 
 const upload = multer({ storage: defaultStorage });
 
-// 2️⃣ Dynamic Folder Upload (when needed specifically)
+
 upload.dynamic = (folderName) => {
   const customStorage = new CloudinaryStorage({
     cloudinary,

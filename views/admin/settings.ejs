@@ -63,6 +63,7 @@
 
         <div class="d-flex">
             <%- include('../partials/sidebar') %>
+            <%- include('../partials/tosta') %>
 
                 <div class="flex-grow-1 p-4">
                     <h3 class="fw-bold mb-4">Settings</h3>
@@ -74,7 +75,7 @@
                                 <form id="profileForm" action="/admin/settings/profile" method="POST"
                                     enctype="multipart/form-data">
                                     <div class="d-flex align-items-center mb-3">
-                                        <img src="<%= user.profile_photo || '/images/profileeg.jpg' %>"
+                                        <img src="<%= user.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>"
                                             id="profilePreview" class="rounded-circle me-3" alt="" width="70"
                                             height="70">
 
@@ -165,15 +166,7 @@
                     const data = await response.json();
 
                  
-                    const toastEl = document.getElementById("toast");
-                    const toastMsg = document.getElementById("toastMessage");
-                    toastMsg.textContent = data.message || data.error;
-
-                    toastEl.classList.remove("text-bg-success", "text-bg-danger");
-                    toastEl.classList.add(data.success ? "text-bg-success" : "text-bg-danger");
-
-                    const bsToast = new bootstrap.Toast(toastEl);
-                    bsToast.show();
+                    showToast(data.success ? 'success' : 'warning', data.success ? 'Pssword Updated successfully!' : 'Failed Password Update!', data.success ? `${data.message}` : `${data.error}`);
                     if (data.success) {
                         setTimeout(() => location.reload(), 1000);
                     }
@@ -197,15 +190,7 @@
                     const data = await response.json(); 
 
                
-                    const toastEl = document.getElementById("toast");
-                    const toastMsg = document.getElementById("toastMessage");
-                    toastMsg.textContent = data.message || data.error;
-
-                    toastEl.classList.remove("text-bg-success", "text-bg-danger");
-                    toastEl.classList.add(data.success ? "text-bg-success" : "text-bg-danger");
-
-                    const bsToast = new bootstrap.Toast(toastEl);
-                    bsToast.show();
+                    showToast(data.success ? 'success' : 'warning', data.success ? 'Profile Updated successfully!' : 'Failed Profile Update!', data.success ? `${data.message}` : `${data.error}`);
 
                     if (data.success) {
                         setTimeout(() => location.reload(), 1000); 

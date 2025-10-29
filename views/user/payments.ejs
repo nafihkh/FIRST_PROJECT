@@ -23,7 +23,7 @@
             border: none;
             border-radius: 15px;
         }
-        
+
         .nav-link.active {
             background: #6366f1 !important;
         }
@@ -40,11 +40,11 @@
         }
 
         .card-orange {
-            background:  #CA8A04FF;
+            background: #CA8A04FF;
         }
 
         .card-green {
-            background:  #16A34AFF;
+            background: #16A34AFF;
         }
 
         .summary-title {
@@ -133,6 +133,28 @@
             padding: 3px 10px;
             border-radius: 12px;
         }
+
+        .topbar {
+            width: 100%;
+            border-bottom: 1px solid #777777;
+        }
+
+        .topbar a {
+            font-size: 14px;
+            color: #bcc1ca;
+            margin-right: 10px;
+        }
+         .status-paid {
+            background: #10B98133;
+            color: #10b981;
+            font-size: 12px;
+        }
+
+        .status-pending {
+            background: #ff000033;
+            color: #db0000;
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -146,7 +168,13 @@
 
 
                 <div class="flex-grow-1 p-4">
-                            <h3 class="fw-bold mb-4">Earnings & Payments</h3>
+                    <h3 class="fw-bold mb-4">Earnings & Payments</h3>
+
+
+                    <div class="topbar mb-5">
+                        <a class="text-decoration-none" href="/user/payments">Transactions</a>
+                        <a class="text-decoration-none" href="/user/payments/invoice">Invoice</a>
+                    </div>
 
 
 
@@ -157,9 +185,9 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/form.svg" alt=""
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/form_rkyg16.svg" alt=""
                                         style="height: 44px; width: 44px; background-color: #00FFDD33" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks">0</h3>
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks"><%= totalPayments %></h3>
                                 </div>
                                 <p style="color: #fff; font-size: 14px" class="mb-0">
                                     Total Payments
@@ -169,12 +197,12 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                     <img class="p-2 rounded-4" src="/images/orengeclock.svg" alt="" style="
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538447/orengeclock_f0aofm.svg.svg" alt="" style="
                                             height: 44px;
                                             width: 44px;
                                             background: #FF4C0033;
                                         " />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks">0</h3>
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks"><%= unpaidInvoices %></h3>
                                 </div>
                                 <p style="color: #fff; font-size: 14px" class="mb-1 ">
                                     Pending Payments
@@ -189,10 +217,10 @@
                                             width: 44px;
                                             background:  #D22A2A2B;
                                         " />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">0</h3>
+                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments">₹<%= totalSpent %></h3>
                                 </div>
                                 <p style="color: #fff; font-size: 14px" class="mb-1 ">
-                                   Total Spent
+                                    Total Spent
                                 </p>
                             </div>
                         </div>
@@ -204,22 +232,49 @@
                                 <tr>
                                     <th>Transaction ID</th>
                                     <th>Task</th>
-                                    <th >Amount</th>
+                                    <th>Amount</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Date</th>
-                                    <th class="text-center">  </th>
+                                    <th class="text-center"> </th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
-                                <tr>
-                                    <td>#T2845</td>
-                                    <td><strong>E-commerce Website Development</strong></td>
-                                    <td class="text-success">+$2500</td>
-                                    <td class="text-center"><span class="status-paid">Paid</span></td>
-                                    <td class="text-center">Dec 8, 2024</td>
-                                    <td class="text-center"><a class="btn bg-primary rounded-3 text-white" href="/admin/workers/viewmore" style="font-size: 14px;">View More</a></td>
-                                </tr>
+                                <% if (payments.length===0) { %>
+                                    <tr>
+                                        <td colspan="6" class="text-center">No transactions found</td>
+                                    </tr>
+                                    <% } %>
+
+                                        <% payments.forEach(payment=> { %>
+                                            <tr>
+                                                <td>#<%= payment._id.toString().substring(0, 8) %></td>
+                                               
+                                                <td><strong>
+                                                        <%= payment.task_id ? payment.task_id.title : 'No Task' %>
+                                                    </strong></td>
+                                                <td class="text-success">₹<%= payment.amount %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <% if(payment.status==='completed' ){ %>
+                                                        <span class="status-paid">Paid</span>
+                                                        <% } else { %>
+                                                            <span class="status-pending">
+                                                                <%= payment.status %>
+                                                            </span>
+                                                            <% } %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <%= new Date(payment.createdAt).toDateString() %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="btn bg-primary rounded-3 text-white"
+                                                        href="/user/payments/<%= payment._id %>"
+                                                        style="font-size: 14px;">View More</a>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
                             </tbody>
+
                         </table>
                     </div>
 

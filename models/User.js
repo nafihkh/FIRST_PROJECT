@@ -16,10 +16,8 @@ const userSchema = new mongoose.Schema({
   phone_verified: { type: Boolean, default: false },
   worker_status: { type: Boolean },
   created_at: { type: Date, default: Date.now },
-  last_active: { type: Date, default: Date.now },
-  isOnline: { type: Boolean, default: false },
   resetOtp: { type: String },
   resetOtpExpires: { type: Date },
-});
+},{ timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

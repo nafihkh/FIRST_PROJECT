@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Create Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @font-face {
+            font-family: "Inter";
+            src: url("/fonts/Inter-Regular.ttf");
+        }
+
+        body {
+            font-family: "Inter";
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .nav-link.active {
+            background: #6366f1 !important;
+        }
+
+        .invoice-box {
+            background: #171C26;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 510px;
+            text-align: center;
+            box-shadow: 0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1F;
+            padding: 40px 20px;
+            margin: 20px auto;
+        }
+
+        .invoice-text {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .input-box {
+            width: 100%;
+            max-width: 384px;
+            height: 40px;
+            padding-left: 20px;
+            padding-right: 10px;
+            font-size: 14px;
+            background: transparent;
+            border-radius: 9999px;
+            border: 1px solid #323743;
+            outline: none;
+            color: #BDC1CA;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .input-box:focus {
+            background: transparent;
+        }
+
+        .select-box {
+            width: 100%;
+            max-width: 384px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            color: #BDC1CA;
+            background: #1E293B;
+            border: 1px solid #323743;
+            border-radius: 9999px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Custom arrow */
+        .select-box::after {
+            content: "▼";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #BDC1CA;
+            font-size: 12px;
+        }
+
+        /* Wrapper for positioning arrow */
+        .select-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 384px;
+            margin: 0 auto;
+        }
+
+        .input-box::placeholder {
+            color: #BDC1CA;
+        }
+
+        button.invoice-btn {
+            width: 100%;
+            max-width: 384px;
+            border-radius: 9999px;
+        }
+
+        p.label {
+            font-size: 14px;
+            color: #BDC1CA;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 576px) {
+            .invoice-box {
+                padding: 30px 15px;
+            }
+
+            .input-box {
+                font-size: 13px;
+            }
+        }
+
+        #error-msg {
+            font-size: 14px;
+            color: red;
+        }
+
+        .info-text {
+            text-align: left;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/header') %>
+
+        <div class="d-flex">
+            <%- include('../partials/sidebar') %>
+            <%- include('../partials/tosta') %>
+
+                <div class="flex-grow-1 p-4">
+                    <div class="invoice-box">
+                        <h4 class="invoice-text mb-3">Create Invoice</h4>
+
+                        <form id="invoiceForm" class="text-left">
+
+                            <div class="select-wrapper">
+                                <div class="text-start px-2"> <label for="task_id" class="info-text">Servies</label>
+                                </div>
+                                <select class="select-box" name="task_id" id="task_id" required>
+                                    <option value="">Select Task</option>
+                                    <% tasks.forEach(task=> { %>
+                                        <option value="<%= task._id %>" data-amount="<%= task.budget %>"
+                                            data-customer="<%= task.user_id.username %>">
+                                            <%= task.title %> (<%= task.user_id.username %>)
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
+                            <div class="text-start px-5"> <label for="customer_name" class="info-text">Coustomer
+                                    name</label></div>
+
+                            <input type="text" id="customer_name" name="customer_name" class="input-box"
+                                placeholder="Customer Name" required readonly />
+                            <div class="text-start px-5"> <label for="amount" class="info-text">Amount</label></div>
+                            <input type="number" id="amount" name="amount" class="input-box" placeholder="Amount"
+                                required />
+                            <div class="text-start px-5"> <label for="platformfee" class="info-text">Platform Fee
+                                    (10%)</label></div>
+                            <input type="number" id="platformfee" name="platformfee" class="input-box"
+                                placeholder="Platform Fee (10%)" required readonly />
+                            <div class="text-start px-5"> <label for="total" class="info-text">Total</label></div>
+                            <input type="number" id="total" name="total" class="input-box" placeholder="Total" required
+                                readonly />
+
+                            <button type="submit" class="btn btn-primary invoice-btn">Create Invoice</button>
+                        </form>
+
+                        <!-- Toast Notification -->
+                        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
+                            <div id="signupToast" class="toast align-items-center text-bg-success border-0"
+                                role="alert">
+                                <div class="d-flex">
+                                    <div class="toast-body" id="toast-message"></div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                        data-bs-dismiss="toast"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    document.getElementById("task_id").addEventListener("change", function () {
+                        const selectedOption = this.options[this.selectedIndex];
+                        document.getElementById("amount").value = selectedOption.dataset.amount || "";
+                        document.getElementById("customer_name").value = selectedOption.dataset.customer || "";
+                        updateTotals();
+                    });
+
+                    document.getElementById("amount").addEventListener("input", updateTotals);
+
+                    function updateTotals() {
+                        let amount = parseFloat(document.getElementById("amount").value) || 0;
+                        let platformFee = (amount * 0.10).toFixed(2);
+                        let total = (amount + parseFloat(platformFee)).toFixed(2);
+
+                        document.getElementById("platformfee").value = platformFee;
+                        document.getElementById("total").value = total;
+                    }
+                    const amountField = document.querySelector('input[name="amount"]');
+                    const platformFeeField = document.querySelector('input[name="platformfee"]');
+                    const totalField = document.querySelector('input[name="total"]');
+
+                    // When amount changes, auto-calculate fee and total
+                    amountField.addEventListener("input", function () {
+                        const amount = parseFloat(this.value) || 0;
+                        const fee = amount * 0.10; // 10%
+                        platformFeeField.value = fee.toFixed(2);
+                        totalField.value = (amount + fee).toFixed(2);
+                    });
+
+                    // If platform fee manually changes, update total
+                    platformFeeField.addEventListener("input", function () {
+                        const amount = parseFloat(amountField.value) || 0;
+                        const fee = parseFloat(this.value) || 0;
+                        totalField.value = (amount + fee).toFixed(2);
+                    });
+                    document.getElementById("invoiceForm").addEventListener("submit", function (e) {
+                        e.preventDefault();
+
+                        const data = {
+                            task_id: document.getElementById("task_id").value,
+                            amount: document.getElementById("amount").value,
+                            platformfee: document.getElementById("platformfee").value,
+                            total: document.getElementById("total").value
+                        };
+
+                        fetch("/worker/invoice/create", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data)
+                        })
+                            .then(res => res.json())
+                            .then(res => {
+                                if (res.success) {
+                                     showToast('success', '"Invoice Created successfully!', `Please waite for user Payment`)
+                                    window.location.href = "/worker/earnings";
+                                } else {
+                                    showToast('error', 'Invoice Creation Failed!', `${res.message}`)
+                                }
+                            });
+                    });
+
+
+                    // Toast Function
+                </script>
+</body>
+
+</html>

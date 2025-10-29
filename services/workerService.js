@@ -1,24 +1,27 @@
-const workerRepository = require("../repositories/workerRepository");
-const userRepository = require("../repositories/userRepository");
+const workerRepo = require("../repositories/workerRepository");
+const userRepo = require("../repositories/userRepository");
+const taskRepo = require("../repositories/taskRepository");
+const paymentRepo = require("../repositories/paymentRepository");
 
 
-const getWorkers = () => workerRepository.getAllWorkers();
+
+const getWorkers = () => workerRepo.getAllWorkers();
 
 
-const deleteWorker = (id) => workerRepository.deleteWorker(id);
+const deleteWorker = (id) => workerRepo.deleteWorker(id);
 
 
-const updateWorker = (id, updates) => workerRepository.updateWorker(id, updates);
+const updateWorker = (id, updates) => workerRepo.updateWorker(id, updates);
 
 
-const toggleBlock = (id) => workerRepository.toggleWorkerBlock(id);
+const toggleBlock = (id) => workerRepo.toggleWorkerBlock(id);
 
 
 const viewWorker = async (id) => {
-  const worker = await workerRepository.findWorkerById(id);
+  const worker = await workerRepo.findWorkerById(id);
   if (!worker) return null;
 
-  const tasks = await workerRepository.getTasksByWorker(id);
+  const tasks = await workerRepo.getTasksByWorker(id);
 
   const stats = {
     totalWorksDone: tasks.filter((t) => t.progress === "Completed").length,
@@ -42,34 +45,34 @@ const viewWorker = async (id) => {
 };
 
 
-const getPendingWorkers = () => workerRepository.findPendingWorkers();
+const getPendingWorkers = () => workerRepo.findPendingWorkers();
 
 
-const approveWorker = (id) => workerRepository.approveWorker(id);
+const approveWorker = (id) => workerRepo.approveWorker(id);
 
 
-const rejectWorker = (id) => workerRepository.rejectWorker(id);
+const rejectWorker = (id) => workerRepo.rejectWorker(id);
 
 const createWorkerProfile = async (userId, jobtitle, skills) => {
-  return await workerRepository.createWorkerProfile({ user_id: userId, username: "", jobtitle, skills });
+  return await workerRepo.createWorkerProfile({ user_id: userId, username: "", jobtitle, skills });
 };
 
 const updateWorkerProfile = async (userId, updates) => {
-  return await workerRepository.updateWorkerProfile(userId, updates);
+  return await workerRepo.updateWorkerProfile(userId, updates);
 };
 
 const getWorkerProfile = async (userId) => {
-  return await workerRepository.getWorkerProfile(userId);
+  return await workerRepo.getWorkerProfile(userId);
 };
 
 const getSkills = async (userId) => {
-  const worker = await workerRepository.findByUserId(userId);
+  const worker = await workerRepo.findByUserId(userId);
   if (!worker) return null;
   return worker.skills;
 };
 
 const addSkill = async (userId, skill) => {
-  const worker = await workerRepository.findByUserId(userId);
+  const worker = await workerRepo.findByUserId(userId);
   if (!worker) return null;
 
   if (worker.skills.includes(skill)) return "exists";
@@ -80,7 +83,7 @@ const addSkill = async (userId, skill) => {
 };
 
 const removeSkill = async (userId, skill) => {
-  const worker = await workerRepository.findByUserId(userId);
+  const worker = await workerRepo.findByUserId(userId);
   if (!worker) return null;
 
   worker.skills = worker.skills.filter((s) => s !== skill);
@@ -89,20 +92,61 @@ const removeSkill = async (userId, skill) => {
 };
 
 const getWorkerSettings = async (userId) => {
-  const worker = await workerRepository.findByUserId(userId);
+  const worker = await workerRepo.findByUserId(userId);
   if (!worker) {
     throw new Error("Worker not found");
   }
 
-  const user = await userRepository.findById(userId);
+  const user = await userRepo.findById(userId);
   return { worker, user };
 };
 
 const approvestaff = async (userId) => {
-  const user = await userRepository.findById(userId);
-  await workerRepository.createWorkerProfileIfNotExists(userId, user.username);
+  const user = await userRepo.findById(userId);
+  await workerRepo.createWorkerProfileIfNotExists(userId, user.username);
   return user;
 };
+const getDashboardData = async (userId) => {
+  const [
+    activeTasks,
+    completedTasks,
+    pendingPayments,
+    totalEarnings,
+    monthlyEarnings,
+    avgRating,
+    totalReviews,
+  ] = await Promise.all([
+    taskRepo.getActiveTasks(userId),
+    taskRepo.getCompletedTasks(userId),
+    paymentRepo.getPendingPayments(userId),
+   paymentRepo.getTotalEarnings(userId),
+   paymentRepo.getMonthlyEarnings(userId),
+    workerRepo.getAverageRating(userId),
+    workerRepo.getTotalReviews(userId),
+  ]);
+
+  return {
+    activeTasks: activeTasks.length,
+    completedTasks: completedTasks.length,
+    pendingPayments: pendingPayments.length,
+    pendingTotal: pendingPayments.reduce((sum, i) => sum + i.amount, 0),
+    totalEarnings,
+    monthlyEarnings,
+    avgRating,
+    totalReviews,
+  };
+};
+
+const getPerformanceStats = async (userId) => {
+  const stats = await workerRepo.getPerformanceStats(userId);
+  
+  if (!stats) {
+    throw new Error("Worker not found");
+  }
+
+  return stats;
+};
+
 
 module.exports = {
   getWorkers,
@@ -114,7 +158,7 @@ module.exports = {
   approveWorker,
   rejectWorker,
 
-  ...workerRepository,
+  ...workerRepo,
   createWorkerProfile,
   updateWorkerProfile,
   getWorkerProfile,
@@ -123,4 +167,6 @@ module.exports = {
   removeSkill,
   getWorkerSettings,
   approvestaff,
+  getDashboardData,
+  getPerformanceStats,
 };

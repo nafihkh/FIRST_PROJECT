@@ -8,6 +8,7 @@ const workerController = require("../controllers/workerController");
 const otpController = require("../controllers/otpController");
 const messageController = require("../controllers/messageController");
 const upload = require("../config/cloudinary");
+const paymentController = require("../controllers/paymentController");
 
 const router = express.Router();
 
@@ -51,15 +52,25 @@ router.get("/activejobs/viewmore", checkLogin, auth(["worker"]), (req, res) => {
 });
 router.get("/settings", checkLogin, auth(["worker"]), workerController.getSettings);
 
-router.get("/earnings", checkLogin, auth(["worker"]), (req, res) => {
-  res.render("worker/earnings", { title: "Earnings", activePage: "earnings" });
-});
+router.get("/earnings", checkLogin, auth(["worker"]), paymentController.getPaymentsworker);
+router.get("/earnings/createinvoice", checkLogin, auth(["worker"]), paymentController.renderCreateInvoice);
+
+router.get("/invoice/create",checkLogin, auth(["worker"]), paymentController.renderCreateInvoice);
+router.get("/dashboarddata",checkLogin, auth(["worker"]), workerController.getDashboard);
+
+// Handle form submit
+router.post("/invoice/create",checkLogin, auth(["worker"]), paymentController.createInvoice);
+router.get("/earnings/invoice",checkLogin, auth(["worker"]), paymentController.renderInvoices);
+router.get("/invoice/delete/:id", auth(["worker"]), paymentController.deleteInvoice);
+router.patch("/tasks/:task/progress", auth(["worker"]), taskController.taskprogress);
+
 router.get("/tasks/progress-nontaken", taskController.getProgressNonTakenTasks);
 
 router.post("/cart/add", checkLogin, auth(["worker"]), cartController.addToCart);
 
-router.get("/create/:userId/:type/:title", messageController.createConversation);
+router.get('/create/:userId/:type/:title/:taskId',checkLogin, auth(["worker"]), messageController.createConversation);
 router.post("/send-message",checkLogin, auth(["worker"]), messageController.sendMessage);
+router.post("/task/:id/report", checkLogin, auth(["worker", "user"]), taskController.createReport);
 
 router.get("/messages",
   checkLogin,
@@ -72,9 +83,6 @@ router.get("/messages/:conversationId",
   auth(["worker"]),
   messageController.getMessagesByConversationworker
 );
-
-
- router.get("/user/:userId/chats",checkLogin, auth(["worker"]), messageController.getUserChats);
 // Get cart
 router.get("/cart", checkLogin, auth(["worker"]), cartController.getCart);
 

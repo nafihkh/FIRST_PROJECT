@@ -1,8 +1,6 @@
 const otpService = require("../services/otpService");
 
-/* ========================================================
-   📧 EMAIL VERIFICATION CONTROLLERS
-======================================================== */
+
 
 exports.sendEmailOtp = async (req, res) => {
   try {
@@ -35,9 +33,7 @@ exports.verifyEmailOtp = async (req, res) => {
   }
 };
 
-/* ========================================================
-   📱 PHONE VERIFICATION CONTROLLERS
-======================================================== */
+
 
 exports.sendPhoneOtp = async (req, res) => {
   try {

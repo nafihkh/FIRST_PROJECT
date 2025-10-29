@@ -231,7 +231,7 @@
                         </div>
 
                         <div class="search-wrapper">
-                            <img class="search-icon" src="/images/search.svg" alt="" />
+                            <img class="search-icon" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538455/search_lxfgxx.svg" alt="" />
                             <input type="search" id="searchFilter" class="inbox" placeholder="Search..." />
                         </div>
                     </div>
@@ -251,13 +251,13 @@
                             <tbody id="tbody">
                                 <!-- <tr>
                                     <td>#T2845</td>
-                                    <td><img src="/images/profileeg.jpg" class="rounded-circle me-2" width="30"
+                                    <td><img src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg" class="rounded-circle me-2" width="30"
                                             height="30"> Alex Rodriguez</td>
                                     <td>example@gmail.com</td>
                                     <td><span class="badge bg-success rounded-5">Active</span></td>
                                     <td class="d-flex justify-content-between align-items-center">
-                                        <a href="#" class="text-info me-2"><img class="icon-box" src="/images/edit.svg" alt=""></a>
-                                        <a href="#" class="text-danger"><img class="icon-box" src="/images/delete.svg" alt=""></a>
+                                        <a href="#" class="text-info me-2"><img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/edit_yaubxq.svg" alt=""></a>
+                                        <a href="#" class="text-danger"><img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg" alt=""></a>
                                     </td>
                                     <td class="text-center"><a class="btn bg-primary rounded-3 text-white" href="/admin/workers/viewmore" style="font-size: 14px;">View More</a></td>
                                 </tr> -->
@@ -295,7 +295,7 @@
             row.innerHTML = `
                 <td>#W${user._id.slice(-5)}</td>
                 <td>
-                    <img src="${user.profile_photo || "/images/profileeg.jpg"}"
+                    <img src="${user.profile_photo || "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg"}"
                         class="rounded-circle me-2" width="30" height="30">
                     ${user.username}
                 </td>
@@ -308,7 +308,7 @@
                     </button></td>           
                 <td class="text-center">
                     <a onclick="deleteUser('${user._id}')" href="#" class="text-danger">
-                        <img class="icon-box" src="/images/delete.svg" alt="" />
+                        <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg" alt="" />
                     </a>
                 </td>
                 <td class="text-center">

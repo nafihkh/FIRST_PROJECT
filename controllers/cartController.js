@@ -2,7 +2,7 @@ const cartService = require("../services/cartService");
 
 exports.addToCart = async (req, res) => {
   try {
-    const workerId = req.user._id; // logged-in worker
+    const workerId = req.user._id;
     const { taskId } = req.body;
 
     const updatedWorker = await cartService.addToCart(workerId, taskId);
