@@ -142,7 +142,6 @@
                     });
                     const data = await res.json();
                     if (res.ok) {
-                        localStorage.setItem("token", data.token);
                          showToast('success', 'Login successful!', `Role: ${data.role}`)
                         setTimeout(() => {
                             window.location.href = data.role === "worker" ? "/worker/dashboard" : "/tasks";

@@ -11,7 +11,7 @@
         <%= title %> | MyApp
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/login.css">
@@ -22,6 +22,7 @@
             height: 100%;
             z-index: -1;
         }
+
         .logo {
             display: flex;
             align-items: center;
@@ -29,7 +30,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: #f1f5f9;
-             display: block;
+            display: block;
             width: 150px;
         }
 
@@ -42,124 +43,127 @@
 
 
 <body>
-     <%- include('../partials/tosta') %>
-    <div id="particles-js"></div>
+    <%- include('../partials/tosta') %>
+        <div id="particles-js"></div>
 
 
-    <div class="logo">
-           <img src="/images/logo.png" alt="" class="logo-img">
-    </div>
-    <p class="text-center login-p">
-        Welcome back! Please sign in to your account
-    </p>
-    <div class="mx-auto login-box">
-        <h2 class="login-text mb-3">Login</h2>
+        <div class="logo">
+            <img src="/images/logo.png" alt="" class="logo-img">
+        </div>
+        <p class="text-center login-p">
+            Welcome back! Please sign in to your account
+        </p>
+        <div class="mx-auto login-box">
+            <h2 class="login-text mb-3">Login</h2>
 
-        <form id="loginForm" autocomplete="off">
-            <label for="email" class="form-label">Email Address</label>
-            <input id="email" name="email" type="email" class="input-box mb-3" placeholder="Email Address" required />
-            <label for="password" class="form-label">Password</label>
-            <div class="password-wrapper">
-                <input type="password" id="password" name="password" placeholder="Password" class="input-box mb-4"
+            <form id="loginForm" autocomplete="off">
+                <label for="email" class="form-label">Email Address</label>
+                <input id="email" name="email" type="email" class="input-box mb-3" placeholder="Email Address"
                     required />
-                <span class="toggle-password" onclick="togglePassword()">
-                    <img id="eye" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/eyeclose_oamg8x.svg" alt="" />
-                </span>
-            </div>
-            <div class="d-flex justify-content-between div-container mb-2">
-                <span class="reme"><input type="checkbox" class="me-1" />Remember me</span>
-                <a class="forgot" href="/user/forgotpassword">Forgot password?</a>
-            </div>
-            <button type="submit" class="btn login-btn"> <i class="bi bi-box-arrow-in-right"></i> Login</button>
-        </form>
+                <label for="password" class="form-label">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Password" class="input-box mb-4"
+                        required />
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <img id="eye"
+                            src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/eyeclose_oamg8x.svg"
+                            alt="" />
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between div-container mb-2">
+                    <span class="reme"><input type="checkbox" class="me-1" />Remember me</span>
+                    <a class="forgot" href="/user/forgotpassword">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn login-btn"> <i class="bi bi-box-arrow-in-right"></i> Login</button>
+            </form>
 
 
-        <p class="label">Don't have an account? <a href="/user/signup">Sign up</a></p>
-        <p id="error-msg" class="text-danger"></p>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+            <p class="label">Don't have an account? <a href="/user/signup">Sign up</a></p>
+            <p id="error-msg" class="text-danger"></p>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-    <script>
-         particlesJS("particles-js", {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#3b82f6" },
-                shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#3b82f6",
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" },
-                    onclick: { enable: true, mode: "push" },
-                    resize: true
-                }
-            }
-        });
-
-        function togglePassword() {
-            const input = document.getElementById("password");
-            const eyeIcon = document.getElementById("eye");
-
-            if (input.type === "password") {
-                input.type = "text";
-                eyeIcon.src = "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538425/eye_jysncb.svg";
-            } else {
-                input.type = "password";
-                eyeIcon.src = "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/eyeclose_oamg8x.svg";
-            }
-        }
-        document
-            .getElementById("loginForm")
-            .addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const email = document.getElementById("email").value;
-                const password = document.getElementById("password").value;
-
-                try {
-                    const res = await fetch("/auth/user/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, password }),
-                    });
-                    const data = await res.json();
-                    if (res.ok) {
-                        localStorage.setItem("token", data.token);
-                         showToast('success', 'Login successful!', `Role: ${data.role}`)
-                        setTimeout(() => {
-                            window.location.href = data.role === "user" ? "/user/dashboard" : "/tasks";
-                        }, 1500);
-                    } else {
-                       showToast('warning', 'Login failed', `${data.errors?.[0]?.msg || data.error}`)
+        <script>
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#3b82f6" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#3b82f6",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
                     }
-
-                } catch (err) {
-                    console.log(err);
-                    showToast('error', 'Something went wrong', `${err.message}`)
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
                 }
             });
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-    </script>
+
+            function togglePassword() {
+                const input = document.getElementById("password");
+                const eyeIcon = document.getElementById("eye");
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    eyeIcon.src = "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538425/eye_jysncb.svg";
+                } else {
+                    input.type = "password";
+                    eyeIcon.src = "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/eyeclose_oamg8x.svg";
+                }
+            }
+            document
+                .getElementById("loginForm")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById("email").value;
+                    const password = document.getElementById("password").value;
+
+                    try {
+                        const res = await fetch("/auth/user/login", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email, password }),
+                            credentials: "include" // ⬅️ this line is critical
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            showToast('success', 'Login successful!', `Role: ${data.role}`)
+                            setTimeout(() => {
+                                window.location.href = data.role === "user" ? "/user/dashboard" : "/tasks";
+                            }, 1500);
+                        } else {
+                            showToast('warning', 'Login failed', `${data.errors?.[0]?.msg || data.error}`)
+                        }
+
+                    } catch (err) {
+                        console.log(err);
+                        showToast('error', 'Something went wrong', `${err.message}`)
+                    }
+                });
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        </script>
 </body>
 
 </html>

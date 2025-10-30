@@ -4,7 +4,6 @@ const userService = require("../services/userService");
 
 async function checkLogin(req, res, next) {
     const token = req.cookies.token;
-    //console.log("Token:", token);
     if (!token) return res.redirect("/");
 
     try {
@@ -12,7 +11,7 @@ async function checkLogin(req, res, next) {
 
         // use userId from JWT
         const user = await userService.findById(decoded.userId);
-        //console.log("Decoded User:", user);
+       
 
         if (!user) {
             res.clearCookie("token");
@@ -26,6 +25,7 @@ async function checkLogin(req, res, next) {
         req.user = user; // attach full user
         next();
     } catch (err) {
+        console.log(err)
         res.clearCookie("token");
         return res.redirect("/");
     }

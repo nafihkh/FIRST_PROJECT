@@ -7,7 +7,7 @@ exports.loginAdmin = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       maxAge: rm ? 7 * 24 * 60 * 60 * 1000 : null,
     });
 
@@ -22,9 +22,10 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const { token, role } = await authService.login(email, password, "user");
 
-    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
+    res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 3600000 });
     res.json({ message: "Login successful", token, role });
   } catch (err) {
+    console.log(err)
     res.status(400).json({ error: err.message });
   }
 };
@@ -34,7 +35,7 @@ exports.loginWorker = async (req, res) => {
     const { email, password } = req.body;
     const { token, role } = await authService.login(email, password, "worker");
 
-    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
+    res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 3600000 });
     res.json({ message: "Login successful", token, role });
   } catch (err) {
     res.status(400).json({ error: err.message });

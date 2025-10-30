@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const http = require("http");
 const { Server } = require("socket.io");
 const { setupChatSocket } = require("./sockets/chatSocket");
+const cors = require("cors");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,11 @@ mongoose
   })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log("DB Error:", err));
+
+app.use(cors({
+  origin: "http://3.27.49.132:5000", // or your frontend URL
+  credentials: true
+}));
 
 // Existing routes
 const workerAuthRouter = require("./routes/workerAuthRoutes");
