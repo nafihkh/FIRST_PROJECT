@@ -91,18 +91,28 @@ exports.requestWorker = async (req, res) => {
     const result = await userService.requestWorker(identifier);
 
     if (!result.success) {
-      return res.status(404).json(result);
+      // Render an error page or show a message
+      return res.status(404).render("errorPage", {
+        title: "Worker Not Found",
+        message: result.message || "No worker found with that identifier.",
+      });
     }
 
-    return res.status(200).json(result);
+    // Render success page with worker details
+    return res.status(200).render("user/workerapproval", {
+      title: "Worker Request Sent",
+      worker: result.worker, 
+      message: result.message,
+    });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
+    return res.status(500).render("errorPage", {
+      title: "Internal Server Error",
+      message: "Something went wrong. Please try again later.",
       error: error.message,
     });
   }
 };
+
 
 const Tasks = require("../models/Tasks");
 

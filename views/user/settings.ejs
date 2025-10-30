@@ -136,7 +136,21 @@
         .verify-button:hover {
             background-color: #4338ca;
         }
-
+        .otp-input {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #f1f5f9;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .otp-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
     </style>
 </head>
 
@@ -288,7 +302,7 @@
                                             Verified
                                         </button>
                                         <% } else { %>
-                                            <button id="phoneSendBtn"
+                                            <button id="phoneVerifyBtn"
                                                 class="verify-button px-4 py-2 text-white fw-semibold rounded-3">
                                                 Verify
                                             </button>
@@ -319,7 +333,7 @@
                                     Want to help others in your neighborhood? Apply to become a verified helper and
                                     start earning by completing tasks.
                                 </p>
-                                <a href="/user/userapproval" style="background-color: #22CCB2;"
+                                <a href="/user/workerapproval" style="background-color: #22CCB2;"
                                     class="btn  px-4 py-2 mt-3 text-white fw-bold">Request Helper Role</a>
                             </div>
                         </div>
@@ -431,10 +445,10 @@
                                         body: JSON.stringify({ otp }),
                                     });
                                     const data = await res.json();
-                                    showToast('success', 'Verified successfully!', `${data.message}`)
 
                                     if (data.success) {
                                         clearInterval(emailCountdown);
+                                         showToast('success', 'Verified successfully!', `${data.message}`)
                                         emailInputSection.classList.add("d-none");
 
                                         // Update the Verify button text to show success
@@ -448,6 +462,9 @@
                                         const emailVerifiedIcon = document.createElement("i");
                                         emailVerifiedIcon.className = "bi bi-check-circle-fill text-success ms-2";
                                         emailRowBtn.parentElement.querySelector(".fw-medium").appendChild(emailVerifiedIcon);
+                                    }
+                                    else {
+                                        showToast('warning', 'Incorrect Otp', `${data.message}`)
                                     }
                                 } catch (err) {
                                     console.error(err);
@@ -507,11 +524,27 @@
                                         body: JSON.stringify({ otp }),
                                     });
                                     const data = await res.json();
-                                    showToast('success', 'Verified successfully!', `${data.message}`)
+                                    
                                     if (data.success) {
                                         clearInterval(phoneCountdown);
+                                         showToast('success', 'Verified successfully!', `${data.message}`)
                                         phoneInputSection.classList.add("d-none");
+
+                                        // Update the Verify button text to show success
+                                        const phoneRowBtn = document.getElementById("phoneVerifyBtn");
+                                        phoneRowBtn.textContent = "Verified";
+                                        phoneRowBtn.disabled = true;
+                                        phoneRowBtn.classList.remove("verify-button");
+                                        phoneRowBtn.classList.add("btn-success");
+
+                                        // Optionally, show a checkmark next to the email
+                                        const phoneVerifiedIcon = document.createElement("i");
+                                        phoneVerifiedIcon.className = "bi bi-check-circle-fill text-success ms-2";
+                                        phoneRowBtn.parentElement.querySelector(".fw-medium").appendChild(phoneVerifiedIcon);
                                         // ✅ Here you can add code to update UI: mark phone as verified
+                                    }
+                                    else {
+                                        showToast('warning', 'Incorrect Otp!', `${data.message}`)
                                     }
                                 } catch (err) {
                                     console.error(err);

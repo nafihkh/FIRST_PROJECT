@@ -95,7 +95,7 @@ router.get("/approvals", checkLogin, auth(["user"]), taskController.getSubmitted
 router.get("/workerapproval", checkLogin, auth(["user"]), (req, res) => {
   res.render("user/workerapproval", { title: "worker approval" });
 });
-router.post("/workerrequest", userController.requestWorker);
+router.post("/workerrequest", checkLogin, auth(["user"]), userController.requestWorker);
 
 router.put("/rating/:id", checkLogin, auth(["user"]), taskController.rateTask);
 router.patch("/tasks/:task/approve", auth(["user"]), taskController.taskapprove);
