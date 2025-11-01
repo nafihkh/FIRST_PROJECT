@@ -29,14 +29,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
-mongoose
-  .connect(process.env.MONGO_URI, {
+mongoose.connection.on("connected", () => console.log("MongoDB connected"));
+mongoose.connection.on("error", err => console.error("MongoDB error:", err));
+mongoose.connection.on("disconnected", () => console.warn("MongoDB disconnected"));
+
+const connectWithRetry = () => {
+  mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log("DB Error:", err));
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 45000,
+  }).catch(() => {
+    console.log("Retrying MongoDB connection in 5s...");
+    setTimeout(connectWithRetry, 5000);
+  });
+};
 
+connectWithRetry();
 app.use(cors({
   origin: "http://3.27.49.132:5000", // or your frontend URL
   credentials: true

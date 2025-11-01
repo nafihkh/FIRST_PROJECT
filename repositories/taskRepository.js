@@ -57,14 +57,62 @@ const getInprogressTasksByWorker = (workerId) =>
     .select("title location description duration amount progress status photo deadline")
     .populate("user_id", "username profile_photo");
 
-const getProgressNonTaken = () =>
-  Tasks.find({
-    status: { $in: ["active"] },
-    progress: { $in: ["Not Taken"] },
-    helper_id: { $exists: false },
-  })
-    .sort({ createdAt: -1 })
-    .populate("user_id", "username profile_photo");
+const getProgressNonTaken = async () => {
+  const tasks = await Tasks.aggregate([
+    {
+      $match: {
+        status: "active",
+        progress: "Not Taken",
+        helper_id: { $exists: false },
+      },
+    },
+    {
+      $lookup: {
+        from: "users", // collection name for User
+        localField: "user_id",
+        foreignField: "_id",
+        as: "user_info",
+      },
+    },
+    {
+      $unwind: "$user_info",
+    },
+    {
+      $lookup: {
+        from: "workers", // collection name for Worker
+        localField: "worker_id",   // task.worker_id → user._id
+        foreignField: "user_id",   // worker.user_id → user._id
+        as: "worker_info",
+      },
+    },
+    {
+      $unwind: {
+        path: "$worker_info",
+        preserveNullAndEmptyArrays: true, // in case no worker exists
+      },
+    },
+    {
+      $sort: { createdAt: -1 },
+    },
+    {
+      $project: {
+        _id: 1,
+        title: 1,
+        description: 1,
+        photo: 1,
+        amount: 1,
+        duration: 1,
+        progress: 1,
+        "user_info.username": 1,
+        "user_info.profile_photo": 1,
+        "worker_info.rating": 1, // 👈 this is the rating you want
+      },
+    },
+  ]);
+
+  return tasks;
+};
+    
 
 const updateTaskRating = async (taskId, rating) => {
   return await Tasks.findByIdAndUpdate(taskId, { rating }, { new: true });

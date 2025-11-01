@@ -1,72 +1,427 @@
-<div class="d-flex" style="min-height: 100vh; top: 0; position:sticky !important;">
-  <div class="d-flex flex-column flex-shrink-0 p-3 text-white sidebarmain" style="width: 250px;">
-    <ul class="nav nav-pills flex-column mb-auto">
-
-      <% if(user.role === 'admin'){ %>
-        <li><a href="/admin/dashboard" class="nav-link <%= activePage==='overview'?'active':'' %>"><i class="bi bi-grid me-2"></i>Overview</a></li>
-        <li><a href="/admin/problems" class="nav-link <%= activePage==='problems'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Problem Management</a></li>
-        <li><a href="/admin/users" class="nav-link <%= activePage==='users'?'active':'' %>"><i class="bi bi-people me-2"></i>User Management</a></li>
-        <li><a href="/admin/workers" class="nav-link <%= activePage==='workers'?'active':'' %>"><i class="bi bi-person-workspace me-2"></i>Worker Management</a></li>
-        <li><a href="/admin/payments" class="nav-link <%= activePage==='payments'?'active':'' %>"><i class="bi bi-credit-card me-2"></i>Payments</a></li>
-        <li><a href="/admin/reports" class="nav-link <%= activePage==='reports'?'active':'' %>"><i class="bi bi-bar-chart me-2"></i>Reports</a></li>
-        <li><a href="/admin/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
-      <% } else if(user.role === 'worker'){ %>
-        <li><a href="/worker/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-        <li><a href="/worker/tasks" class="nav-link <%= activePage==='tasks'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Tasks</a></li>
-        <li><a href="/worker/activejobs" class="nav-link <%= activePage==='activejobs'?'active':'' %>"><i class="bi bi-check-circle me-2"></i>Active Jobs</a></li>
-        <li><a href="/worker/earnings" class="nav-link <%= activePage==='earnings'?'active':'' %>"><i class="bi bi-currency-dollar me-2"></i>Earnings</a></li>
-        <li><a href="/worker/messages" class="nav-link <%= activePage==='messages'?'active':'' %>"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
-        <li><a href="/worker/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
-      <% } else if(user.role === 'user'){ %>
-        <li><a href="/user/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-        <li><a href="/user/overview" class="nav-link <%= activePage==='overview'?'active':'' %>"><i class="bi bi-clipboard-check me-2"></i>Overview</a></li>
-        <li><a href="/user/createpost" class="nav-link <%= activePage==='createpost'?'active':'' %>"><i class="bi bi-plus-circle me-2"></i>Create Post</a></li>
-        <li><a href="/user/approvals" class="nav-link <%= activePage==='approvals'?'active':'' %>"><i class="bi bi-check2-circle me-2"></i>Approvals</a></li>
-        <li><a href="/user/messages" class="nav-link <%= activePage==='messages'?'active':'' %>"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
-        <li><a href="/user/payments" class="nav-link <%= activePage==='payments'?'active':'' %>"><i class="bi bi-credit-card me-2"></i>Payments</a></li>
-        <li><a href="/user/settings" class="nav-link <%= activePage==='settings'?'active':'' %>"><i class="bi bi-gear me-2"></i>Settings</a></li>
-      <% } %>
-
-    </ul>
-
-    <div class="mt-auto text-center">
-      <div class="d-flex text-start">
-        <img class="rounded-circle me-3" src="<%= user.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>" alt="" height="35" width="35">
-        <p class="mb-1">
-          <%= user.username %><br>
-          <small style="font-size: 12px;"><%= user.email %></small>
-        </p>
-      </div>
-      <a href="/<%= user.role %>/logout" class="btn btn-danger w-100">
-        <i class="bi bi-box-arrow-right"></i> Log out
-      </a>
-    </div>
+<div class="sidebar-main text-white" id="sidebar">
+  <!-- Sidebar Header with Logo -->
+  <div class="sidebar-header">
+        <div class="logo">
+            <img src="/images/logo.png" alt="" class="logo-img">
+        </div>
   </div>
+
+  <!-- Navigation Menu -->
+  <ul class="nav nav-pills flex-column">
+    <% if(user.role === 'admin'){ %>
+      <li>
+        <a href="/admin/dashboard" class="nav-link <%= activePage==='overview'?'active':'' %>">
+          <i class="bi bi-grid me-2"></i>
+          <span>Overview</span>
+        </a>
+      </li>
+      <li>
+        <a href="/admin/problems" class="nav-link <%= activePage==='problems'?'active':'' %>">
+          <i class="bi bi-clipboard-check me-2"></i>
+          <span>Problem Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="/admin/users" class="nav-link <%= activePage==='users'?'active':'' %>">
+          <i class="bi bi-people me-2"></i>
+          <span>User Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="/admin/workers" class="nav-link <%= activePage==='workers'?'active':'' %>">
+          <i class="bi bi-person-workspace me-2"></i>
+          <span>Worker Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="/admin/payments" class="nav-link <%= activePage==='payments'?'active':'' %>">
+          <i class="bi bi-credit-card me-2"></i>
+          <span>Payments</span>
+        </a>
+      </li>
+      <li>
+        <a href="/admin/reports" class="nav-link <%= activePage==='reports'?'active':'' %>">
+          <i class="bi bi-bar-chart me-2"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+      <li>
+        <a href="/admin/settings" class="nav-link <%= activePage==='settings'?'active':'' %>">
+          <i class="bi bi-gear me-2"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+    <% } else if(user.role === 'worker'){ %>
+      <li>
+        <a href="/worker/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>">
+          <i class="bi bi-grid me-2"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="/worker/tasks" class="nav-link <%= activePage==='tasks'?'active':'' %>">
+          <i class="bi bi-clipboard-check me-2"></i>
+          <span>Tasks</span>
+        </a>
+      </li>
+      <li>
+        <a href="/worker/activejobs" class="nav-link <%= activePage==='activejobs'?'active':'' %>">
+          <i class="bi bi-check-circle me-2"></i>
+          <span>Active Jobs</span>
+        </a>
+      </li>
+      <li>
+        <a href="/worker/earnings" class="nav-link <%= activePage==='earnings'?'active':'' %>">
+          <i class="bi bi-currency-dollar me-2"></i>
+          <span>Earnings</span>
+        </a>
+      </li>
+      <li>
+        <a href="/worker/messages" class="nav-link <%= activePage==='messages'?'active':'' %>">
+          <i class="bi bi-chat-dots me-2"></i>
+          <span>Messages</span>
+        </a>
+      </li>
+      <li>
+        <a href="/worker/settings" class="nav-link <%= activePage==='settings'?'active':'' %>">
+          <i class="bi bi-gear me-2"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+    <% } else if(user.role === 'user'){ %>
+      <li>
+        <a href="/user/dashboard" class="nav-link <%= activePage==='dashboard'?'active':'' %>">
+          <i class="bi bi-grid me-2"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="/user/overview" class="nav-link <%= activePage==='overview'?'active':'' %>">
+          <i class="bi bi-clipboard-check me-2"></i>
+          <span>Overview</span>
+        </a>
+      </li>
+      <li>
+        <a href="/user/createpost" class="nav-link <%= activePage==='createpost'?'active':'' %>">
+          <i class="bi bi-plus-circle me-2"></i>
+          <span>Create Post</span>
+        </a>
+      </li>
+      <li>
+        <a href="/user/approvals" class="nav-link <%= activePage==='approvals'?'active':'' %>">
+          <i class="bi bi-check2-circle me-2"></i>
+          <span>Approvals</span>
+        </a>
+      </li>
+      <li>
+        <a href="/user/messages" class="nav-link <%= activePage==='messages'?'active':'' %>">
+          <i class="bi bi-chat-dots me-2"></i>
+          <span>Messages</span>
+        </a>
+      </li>
+      <li>
+        <a href="/user/payments" class="nav-link <%= activePage==='payments'?'active':'' %>">
+          <i class="bi bi-credit-card me-2"></i>
+          <span>Payments</span>
+        </a>
+      </li>
+      <li>
+        <a href="/user/settings" class="nav-link <%= activePage==='settings'?'active':'' %>">
+          <i class="bi bi-gear me-2"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+    <% } %>
+  </ul>
 </div>
+
 <style>
-    @font-face {
-    font-family: 'Inter';
-    src: url('/fonts/Inter-Regular.ttf');
+  :root {
+    --primary: #3b82f6;
+    --primary-dark: #1e40af;
+    --primary-darker: #1e3a8a;
+    --secondary: #0ea5e9;
+    --accent: #06b6d4;
+    --dark-bg: #0f172a;
+    --dark-card: #1e293b;
+    --dark-card-hover: #334155;
+    --text-light: #f1f5f9;
+    --text-muted: #94a3b8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+    --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
   }
 
+  /* Sidebar Styles - Fixed Position */
+  .sidebar-main {
+    background: var(--dark-card);
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    overflow: hidden;
+  }
+
+  /* Sidebar Header */
+  .sidebar-header {
+    padding: 15.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+
+  .logo-icon {
+    color: var(--primary);
+    font-size: 2rem;
+  }
+
+  /* Navigation Styles */
+  .nav-pills {
+    padding: 1rem 0;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar for nav */
+  .nav-pills::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .nav-pills::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-pills::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 2px;
+  }
+
+  .nav-link {
+    color: var(--text-muted);
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: left 0.7s ease;
+  }
+
+  .nav-link:hover::before {
+    left: 100%;
+  }
+
+  .nav-link:hover {
+    color: var(--text-light);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
+  }
+
+  .nav-link.active {
+    background: var(--gradient) !important;
+    color: var(--text-light) !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    transform: translateX(0);
+  }
+
+  .nav-link i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+    min-width: 24px;
+  }
+
+  .nav-link:hover i {
+    transform: scale(1.1);
+  }
+
+  .nav-link.active i {
+    transform: scale(1.1);
+  }
+
+  /* User Section */
+  .user-section {
+    padding: 1.5rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: auto;
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    transition: all 0.3s ease;
+  }
+
+  .user-details {
+    flex: 1;
+  }
+
+  .username {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .user-email {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .logout-btn {
+    background: var(--error);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f1f5f9;
+   display: block;
+   width: 150px;
+}
+
+.logo-img {
+  display: block;
+  width: 100%;
+  }
+  .logout-btn:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+    text-decoration: none;
+    color: white;
+  }
+
+  /* Automatic Main Content Adjustment */
   body {
-    font-family: 'Inter';
+    padding-left: 280px !important;
   }
-.sidebarmain {
-  background: #1a1c1e;
-}
 
-.sidebarmain .nav-link {
-  color: #565e6c;      
-}
+  /* Ensure header is positioned correctly */
+  header {
+    position: fixed;
+    top: 0;
+    left: 280px;
+    right: 0;
+    z-index: 999;
+    background: var(--dark-bg);
+  }
 
-.sidebarmain .nav-link i {
-  color: inherit;      
-}
+  /* Main content area */
+  main, .main-content, .container-fluid, .container, .content-area {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
 
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar-main {
+      width: 100%;
+      height: auto;
+      position: relative;
+      z-index: 1001;
+    }
 
-.sidebarmain .nav-link.active {
-  background-color: #6366f1 !important;
-  color: #fff !important;
-}
+    body {
+      padding-left: 0 !important;
+    }
+
+    header {
+      left: 0;
+      position: relative;
+    }
+  }
 </style>
+
+<script>
+  // Auto-adjust content on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add animation to nav items
+    const navItems = document.querySelectorAll('.nav-link');
+    navItems.forEach((item, index) => {
+      item.style.animationDelay = `${index * 0.1}s`;
+      item.style.animation = 'slideInLeft 0.5s ease both';
+    });
+
+    // Ensure body has proper padding
+    document.body.style.paddingLeft = '280px';
+    
+    // Fix for any existing content containers
+    const contentContainers = document.querySelectorAll('.container, .container-fluid, main, .main-content');
+    contentContainers.forEach(container => {
+      container.style.marginLeft = '0';
+      container.style.paddingLeft = '0';
+    });
+  });
+
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    if (window.innerWidth <= 768) {
+      document.body.style.paddingLeft = '0';
+    } else {
+      document.body.style.paddingLeft = '280px';
+    }
+  });
+</script>

@@ -13,22 +13,70 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
-        body {
-            font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
         }
 
-        .card {
-            background: #1e293b;
+        body {
+            font-family: "Inter";
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        /* Fixed Card Size */
+        .task-card {
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 320px; /* Fixed height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Fixed Image Size */
+        .task-image {
+            width: 100%;
+            height: 140px; /* Fixed height */
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
         }
 
         .nav-link.active {
-            background: #6366f1 !important;
+            background: var(--gradient) !important;
+            color: var(--text-light) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
-         .inbox {
+
+        .inbox {
             width: 139px;
             height: 36px;
             padding-left: 12px;
@@ -37,13 +85,20 @@
             font-size: 14px;
             line-height: 22px;
             font-weight: 400;
-            background: #1f2937ff;
+            background: var(--dark-card);
             border-radius: 10px;
             border-width: 1px;
-            border-color: #1c222bff;
+            border-color: rgba(255, 255, 255, 0.1);
             border-style: solid;
             outline: none;
-            color: #BDC1CA;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .inbox:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            color: var(--text-light);
         }
 
         input[type="date"]::-webkit-calendar-picker-indicator {
@@ -67,7 +122,7 @@
             font-variant: normal;
             text-rendering: auto;
             display: inline-block;
-            color: #fff;
+            color: var(--text-light);
             position: absolute;
             right: 12px;
             top: 50%;
@@ -89,12 +144,18 @@
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            color: #fff;
+            color: var(--text-light);
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .date-wrapper .calendar-icon:hover {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
         }
 
         input[type="date"]:focus {
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--primary);
             background-color: rgba(255, 255, 255, 0.05);
         }
 
@@ -109,6 +170,12 @@
             left: 9px;
             width: 20px;
             height: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper:focus-within .search-icon {
+            transform: scale(1.1);
+            filter: brightness(1.2);
         }
 
         #searchFilter {
@@ -117,25 +184,8 @@
         }
 
         #searchFilter::placeholder {
-            color: #f3f4f6;
+            color: var(--text-muted);
         }
-        .onlineornot {
-            background: #1dd75b;
-            height: 8px;
-            width: 8px;
-            position: absolute;
-            top: 17px;
-            left: 19px;
-        }
-        .top {
-            width: 245px;
-            height : 137.98px;
-        }
-        .cart-img {
-            width: 225px;
-            height: 137px;
-        }
-
         #cartContainer::-webkit-scrollbar {
             width: 0; 
         }
@@ -144,6 +194,133 @@
             scrollbar-width: none; 
         }
 
+        /* Filter section */
+        .filter-section {
+            background-color: var(--dark-card) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .filter-section:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        /* Text Truncation */
+        .description-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Show only 2 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .username-text {
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        /* Fixed header section in card */
+        .card-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            position: relative;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .rating-section {
+            flex-shrink: 0;
+        }
+
+        /* Fixed footer section in card */
+        .card-footer-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply animations to cards */
+        .task-card {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* Rating star animation */
+        .bi-star-fill {
+            color: var(--warning);
+            transition: all 0.3s ease;
+        }
+
+        .task-card:hover .bi-star-fill {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+
+        /* User avatar animation */
+        .user-avatar {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .task-card:hover .user-avatar {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Smooth transitions for all interactive elements */
+        select, input, button {
+            transition: all 0.3s ease !important;
+        }
+
+        /* Ensure consistent column sizing */
+        .col-md-3 {
+            margin-bottom: 1.5rem;
+        }
 
     </style>
 </head>
@@ -156,23 +333,24 @@
 
             <%- include('../partials/sidebar') %>
 
-
                 <div class="flex-grow-1 p-4">
                     <div class="d-flex justify-content-between">
-                        <h3 class="fw-bold mb-4">Dashboard</h3>
+                        <h3 class="fw-bold mb-4" style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Dashboard</h3>
                     </div>
-                    <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
+                    <div class="filter-section d-flex gap-3 mb-4 p-4 rounded-3">
                         <div class="d-flex align-items-center">
-                                <label style="color: #bdc1ca; font-size: 14px" for="">Status:</label>
-                                <select id="statusFilter" class="form-select inbox text-white border-0 ms-1" style="width: 150px">
-                                    <option value="all">All Status</option>
-                                    <option value="Approved">Approved</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Rejected">Rejected</option>
+                             <label style="color: var(--text-muted); font-size: 14px" for="">Rating:</label>
+                                <select id="ratingFilter" class="form-select inbox text-white border-0 ms-1" style="width: 150px">
+                                    <option value="all">All Ratings</option>
+                                    <option value="5">5 ⭐</option>
+                                    <option value="4">4 ⭐ & above</option>
+                                    <option value="3">3 ⭐ & above</option>
+                                    <option value="2">2 ⭐ & above</option>
+                                    <option value="1">1 ⭐ & above</option>
                                 </select>
                             </div>
                             <div class="d-flex align-items-center">
-                                <label style="color: #bdc1ca; font-size: 14px" for="">Date:</label>
+                                <label style="color: var(--text-muted); font-size: 14px" for="">Date:</label>
                                 <div class="date-wrapper">
                                     <input type="date" id="dateFilter" name="date" class="form-control text-white border-0 inbox ms-1 w-auto" />
                                     <span class="calendar-icon"><i class="fa-solid fa-calendar-days"></i></span>
@@ -195,43 +373,96 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-const tasksContainer = document.getElementById("tasksContainer");
-const cartContainer = document.getElementById("cartContainer");
 
 // Load tasks dynamically
+const tasksContainer = document.getElementById("tasksContainer");
+let allTasks = []; // store all tasks globally
+
 async function loadTasks() {
     try {
         const res = await fetch("/user/tasks/progress-nontaken");
         if (!res.ok) throw new Error("HTTP error " + res.status);
-        const tasks = await res.json();
-        tasksContainer.innerHTML = "";
-
-        tasks.forEach(task => {
-            const card = document.createElement("div");
-            card.className = "col-md-3";
-            card.innerHTML = `
-                <div class="card rounded-3" style="background-color: #171c26;">
-                    <img class="top rounded-top-3" src="${task.photo || '/images/task1.png'}" alt="">
-                    <div class="d-flex justify-content-between px-2 align-items-center">
-                        <div class="d-flex mt-2 position-relative align-items-center">
-                            <img class="rounded-circle me-2" src="${task.user_id?.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg'}" width="25" height="25">
-                            <span class="onlineornot rounded-circle"></span>
-                            <span style="color: #BDC1CA; font-size: 14px;" class="fw-semibold">${task.user_id?.username || 'Unknown'}</span>
-                        </div>
-                        <h2 class="fw-bold my-auto" style="font-size: 14px; color: #fff;"><i class="bi bi-star-fill"></i> ${task.rating || '2.5'}</h2>
-                    </div>
-                    <p style="color: #565e6c; font-size: 14px;" class="px-2">${task.description || 'No description available'}</p>
-                    <div class="d-flex justify-content-between px-2 mb-2">
-                        <h2 class="fw-bold my-auto" style="font-size: 18px; color:#fff;">$${task.amount || 0}</h2>
-                        <span style="color: #565e6c; font-size: 14px;">Due: ${task.duration || 'N/A'}</span>
-                    </div>
-            `;
-            tasksContainer.appendChild(card);
-        });
+        allTasks = await res.json();
+        renderTasks(allTasks);
     } catch (err) {
         console.error(err);
     }
 }
+
+function renderTasks(tasks) {
+    tasksContainer.innerHTML = "";
+    if (tasks.length === 0) {
+        tasksContainer.innerHTML = `<p class="text-center" style="color: var(--text-muted)">No tasks found.</p>`;
+        return;
+    }
+
+    tasks.forEach((task, index) => {
+        const card = document.createElement("div");
+        card.className = "col-md-3";
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.innerHTML = `
+            <div class="card task-card">
+                <img class="task-image" src="${task.photo || '/images/task1.png'}" alt="Task image">
+                <div class="card-body">
+                    <div class="card-header-section">
+                        <div class="user-info">
+                            <img class="rounded-circle user-avatar me-2" 
+                                src="${task.user_info?.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg'}" 
+                                width="25" height="25" alt="User avatar">
+                            <span class="username-text">
+                                ${task.user_info?.username || 'Unknown'}
+                            </span>
+                        </div>
+                        <div class="rating-section">
+                            <h2 class="fw-bold my-auto" style="font-size: 14px; color: var(--text-light);">
+                                <i class="bi bi-star-fill"></i> ${task.worker_info?.rating ?? 'N/A'}
+                            </h2>
+                        </div>
+                    </div>
+                    <p class="description-text">${task.description || 'No description available'}</p>
+                    <div class="card-footer-section">
+                        <h2 class="fw-bold my-auto" style="font-size: 18px; color:var(--text-light);">$${task.amount || 0}</h2>
+                        <span style="color: var(--text-muted); font-size: 14px;">Due: ${task.duration || 'N/A'}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        tasksContainer.appendChild(card);
+    });
+}
+
+function applyFilters() {
+    const ratingValue = document.getElementById("ratingFilter").value;
+    const date = document.getElementById("dateFilter").value;
+    const search = document.getElementById("searchFilter").value.toLowerCase();
+
+    const filtered = allTasks.filter(task => {
+        let matchesRating = true;
+        if (ratingValue !== "all") {
+            const ratingNum = parseInt(ratingValue);
+            const taskRating = task.worker_info?.rating || 0;
+            matchesRating = taskRating >= ratingNum;
+        }
+        // if(!date){
+        //     alert("date no")
+        // }
+       const matchesDate = !date || new Date(task.created_at).toLocaleDateString('en-CA') === date;
+
+
+        const matchesSearch = 
+            task.description?.toLowerCase().includes(search) ||
+            task.user_info?.username?.toLowerCase().includes(search);
+
+        return matchesRating && matchesDate && matchesSearch;
+    });
+
+    renderTasks(filtered);
+}
+
+// Listen for filter changes
+document.getElementById("ratingFilter").addEventListener("change", applyFilters);
+document.getElementById("dateFilter").addEventListener("change", applyFilters);
+document.getElementById("searchFilter").addEventListener("input", applyFilters);
 
 // Calendar icon click
 document.querySelector(".calendar-icon")?.addEventListener("click", () => {
@@ -239,12 +470,22 @@ document.querySelector(".calendar-icon")?.addEventListener("click", () => {
     if (input.showPicker) input.showPicker(); else input.click();
 });
 
-// Load tasks on page load
-document.addEventListener("DOMContentLoaded", () => {
+// Add hover effects to filter elements
+document.addEventListener("DOMContentLoaded", function() {
     loadTasks();
+    
+    // Add focus effects to search
+    const searchInput = document.getElementById("searchFilter");
+    if (searchInput) {
+        searchInput.addEventListener("focus", function() {
+            this.parentElement.style.transform = "scale(1.02)";
+        });
+        searchInput.addEventListener("blur", function() {
+            this.parentElement.style.transform = "scale(1)";
+        });
+    }
 });
+
 </script>
 </body> 
-
-
 </html>
