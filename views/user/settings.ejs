@@ -12,20 +12,48 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(59, 130, 246, 0.2);
         }
 
         .nav-link.active {
-            background: #6366f1 !important;
+            background: var(--gradient) !important;
+            color: var(--text-light) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .inbox {
@@ -37,30 +65,34 @@
             font-size: 14px;
             line-height: 22px;
             font-weight: 400;
-            background: #323743FF;
-            border-radius: 9999px;
-            border-width: 1px;
-            border-color: #323743FF;
-            border-style: solid;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             outline: none;
-            color: #bcc1ca;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .inbox:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .label-set {
-            color: #9095a0;
+            color: var(--text-muted);
             font-size: 14px;
         }
 
         #profilePhotoInput {
             display: none;
-
         }
 
         .settings-card {
-            background: #1e293b;
+            background: var(--dark-card);
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .setting-item {
@@ -86,19 +118,21 @@
         }
 
         .text-label {
-            color: #9095a0;
+            color: var(--text-muted);
             font-size: 13px;
         }
+
         .verification-card {
-            background: #1e293b;
+            background: var(--dark-card);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .step-indicator {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
+            background: var(--gradient);
+            color: var(--text-light);
             font-weight: 600;
         }
 
@@ -108,10 +142,15 @@
             transition: all 0.3s ease;
         }
 
+        .verification-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+
         .icon-box {
             width: 40px;
             height: 40px;
-            background-color: rgb(55 65 81);
+            background-color: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -120,37 +159,72 @@
         }
 
         .verify-button {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: var(--gradient);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-            border: none;
-        }
-        .verify-button-success {
-            background: linear-gradient(135deg, #4ade80, #22c55e, #15803d);
-
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(116, 241, 99, 0.3);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
             border: none;
         }
 
         .verify-button:hover {
-            background-color: #4338ca;
+            background: var(--gradient-dark);
+            transform: translateY(-1px);
         }
+
+        .verify-button-success {
+            background: var(--success);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            border: none;
+        }
+
         .otp-input {
             width: 100%;
             padding: 0.5rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            color: #f1f5f9;
+            color: var(--text-light);
             font-size: 1rem;
             transition: all 0.3s ease;
         }
+
         .otp-input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
+
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 
@@ -162,12 +236,12 @@
             <%- include('../partials/tosta') %>
 
                 <div class="flex-grow-1 p-4">
-                    <h3 class="fw-bold mb-4">Settings</h3>
+                    <h3 class="fw-bold mb-4" style="color: var(--text-light);">Settings</h3>
                     <div class="row g-4">
 
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold">Profile Settings</h5>
+                                <h5 class="fw-bold" style="color: var(--text-light);">Profile Settings</h5>
                                 <form id="profileForm" action="/user/settings/profile" method="POST"
                                     enctype="multipart/form-data">
                                     <div class="d-flex align-items-center mb-3">
@@ -177,9 +251,7 @@
 
                                         <input type="file" id="profilePhotoInput" name="profile_photo" class="d-none">
 
-
-                                        <label for="profilePhotoInput" class="btn text-white btn-sm ms-2"
-                                            style="background-color: #22CCB2;">
+                                        <label for="profilePhotoInput" class="btn btn-primary btn-sm ms-2">
                                             Change Photo
                                         </label>
                                     </div>
@@ -189,20 +261,16 @@
                                     <input type="email" name="email" value="<%= user.email %>" class="inbox mb-3">
                                     <label class="label-set fw-semibold mb-1">Phone</label>
                                     <input type="text" name="phone" value="<%= user.phone %>" class="inbox mb-3">
-                                    <button type="submit" class="btn text-white" style="background-color: #22CCB2;">Save
-                                        Changes</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </form>
-
                             </div>
                         </div>
 
-
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold mb-2">Security Settings</h5>
+                                <h5 class="fw-bold mb-2" style="color: var(--text-light);">Security Settings</h5>
                                 <form id="passwordForm" action="/user/settings/password" method="POST">
-                                    <label class="label-set fw-semibold mb-1" for="currentPassword">Current
-                                        Password</label>
+                                    <label class="label-set fw-semibold mb-1" for="currentPassword">Current Password</label>
                                     <input type="password" name="currentPassword" class="inbox fw-semibold mb-3"
                                         placeholder="Current Password">
 
@@ -210,41 +278,42 @@
                                     <input type="password" name="newPassword" class="inbox fw-semibold mb-3"
                                         placeholder="New Password">
 
-                                    <label class="label-set fw-semibold mb-1" for="confirmPassword">Confirm
-                                        Password</label>
+                                    <label class="label-set fw-semibold mb-1" for="confirmPassword">Confirm Password</label>
                                     <input type="password" name="confirmPassword" class="inbox fw-semibold mb-3"
                                         placeholder="Confirm Password">
 
-                                    <button type="submit" class="btn text-white"
-                                        style="font-size: 14px; height: 35px; width: 150px; margin-bottom: 90px; background-color: #22CCB2;">Update
-                                        Password</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        style="font-size: 14px; height: 35px; width: 150px; margin-bottom: 90px;">
+                                        Update Password
+                                    </button>
                                 </form>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="verification-card">
-                                <h5 class="fw-bold mb-3">Two-Step Verification</h5>
-                                <p style="color: #bcc1ca; font-size: 14px;">Secure your account with additional
-                                    verification steps</p>
+                                <h5 class="fw-bold mb-3" style="color: var(--text-light);">Two-Step Verification</h5>
+                                <p style="color: var(--text-muted); font-size: 14px;">Secure your account with additional verification steps</p>
 
                                 <!-- EMAIL VERIFICATION -->
-                                <h6 class="d-flex align-items-center fw-semibold">
+                                <h6 class="d-flex align-items-center fw-semibold" style="color: var(--text-light);">
                                     <div style="width: 1.5rem; height: 1.5rem;"
                                         class="step-indicator rounded-circle d-flex align-items-center justify-content-center me-2">
                                         1
                                     </div>Email Verification
                                 </h6>
 
-                                <div
-                                    class="verification-row d-flex align-items-center justify-content-between p-4 rounded-3">
+                                <div class="verification-row d-flex align-items-center justify-content-between p-4 rounded-3">
                                     <div class="d-flex align-items-center flex-grow-1">
                                         <div class="icon-box"><i class="bi bi-envelope text-white"></i></div>
                                         <div class="flex-grow-1">
-                                            <p class="mb-0 fw-medium">
+                                            <p class="mb-0 fw-medium" style="color: var(--text-light);">
                                                 <%= user.email %>
+                                                 <% if (user.mail_verified) { %>
+                                                    <i class="bi bi-check-circle-fill text-success ms-2"></i>
+                                                    <% } %>
                                             </p>
-                                            <small style="color: rgb(156, 163, 175);">Primary email address</small>
+                                            <small style="color: var(--text-muted);">Primary email address</small>
                                         </div>
                                     </div>
                                     <% if (user.mail_verified) { %>
@@ -266,33 +335,33 @@
                                     <input type="text" id="emailOtp" class="otp-input mt-3"
                                         placeholder="Enter 6-digit OTP sent to your email" maxlength="6">
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <p style="color: rgb(156, 163, 175); font-size: 14px;" class="otp-info mb-0">
-                                            Code expires in <span id="emailTimer"
-                                                style="color: rgb(99 102 241);">02:00</span>
+                                        <p style="color: var(--text-muted); font-size: 14px;" class="otp-info mb-0">
+                                            Code expires in <span id="emailTimer" style="color: var(--primary);">02:00</span>
                                         </p>
                                         <button id="resendEmailBtn" class="bg-transparent border-0"
-                                            style="color: rgb(99 102 241); font-size: 14px;">Resend Code</button>
+                                            style="color: var(--primary); font-size: 14px;">Resend Code</button>
                                     </div>
                                 </div>
 
                                 <!-- PHONE VERIFICATION -->
-                                <h6 class="d-flex align-items-center fw-semibold mt-3">
+                                <h6 class="d-flex align-items-center fw-semibold mt-3" style="color: var(--text-light);">
                                     <div style="width: 1.5rem; height: 1.5rem;"
                                         class="step-indicator rounded-circle d-flex align-items-center justify-content-center me-2">
                                         2
                                     </div>Phone Verification
                                 </h6>
 
-                                <div
-                                    class="verification-row d-flex align-items-center justify-content-between p-4 rounded-3">
+                                <div class="verification-row d-flex align-items-center justify-content-between p-4 rounded-3">
                                     <div class="d-flex align-items-center flex-grow-1">
                                         <div class="icon-box"><i class="bi bi-telephone text-white"></i></div>
                                         <div class="flex-grow-1">
-                                            <p class="mb-0 fw-medium">
+                                            <p class="mb-0 fw-medium" style="color: var(--text-light);">
                                                 <%= user.phone %>
+                                                <% if (user.phone_verified) { %>
+                                                    <i class="bi bi-check-circle-fill text-success ms-2"></i>
+                                                    <% } %>
                                             </p>
-                                            <small style="color: rgb(156, 163, 175);">Registered mobile
-                                                number</small>
+                                            <small style="color: var(--text-muted);">Registered mobile number</small>
                                         </div>
                                     </div>
                                     <% if (user.phone_verified) { %>
@@ -314,12 +383,11 @@
                                     <input type="text" id="phoneOtp" class="otp-input mt-3"
                                         placeholder="Enter 6-digit SMS Code" maxlength="6">
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <p style="color: rgb(156, 163, 175); font-size: 14px;" class="otp-info mb-0">
-                                            Code expires in <span id="phoneTimer"
-                                                style="color: rgb(99 102 241);">02:00</span>
+                                        <p style="color: var(--text-muted); font-size: 14px;" class="otp-info mb-0">
+                                            Code expires in <span id="phoneTimer" style="color: var(--primary);">02:00</span>
                                         </p>
                                         <button id="resendPhoneBtn" class="bg-transparent border-0"
-                                            style="color: rgb(99 102 241); font-size: 14px;">Resend Code</button>
+                                            style="color: var(--primary); font-size: 14px;">Resend Code</button>
                                     </div>
                                 </div>
                             </div>
@@ -328,20 +396,20 @@
                         <!-- RIGHT CARD -->
                         <div class="col-md-6">
                             <div class="settings-card text-center h-100">
-                                <h4 class="fw-bold">Become a Helper</h4>
+                                <h4 class="fw-bold" style="color: var(--text-light);">Become a Helper</h4>
                                 <p class="text-label mt-3">
                                     Want to help others in your neighborhood? Apply to become a verified helper and
                                     start earning by completing tasks.
                                 </p>
-                                <a href="/user/workerapproval" style="background-color: #22CCB2;"
-                                    class="btn  px-4 py-2 mt-3 text-white fw-bold">Request Helper Role</a>
+                                <a href="/user/workerapproval" class="btn btn-primary px-4 py-2 mt-3 fw-bold">
+                                    Request Helper Role
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-              
-                
         </div>
+
         <script>
             const input = document.getElementById('profilePhotoInput');
             const preview = document.getElementById('profilePreview');
@@ -373,7 +441,7 @@
 
                     const data = await response.json();
 
-                    showToast(data.success ? 'success' : 'warning', data.success ? 'Pssword Updated successfully!' : 'Failed Password Update!', data.success ? `${data.message}` : `${data.error}`);
+                    showToast(data.success ? 'success' : 'warning', data.success ? 'Password Updated successfully!' : 'Failed Password Update!', data.success ? `${data.message}` : `${data.error}`);
                     if (data.success) {
                         setTimeout(() => location.reload(), 1000);
                     }
@@ -381,6 +449,7 @@
                     console.error(err);
                 }
             });
+
             const profileForm = document.getElementById("profileForm");
 
             profileForm.addEventListener("submit", async function (e) {
@@ -396,7 +465,6 @@
 
                     const data = await response.json();
 
-
                     showToast(data.success ? 'success' : 'warning', data.success ? 'Profile Updated successfully!' : 'Failed Profile Update!', data.success ? `${data.message}` : `${data.error}`);
 
                     if (data.success) {
@@ -407,172 +475,159 @@
                     console.error(err);
                 }
             });
+
             document.addEventListener("DOMContentLoaded", () => {
-            const emailSendBtn = document.getElementById("emailVerifyBtn");
-                        const emailInputSection = document.getElementById("EmailVerifyBox");
-                        const emailOtpInput = document.getElementById("emailOtp");
-                        const resendEmailBtn = document.getElementById("resendEmailBtn");
-                        const emailTimer = document.getElementById("emailTimer");
-                        let emailCountdown;
+                const emailSendBtn = document.getElementById("emailVerifyBtn");
+                const emailInputSection = document.getElementById("EmailVerifyBox");
+                const emailOtpInput = document.getElementById("emailOtp");
+                const resendEmailBtn = document.getElementById("resendEmailBtn");
+                const emailTimer = document.getElementById("emailTimer");
+                let emailCountdown;
 
-                        emailSendBtn.addEventListener("click", async () => {
-                            try {
-                                const res = await fetch("/user/email/send", { method: "POST" });
-                                const data = await res.json();
-                                if (data.success) {
-                                    emailInputSection.classList.remove("d-none");
-                                    startEmailTimer(120);
-                                   
-                                     showToast('info', 'Verification code sent to your email.', `Please Check Your Email`)
-                                } else {
-                                    showToast('warning', 'Something went wrong', 'Please Check Youer Email Address')
-                                }
-                            } catch (err) {
-                                console.error(err);
-                                showToast('error', 'Server Error', `Something went wrong`)
-                            }
-                        });
-
-                        emailOtpInput.addEventListener("keypress", async (e) => {
-                            if (e.key === "Enter") {
-                                const otp = emailOtpInput.value.trim();
-                                if (!otp) return;
-
-                                try {
-                                    const res = await fetch("/user/email/verify", {
-                                        method: "POST",
-                                        headers: { "Content-Type": "application/json" },
-                                        body: JSON.stringify({ otp }),
-                                    });
-                                    const data = await res.json();
-
-                                    if (data.success) {
-                                        clearInterval(emailCountdown);
-                                         showToast('success', 'Verified successfully!', `${data.message}`)
-                                        emailInputSection.classList.add("d-none");
-
-                                        // Update the Verify button text to show success
-                                        const emailRowBtn = document.getElementById("emailVerifyBtn");
-                                        emailRowBtn.textContent = "Verified";
-                                        emailRowBtn.disabled = true;
-                                        emailRowBtn.classList.remove("verify-button");
-                                        emailRowBtn.classList.add("btn-success");
-
-                                        // Optionally, show a checkmark next to the email
-                                        const emailVerifiedIcon = document.createElement("i");
-                                        emailVerifiedIcon.className = "bi bi-check-circle-fill text-success ms-2";
-                                        emailRowBtn.parentElement.querySelector(".fw-medium").appendChild(emailVerifiedIcon);
-                                    }
-                                    else {
-                                        showToast('warning', 'Incorrect Otp', `${data.message}`)
-                                    }
-                                } catch (err) {
-                                    console.error(err);
-                                    showToast('error', 'Failed to verify OTP', `Something went wrong`)
-                                }
-                            }
-                        });
-
-                        resendEmailBtn.addEventListener("click", () => emailSendBtn.click());
-
-                        function startEmailTimer(seconds) {
-                            clearInterval(emailCountdown);
-                            let remaining = seconds;
-                            emailCountdown = setInterval(() => {
-                                const mins = String(Math.floor(remaining / 60)).padStart(2, "0");
-                                const secs = String(remaining % 60).padStart(2, "0");
-                                emailTimer.textContent = `${mins}:${secs}`;
-                                if (remaining-- <= 0) clearInterval(emailCountdown);
-                            }, 1000);
+                emailSendBtn.addEventListener("click", async () => {
+                    try {
+                        const res = await fetch("/user/email/send", { method: "POST" });
+                        const data = await res.json();
+                        if (data.success) {
+                            emailInputSection.classList.remove("d-none");
+                            startEmailTimer(120);
+                            showToast('info', 'Verification code sent to your email.', `Please Check Your Email`)
+                        } else {
+                            showToast('warning', 'Something went wrong', 'Please Check Your Email Address')
                         }
+                    } catch (err) {
+                        console.error(err);
+                        showToast('error', 'Server Error', `Something went wrong`)
+                    }
+                });
 
-                        // ===========================
-                        // PHONE OTP VERIFICATION
-                        // ===========================
-                        const phoneSendBtn = document.getElementById("phoneSendBtn");
-                        const phoneInputSection = document.getElementById("phoneVerifyBox");
-                        const phoneOtpInput = document.getElementById("phoneOtp");
-                        const resendPhoneBtn = document.getElementById("resendPhoneBtn");
-                        const phoneTimer = document.getElementById("phoneTimer");
-                        let phoneCountdown;
+                emailOtpInput.addEventListener("keypress", async (e) => {
+                    if (e.key === "Enter") {
+                        const otp = emailOtpInput.value.trim();
+                        if (!otp) return;
 
-                        phoneSendBtn.addEventListener("click", async () => {
-                            try {
-                                const res = await fetch("/user/phone/send", { method: "POST" });
-                                const data = await res.json();
-                                if (data.success) {
-                                    phoneInputSection.classList.remove("d-none");
-                                    startPhoneTimer(120);
-                                     showToast('info', 'Verification code sent to your phone.', `Please Check Your Messages`)
-                                } else {
-                                    showToast('warning', 'Something went wrong', 'Please Check Youer Phone Number')
-                                }
-                            } catch (err) {
-                                console.error(err);
-                                showToast('error', 'Failed to send SMS', `Something went wrong`)
+                        try {
+                            const res = await fetch("/user/email/verify", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ otp }),
+                            });
+                            const data = await res.json();
+
+                            if (data.success) {
+                                clearInterval(emailCountdown);
+                                showToast('success', 'Verified successfully!', `${data.message}`)
+                                emailInputSection.classList.add("d-none");
+
+                                const emailRowBtn = document.getElementById("emailVerifyBtn");
+                                emailRowBtn.textContent = "Verified";
+                                emailRowBtn.disabled = true;
+                                emailRowBtn.classList.remove("verify-button");
+                                emailRowBtn.classList.add("verify-button-success");
+
+                                const emailVerifiedIcon = document.createElement("i");
+                                emailVerifiedIcon.className = "bi bi-check-circle-fill text-success ms-2";
+                                emailRowBtn.parentElement.querySelector(".fw-medium").appendChild(emailVerifiedIcon);
                             }
-                        });
-
-                        phoneOtpInput.addEventListener("keypress", async (e) => {
-                            if (e.key === "Enter") {
-                                const otp = phoneOtpInput.value.trim();
-                                if (!otp) return;
-                                try {
-                                    const res = await fetch("/user/phone/verify", {
-                                        method: "POST",
-                                        headers: { "Content-Type": "application/json" },
-                                        body: JSON.stringify({ otp }),
-                                    });
-                                    const data = await res.json();
-                                    
-                                    if (data.success) {
-                                        clearInterval(phoneCountdown);
-                                         showToast('success', 'Verified successfully!', `${data.message}`)
-                                        phoneInputSection.classList.add("d-none");
-
-                                        // Update the Verify button text to show success
-                                        const phoneRowBtn = document.getElementById("phoneVerifyBtn");
-                                        phoneRowBtn.textContent = "Verified";
-                                        phoneRowBtn.disabled = true;
-                                        phoneRowBtn.classList.remove("verify-button");
-                                        phoneRowBtn.classList.add("btn-success");
-
-                                        // Optionally, show a checkmark next to the email
-                                        const phoneVerifiedIcon = document.createElement("i");
-                                        phoneVerifiedIcon.className = "bi bi-check-circle-fill text-success ms-2";
-                                        phoneRowBtn.parentElement.querySelector(".fw-medium").appendChild(phoneVerifiedIcon);
-                                        // ✅ Here you can add code to update UI: mark phone as verified
-                                    }
-                                    else {
-                                        showToast('warning', 'Incorrect Otp!', `${data.message}`)
-                                    }
-                                } catch (err) {
-                                    console.error(err);
-                                    showToast('error', 'Failed to verify OTP', `Something went wrong`)
-                                }
+                            else {
+                                showToast('warning', 'Incorrect Otp', `${data.message}`)
                             }
-                        });
-
-
-                        resendPhoneBtn.addEventListener("click", () => phoneSendBtn.click());
-
-                        function startPhoneTimer(seconds) {
-                            clearInterval(phoneCountdown);
-                            let remaining = seconds;
-                            phoneCountdown = setInterval(() => {
-                                const mins = String(Math.floor(remaining / 60)).padStart(2, "0");
-                                const secs = String(remaining % 60).padStart(2, "0");
-                                phoneTimer.textContent = `${mins}:${secs}`;
-                                if (remaining-- <= 0) clearInterval(phoneCountdown);
-                            }, 1000);
+                        } catch (err) {
+                            console.error(err);
+                            showToast('error', 'Failed to verify OTP', `Something went wrong`)
                         }
-                         
-                    });
-                    
+                    }
+                });
+
+                resendEmailBtn.addEventListener("click", () => emailSendBtn.click());
+
+                function startEmailTimer(seconds) {
+                    clearInterval(emailCountdown);
+                    let remaining = seconds;
+                    emailCountdown = setInterval(() => {
+                        const mins = String(Math.floor(remaining / 60)).padStart(2, "0");
+                        const secs = String(remaining % 60).padStart(2, "0");
+                        emailTimer.textContent = `${mins}:${secs}`;
+                        if (remaining-- <= 0) clearInterval(emailCountdown);
+                    }, 1000);
+                }
+
+                // PHONE OTP VERIFICATION
+                const phoneSendBtn = document.getElementById("phoneVerifyBtn");
+                const phoneInputSection = document.getElementById("phoneVerifyBox");
+                const phoneOtpInput = document.getElementById("phoneOtp");
+                const resendPhoneBtn = document.getElementById("resendPhoneBtn");
+                const phoneTimer = document.getElementById("phoneTimer");
+                let phoneCountdown;
+
+                phoneSendBtn.addEventListener("click", async () => {
+                    try {
+                        const res = await fetch("/user/phone/send", { method: "POST" });
+                        const data = await res.json();
+                        if (data.success) {
+                            phoneInputSection.classList.remove("d-none");
+                            startPhoneTimer(120);
+                            showToast('info', 'Verification code sent to your phone.', `Please Check Your Messages`)
+                        } else {
+                            showToast('warning', 'Something went wrong', 'Please Check Your Phone Number')
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        showToast('error', 'Failed to send SMS', `Something went wrong`)
+                    }
+                });
+
+                phoneOtpInput.addEventListener("keypress", async (e) => {
+                    if (e.key === "Enter") {
+                        const otp = phoneOtpInput.value.trim();
+                        if (!otp) return;
+                        try {
+                            const res = await fetch("/user/phone/verify", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ otp }),
+                            });
+                            const data = await res.json();
+                            
+                            if (data.success) {
+                                clearInterval(phoneCountdown);
+                                showToast('success', 'Verified successfully!', `${data.message}`)
+                                phoneInputSection.classList.add("d-none");
+
+                                const phoneRowBtn = document.getElementById("phoneVerifyBtn");
+                                phoneRowBtn.textContent = "Verified";
+                                phoneRowBtn.disabled = true;
+                                phoneRowBtn.classList.remove("verify-button");
+                                phoneRowBtn.classList.add("verify-button-success");
+
+                                const phoneVerifiedIcon = document.createElement("i");
+                                phoneVerifiedIcon.className = "bi bi-check-circle-fill text-success ms-2";
+                                phoneRowBtn.parentElement.querySelector(".fw-medium").appendChild(phoneVerifiedIcon);
+                            }
+                            else {
+                                showToast('warning', 'Incorrect Otp!', `${data.message}`)
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            showToast('error', 'Failed to verify OTP', `Something went wrong`)
+                        }
+                    }
+                });
+
+                resendPhoneBtn.addEventListener("click", () => phoneSendBtn.click());
+
+                function startPhoneTimer(seconds) {
+                    clearInterval(phoneCountdown);
+                    let remaining = seconds;
+                    phoneCountdown = setInterval(() => {
+                        const mins = String(Math.floor(remaining / 60)).padStart(2, "0");
+                        const secs = String(remaining % 60).padStart(2, "0");
+                        phoneTimer.textContent = `${mins}:${secs}`;
+                        if (remaining-- <= 0) clearInterval(phoneCountdown);
+                    }, 1000);
+                }
+            });
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
-
 </html>

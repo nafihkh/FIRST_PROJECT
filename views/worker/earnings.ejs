@@ -12,39 +12,73 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(59, 130, 246, 0.2);
         }
 
         .nav-link.active {
-            background: #6366f1 !important;
+            background: var(--gradient) !important;
+            color: var(--text-light) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .card-summary {
             border: none;
             border-radius: 12px;
             padding: 20px;
-            color: #fff;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .card-summary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .card-blue {
-            background: #2563EBFF;
+            background: var(--primary);
         }
 
         .card-orange {
-            background:  #CA8A04FF;
+            background: var(--warning);
         }
 
         .card-green {
-            background:  #16A34AFF;
+            background: var(--success);
         }
 
         .summary-title {
@@ -61,15 +95,15 @@
             border-radius: 8px;
             padding: 8px 16px;
             font-weight: 600;
-
         }
 
         .custom-table-wrapper {
-            background-color: #171c26;
-            color: #bdc1ca;
-            border-radius: 19px;
+            background-color: var(--dark-card);
+            color: var(--text-muted);
+            border-radius: 12px;
             overflow: hidden;
             font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .custom-table {
@@ -80,16 +114,17 @@
         }
 
         .custom-table thead th {
-            color: #bdc1ca;
-            background: #262a33;
-            border-bottom: 1px solid #2f343d;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 600;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr {
             background: transparent;
-            border-bottom: 1px solid #2f343d;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
 
         .custom-table tbody tr:last-child {
@@ -97,63 +132,105 @@
         }
 
         .custom-table tbody td {
-            color: #f3f4f6;
-
+            color: var(--text-light);
             background: transparent !important;
             vertical-align: middle;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateY(-1px);
         }
 
         .status-completed {
-            background: #16a34a;
-            color: #fff;
+            background: var(--success);
+            color: var(--text-light);
             font-size: 12px;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
         }
 
         .status-pending {
-            background: #d97706;
-            color: #fff;
+            background: var(--warning);
+            color: var(--text-light);
             font-size: 12px;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
         }
 
         .status-active {
-            background: #dc2626;
-            color: #fff;
+            background: var(--error);
+            color: var(--text-light);
             font-size: 12px;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
         }
         
         .topbar {
             width: 100%;
-            border-bottom: 1px solid #777777;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
         }
 
         .topbar a {
             font-size: 14px;
-            color: #bcc1ca;
+            color: var(--text-muted);
             margin-right: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .topbar a:hover {
+            color: var(--primary);
         }
           
-         .status-paid {
-            background: #10B98133;
-            color: #10b981;
+        .status-paid {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
             font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status-pending {
-            background: #ff000033;
-            color: #db0000;
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
             font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-summary {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .card-summary:nth-child(1) { animation-delay: 0.1s; }
+        .card-summary:nth-child(2) { animation-delay: 0.2s; }
+        .card-summary:nth-child(3) { animation-delay: 0.3s; }
+
+        /* Animation for table rows */
+        .custom-table tbody tr {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .custom-table tbody tr:nth-child(1) { animation-delay: 0.4s; }
+        .custom-table tbody tr:nth-child(2) { animation-delay: 0.5s; }
+        .custom-table tbody tr:nth-child(3) { animation-delay: 0.6s; }
     </style>
 </head>
 
@@ -165,16 +242,12 @@
 
             <%- include('../partials/sidebar') %>
 
-
                 <div class="flex-grow-1 p-4">
-                                            <h3 class="fw-bold">Earnings</h3>
+                    <h3 class="fw-bold" style="color: var(--text-light);">Earnings</h3>
                      <div class="topbar mb-5">
-                        <a class="text-decoration-none" href="/worker/earnings">Transactions</a>
+                        <a class="text-decoration-none active" href="/worker/earnings">Transactions</a>
                         <a class="text-decoration-none" href="/worker/earnings/invoice">Invoice</a>
                     </div>
-
-
-                    <!-- Header -->
 
                     <!-- Summary Cards -->
                     <div class="row g-3 mb-4">
@@ -182,11 +255,10 @@
                             <div class="card-summary card-blue">
                                 <div class="d-flex justify-content-between">
                                     <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538411/box-check_wqpg1k.svg" alt=""
-                                            style="height: 44px; width: 44px; background-color: #ffffff36" />
+                                            style="height: 44px; width: 44px; background-color: rgba(255, 255, 255, 0.2)" />
                                     <h3 class="summary-amount"><%= totalPayments %></h3>
                                 </div>
                                 <p class="summary-title mt-1 mb-1">Total Payments</p>
-                                
                                 <p class="mb-0 small">Lifetime earnings count</p>
                             </div>
                         </div>
@@ -194,7 +266,7 @@
                             <div class="card-summary card-orange">
                                 <div class="d-flex justify-content-between">
                                     <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538417/clock_zdpr3e.svg" alt=""
-                                            style="height: 44px; width: 44px; background-color: #ffffff36" />
+                                            style="height: 44px; width: 44px; background-color: rgba(255, 255, 255, 0.2)" />
                                     <h3 class="summary-amount">₹<%= totalpending %></h3>
                                 </div>
                                 <p class="summary-title mt-1 mb-1">Pending</p>
@@ -205,7 +277,7 @@
                             <div class="card-summary card-green">
                                  <div class="d-flex justify-content-between">
                                     <img class="p-2 rounded-4" src="/images/valut.svg" alt=""
-                                            style="height: 44px; width: 44px; background-color: #ffffff36" />
+                                            style="height: 44px; width: 44px; background-color: rgba(255, 255, 255, 0.2)" />
                                     <h3 class="summary-amount">₹<%= totalSpent %></h3>
                                 </div>
                                 <p class="summary-title mt-1 mb-1">Total Earnings</p>
@@ -213,49 +285,53 @@
                             </div>
                         </div>
                     </div>
-                    <h5 class=" fw-bold mb-3">Transaction History</h5>
+                    <h5 class="fw-bold mb-3" style="color: var(--text-light);">Transaction History</h5>
                     <div class="table-responsive custom-table-wrapper">
                         <table id="table" class="table table-borderless align-middle custom-table">
                             <thead>
                                 <tr>
                                     <th>Transaction ID</th>
                                     <th>Task</th>
-                                    <th >Amount</th>
+                                    <th>Amount</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Date</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
                                 <% if (payments.length===0) { %>
-                                      <tr>
-                                        <td colspan="6" class="text-center">No transactions found</td>
+                                    <tr>
+                                        <td colspan="6" class="text-center" style="color: var(--text-muted);">No transactions found</td>
                                     </tr>
-                                      <% } %>
-                                      <% payments.forEach(payment=> { %>
-                                <tr>
-                                    <td>#<%= payment._id.toString().substring(0, 8) %>/td>
-                                    <td><strong><strong>
-                                                        <%= payment.task_id ? payment.task_id.title : 'No Task' %>
-                                                    </strong></strong></td>
-                                    <td class="text-danger">₹<%= payment.amount %></td>
-                                    <td class="text-center">
-                                                    <% if(payment.status==='completed' ){ %>
-                                                        <span class="btn status-paid rounded-5">Paid</span>
-                                                        <% } else { %>
-                                                            <span class="btn status-pending rounded-5">
-                                                                <%= payment.status %>
-                                                            </span>
-                                                            <% } %>
-                                                </td>
-                                    <td class="text-center"><%= new Date(payment.created_at).toLocaleDateString("en-US", { month: 'short' ,
-                                                    day: 'numeric' , year: 'numeric' }) %></td>
-                                </tr>
-                                    <% }) %>
+                                <% } %>
+                                <% payments.forEach(payment=> { %>
+                                    <tr>
+                                        <td style="color: var(--text-light);">#<%= payment._id.toString().substring(0, 8) %></td>
+                                        <td><strong style="color: var(--text-light);">
+                                            <%= payment.task_id ? payment.task_id.title : 'No Task' %>
+                                        </strong></td>
+                                        <td class="text-success">₹<%= payment.amount %></td>
+                                        <td class="text-center">
+                                            <% if(payment.status==='completed' ){ %>
+                                                <span class="status-paid">Paid</span>
+                                            <% } else { %>
+                                                <span class="status-pending">
+                                                    <%= payment.status %>
+                                                </span>
+                                            <% } %>
+                                        </td>
+                                        <td class="text-center" style="color: var(--text-light);">
+                                            <%= new Date(payment.created_at).toLocaleDateString("en-US", { 
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric' 
+                                            }) %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
+        </div>
 </body>
-
 </html>

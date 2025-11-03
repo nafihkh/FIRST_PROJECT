@@ -12,20 +12,81 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(59, 130, 246, 0.2);
         }
 
         .nav-link.active {
-            background: #6366f1 !important;
+            background: var(--gradient) !important;
+            color: var(--text-light) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .stat-card-icon {
+            height: 44px;
+            width: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-bg-primary {
+            background-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .icon-bg-success {
+            background-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .icon-bg-warning {
+            background-color: #FF4C0033;
+        }
+
+        .stat-number {
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -38,62 +99,61 @@
 
             <%- include('../partials/sidebar') %>
 
-
                 <div class="flex-grow-1 p-4">
-                    <h3 class="fw-bold mb-4">Dashboard Overview</h3>
-
+                    <h3 class="fw-bold mb-4" style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Dashboard Overview</h3>
 
                     <div class="row g-4 mb-4">
                         <div class="col-md-4">
                             <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/form_rkyg16.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #00FFDD33" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="openTasks"><%= totalPosts %></h3>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="stat-card-icon icon-bg-primary">
+                                        <img src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/form_rkyg16.svg" alt="Posts" width="24" height="24">
+                                    </div>
+                                    <h3 class="stat-number ms-1" id="openTasks"><%= totalPosts %></h3>
                                 </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-0">
+                                <p class="stat-label mt-2">
                                     Total Posts Created
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/doublecheck_ev0k20.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color:#16A34A33" />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks"><%= completedTasks %></h3>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="stat-card-icon icon-bg-success">
+                                        <img src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538423/doublecheck_ev0k20.svg" alt="Completed" width="24" height="24">
+                                    </div>
+                                    <h3 class="stat-number ms-1" id="completedTasks"><%= completedTasks %></h3>
                                 </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-1 ">
+                                <p class="stat-label mt-2">
                                     Completed Tasks
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3">
-                                <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538447/orengeclock_f0aofm.svg" alt="" style="
-                                            height: 44px;
-                                            width: 44px;
-                                            background: #FF4C0033;
-                                        " />
-                                    <h3 class="text-white fw-bold ms-1 mt-2" id="pendingPayments"><%= ongoingTasks %></h3>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="stat-card-icon icon-bg-warning">
+                                        <img src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538447/orengeclock_f0aofm.svg" alt="Ongoing" width="24" height="24">
+                                    </div>
+                                    <h3 class="stat-number ms-1" id="pendingPayments"><%= ongoingTasks %></h3>
                                 </div>
-                                <p style="color: #bdc1ca; font-size: 14px" class="mb-1 ">
+                                <p class="stat-label mt-2">
                                     Ongoing Tasks
                                 </p>
                             </div>
                         </div>
                     </div>
+
                     <div class="row g-4">
                         <div class="col-md-8">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold">User Activity</h5>
+                                <h5 class="fw-bold mb-3" style="color: var(--text-light);">User Activity</h5>
                                 <canvas id="lineChart"></canvas>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold mb-2">Spending vs Savings</h5>
+                                <h5 class="fw-bold mb-3" style="color: var(--text-light);">User Distribution</h5>
                                 <canvas id="pieChart" class="mb-4"></canvas>
                             </div>
                         </div>
@@ -101,42 +161,98 @@
                 </div>
         </div>
 
-
         <script>
             const lineCtx = document.getElementById("lineChart");
             const pieCtx = document.getElementById("pieChart");
 
+            // Line Chart - User Activity
             const lineChart = new Chart(lineCtx, {
                 type: "line",
                 data: {
-                    labels: ["Open Tasks", "Completed Tasks"],
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                     datasets: [
                         {
-                            label: "Tasks",
-                            data: [100, 200, 500],
-                            borderColor: "#38bdf8",
+                            label: "Tasks Created",
+                            data: [65, 78, 90, 81, 86, 95],
+                            borderColor: "rgb(59, 130, 246)",
+                            backgroundColor: "rgba(59, 130, 246, 0.1)",
+                            tension: 0.4,
                             fill: true,
-                            backgroundColor: "rgba(56, 189, 248, 0.2)",
                         },
+                        {
+                            label: "Tasks Completed",
+                            data: [45, 62, 75, 68, 72, 80],
+                            borderColor: "rgb(16, 185, 129)",
+                            backgroundColor: "rgba(16, 185, 129, 0.1)",
+                            tension: 0.4,
+                            fill: true,
+                        }
                     ],
                 },
-                options: { plugins: { legend: { display: false } } },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: 'rgb(148, 163, 184)'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgb(148, 163, 184)'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgb(148, 163, 184)'
+                            }
+                        }
+                    }
+                },
             });
 
+            // Pie Chart - User Distribution
             const pieChart = new Chart(pieCtx, {
                 type: "pie",
                 data: {
                     labels: ["Admins", "Workers", "Users"],
                     datasets: [
                         {
-                            data: [100,200,300,4000],
-                            backgroundColor: ["#f43f5e", "#f97316", "#6366f1", "#38bdf8", "#22c55e"]
+                            data: [100, 200, 300],
+                            backgroundColor: [
+                                "rgb(59, 130, 246)",    // Primary
+                                "rgb(245, 158, 11)",    // Warning
+                                "rgb(16, 185, 129)"     // Success
+                            ],
+                            borderColor: "rgb(30, 41, 59)",
+                            borderWidth: 2
                         },
                     ],
                 },
-                options: { plugins: { legend: { display: false } } },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'rgb(148, 163, 184)',
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        }
+                    }
+                },
             });
         </script>
 </body>
-
 </html>

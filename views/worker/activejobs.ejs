@@ -12,22 +12,76 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .cart-img {
             width: 358px;
             height: 196px;
+            object-fit: cover;
         }
+
+        .btn-secondary {
+            background-color: var(--text-muted);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-muted);
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        /* Animation for job cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .job-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .job-card:nth-child(1) { animation-delay: 0.1s; }
+        .job-card:nth-child(2) { animation-delay: 0.2s; }
+        .job-card:nth-child(3) { animation-delay: 0.3s; }
+        .job-card:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 
@@ -39,40 +93,39 @@
 
             <%- include('../partials/sidebar') %>
 
-
                 <div class="flex-grow-1 p-4">
-                    <h3 class="fw-bold mb-4">Active Jobs</h3>
-                    <div id="itemcontainer">>
-                        <div class="row align-items-center rounded-3"
-                            style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%); border-left: 4px solid #636AE8;">
+                    <h3 class="fw-bold mb-4" style="color: var(--text-light);">Active Jobs</h3>
+                    <div id="itemcontainer">
+                        <div class="row align-items-center rounded-3 job-card mb-3"
+                            style="background: var(--dark-card); border-left: 4px solid var(--primary); padding: 20px;">
                             <img class="cart-img rounded-start-3 col-md-5 m-0 p-0" src="/images/task4.png" alt="">
                             <div class="col-md-5">
-                                <h6 class="mb-0 pb-0 fw-semibold" style="color: #fff; font-size: 20px;">Need a full
+                                <h6 class="mb-0 pb-0 fw-semibold" style="color: var(--text-light); font-size: 20px;">Need a full
                                     stack
                                     developer</h6>
-                                <label class="mt-0 pt-0 mb-1" style="color: #565e6c; font-size: 14px;">by
+                                <label class="mt-0 pt-0 mb-1" style="color: var(--text-muted); font-size: 14px;">by
                                     shafipuvattuparambil</label>
-                                <p class="mt-0 pt-0 mb-2" style="color: #fff; font-size: 14px;">need a full stack
+                                <p class="mt-0 pt-0 mb-2" style="color: var(--text-light); font-size: 14px;">need a full stack
                                     developer for compleat my project</p>
                                 <div class="row align-items-center mb-2 mt-5">
 
                                     <div class="col-md-4">
-                                        <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:#fff;">Budget
+                                        <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:var(--text-light);">Budget
                                         </h5>
                                         <label class="mt-0 pt-0 mb-1 fw-semibold"
-                                            style="color: #4ade80; font-size: 14px;">$2,850</label>
+                                            style="color: var(--success); font-size: 14px;">$2,850</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:#fff;">Dead
+                                        <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:var(--text-light);">Dead
                                             line</h5>
                                         <label class="mt-0 pt-0 mb-1 fw-semibold"
-                                            style="color: #fff; font-size: 14px;">Dec 15, 2025</label>
+                                            style="color: var(--text-light); font-size: 14px;">Dec 15, 2025</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-2 text-center mx-auto">
                                 <button onclick="window.location.href='/worker/activejobs/viewmore'"
-                                    class="btn  rounded-2 btn-secondary w-100">View More</button>
+                                    class="btn rounded-2 btn-secondary w-100">View More</button>
                             </div>
                         </div>
                     </div>
@@ -87,29 +140,29 @@
                             const container = document.getElementById("itemcontainer");
                             container.innerHTML = ""; // clear old content
 
-                            tasks.forEach(task => {
+                            tasks.forEach((task, index) => {
                                 const div = document.createElement("div");
-                                div.className = "row align-items-center rounded-3 mb-3";
-                                div.style = "background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%); border-left: 4px solid #636AE8;";
+                                div.className = `row align-items-center rounded-3 mb-3 job-card`;
+                                div.style = `background: var(--dark-card); border-left: 4px solid var(--primary); padding: 20px; animation-delay: ${index * 0.1}s;`;
 
                                 div.innerHTML = `
-                                    <img class="cart-img rounded-start-3 col-md-5 m-0 p-0" src="${task.photo || '/images/task4.png'}" alt="">
+                                    <img class="cart-img rounded-start-3 col-md-5 m-0 p-0" src="${task.photo || '/images/task4.png'}" alt="${task.title || 'Task Image'}" onerror="this.src='/images/task4.png'">
                                     <div class="col-md-5">
-                                        <h6 class="mb-0 pb-0 fw-semibold" style="color: #fff; font-size: 20px;">${task.title || 'No Title'}</h6>
-                                        <label class="mt-0 pt-0 mb-1" style="color: #565e6c; font-size: 14px;">by ${task.user_id?.username || 'Unknown'}</label>
-                                        <p class="mt-0 pt-0 mb-2" style="color: #fff; font-size: 14px;">${task.description || ''}</p>
+                                        <h6 class="mb-0 pb-0 fw-semibold" style="color: var(--text-light); font-size: 20px;">${task.title || 'No Title'}</h6>
+                                        <label class="mt-0 pt-0 mb-1" style="color: var(--text-muted); font-size: 14px;">by ${task.user_id?.username || 'Unknown'}</label>
+                                        <p class="mt-0 pt-0 mb-2" style="color: var(--text-light); font-size: 14px;">${task.description || ''}</p>
                                         <div class="row align-items-center mb-2 mt-5">
                                             <div class="col-md-4">
-                                                <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:#fff;">Budget</h5>
-                                                <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #4ade80; font-size: 14px;">$${task.amount || 0}</label>
+                                                <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:var(--text-light);">Budget</h5>
+                                                <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: var(--success); font-size: 14px;">$${task.amount || 0}</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:#fff;">Deadline</h5>
-                                                <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #fff; font-size: 14px;">${new Date(task.deadline).toLocaleDateString('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric'
-})}</label>
+                                                <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:var(--text-light);">Deadline</h5>
+                                                <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: var(--text-light); font-size: 14px;">${task.deadline ? new Date(task.deadline).toLocaleDateString('en-US', {
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                    year: 'numeric'
+                                                }) : 'No deadline'}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -120,18 +173,20 @@
 
                                 container.appendChild(div);
                             });
+
+                            if (tasks.length === 0) {
+                                container.innerHTML = `<div class="text-center" style="color: var(--text-muted);">No active jobs found</div>`;
+                            }
                         } catch (err) {
                             console.error(err);
+                            const container = document.getElementById("itemcontainer");
+                            container.innerHTML = `<div class="text-center" style="color: var(--error);">Error loading active jobs. Please try again.</div>`;
                         }
                     }
 
                     // Load tasks when DOM is ready
                     document.addEventListener("DOMContentLoaded", loadActiveJobs);
-
-
                 </script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
-
-
 </html>

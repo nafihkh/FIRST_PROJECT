@@ -13,52 +13,93 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .topbar {
             width: 100%;
-            border-bottom: 1px solid #777777;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
         }
 
         .topbar a {
             font-size: 14px;
-            color: #bcc1ca;
+            color: var(--text-muted);
             margin-right: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .topbar a:hover {
+            color: var(--primary);
         }
 
         .active {
-            border-bottom: 2px solid #2450b1;
+            border-bottom: 2px solid var(--primary);
             padding-bottom: 3px;
+            color: var(--primary) !important;
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(59, 130, 246, 0.2);
         }
 
         .Paid {
-            background: #10B98133;
-            color: #10b981;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
             font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .unpaid {
-            background: #ff000033;
-            color: #db0000;
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
             font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .custom-table-wrapper {
-            background-color: #171c26;
-            color: #bdc1ca;
-            border-radius: 19px;
+            background-color: var(--dark-card);
+            color: var(--text-muted);
+            border-radius: 12px;
             overflow: hidden;
             font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .custom-table {
@@ -69,16 +110,17 @@
         }
 
         .custom-table thead th {
-            color: #bdc1ca;
-            background: #262a33;
-            border-bottom: 1px solid #2f343d;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 600;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr {
             background: transparent;
-            border-bottom: 1px solid #2f343d;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
 
         .custom-table tbody tr:last-child {
@@ -86,16 +128,61 @@
         }
 
         .custom-table tbody td {
-            color: #f3f4f6;
-
+            color: var(--text-light);
             background: transparent !important;
             vertical-align: middle;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateY(-1px);
         }
+
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: var(--text-muted);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-muted);
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        /* Animation for table rows */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .custom-table tbody tr {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .custom-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .custom-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .custom-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .custom-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .custom-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 
@@ -106,28 +193,28 @@
             <%- include('../partials/sidebar') %>
 
                 <div class="p-4 w-100" style="
-          background: #0f172a;
+          background: var(--dark-bg);
           min-height: 100vh;
           font-family: 'Inter', sans-serif;
-          color: white;
+          color: var(--text-light);
         ">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3 class="fw-bold">Invoice</h3>
+                        <h3 class="fw-bold" style="color: var(--text-light);">Invoice</h3>
                     </div>
 
                     <div class="topbar mb-5">
                         <a class="text-decoration-none" href="/user/payments">Transactions</a>
-                        <a class="text-decoration-none" href="/user/payments/invoice">Invoice</a>
+                        <a class="text-decoration-none active" href="/user/payments/invoice">Invoice</a>
                     </div>
                     <div>
-                        <h5 class="fw-semibold mt-4">Invouces</h5>
+                        <h5 class="fw-semibold mt-4" style="color: var(--text-light);">Invoices</h5>
                         <div class="table-responsive custom-table-wrapper">
                             <table id="table" class="table table-borderless align-middle custom-table">
                                 <thead>
                                     <tr>
                                         <th class="text-start">ID</th>
                                         <th class="text-start">Worker</th>
-                                        <th class="text-start">Amount </th>
+                                        <th class="text-start">Amount</th>
                                         <th class="text-center">Status</th>
                                         <th>Date</th>
                                         <th class="text-center">Action</th>
@@ -137,43 +224,36 @@
                                 <tbody>
                                     <% invoices.forEach((inv, index)=> { %>
                                         <tr>
-                                            <td class="text-start">#<%= inv._id.toString().slice(-6) %>
+                                            <td class="text-start" style="color: var(--text-light);">#<%= inv._id.toString().slice(-6) %>
                                             </td>
-                                            <td class="text-start">
+                                            <td class="text-start" style="color: var(--text-light);">
                                                 <%= inv.worker_id?.username || 'Unknown' %>
                                             </td>
-                                            <td>$<%= inv.total_amount %>
+                                            <td style="color: var(--text-light);">$<%= inv.total_amount %>
                                             </td>
                                             <td class="text-center">
                                                 <span class="btn fw-semibold <%= inv.status %> rounded-5">
                                                     <%= inv.status %>
                                                 </span>
                                             </td>
-                                            <td>
+                                            <td style="color: var(--text-light);">
                                                 <%= inv.createdAt.toLocaleDateString("en-US", { month: 'short' ,
                                                     day: 'numeric' , year: 'numeric' }) %>
                                             </td>
                                             <td class="text-center">
-                                                                                                        
-                                                      <% if (inv.status==='unpaid' ) { %>
-                                                        
-                                                            
-                                                        
-                                                            <a href="/user/pay/<%= inv._id %>"
+                                                <% if (inv.status==='unpaid' ) { %>
+                                                    <a href="/user/pay/<%= inv._id %>"
                                                         class="btn btn-primary btn-sm">
-                                                        pay Now
+                                                        Pay Now
                                                     </a>
-                                                        
-                                                        <% } %>
-                                                        <a href="/user/invoice/<%= inv._id %>"
-                                                        class="btn btn-secondary btn-sm">
-                                                        View More
-                                                    </a>
-                                                        
+                                                <% } %>
+                                                <a href="/user/invoice/<%= inv._id %>"
+                                                    class="btn btn-secondary btn-sm">
+                                                    View More
+                                                </a>
                                             </td>
                                         </tr>
                                         <% }) %>
-                                </tbody>
                                 </tbody>
                             </table>
                         </div>
@@ -181,7 +261,4 @@
                 </div>
         </div>
 </body>
-
-
-
 </html>

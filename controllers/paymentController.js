@@ -334,7 +334,7 @@ exports.getPaymentsworker = async (req, res) => {
     res.render("worker/earnings", { 
       payments , 
       title: "Payments", 
-      activePage: "payments",
+      activePage: "earnings",
       totalPayments,
       totalpending,
       totalSpent

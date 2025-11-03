@@ -12,21 +12,41 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .cart-img {
             width: 358px;
             height: 196px;
+            object-fit: cover;
         }
 
         .progress-container {
-            background: #1a1c24;
+            background: var(--dark-card);
             border-radius: 10px;
             padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .step {
@@ -45,15 +65,14 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            background: #4f46e5;
-            /* active color */
-            color: white;
+            background: var(--primary);
+            color: var(--text-light);
             z-index: 1;
+            transition: all 0.3s ease;
         }
 
         .step.inactive .circle {
-            background: #444;
-            /* inactive */
+            background: var(--text-muted);
         }
 
         .step::after {
@@ -63,8 +82,9 @@
             left: 50%;
             width: 100%;
             height: 3px;
-            background: #444;
+            background: var(--text-muted);
             z-index: 0;
+            transition: all 0.3s ease;
         }
 
         .step:last-child::after {
@@ -72,7 +92,7 @@
         }
 
         .step.active~.step::after {
-            background: #444;
+            background: var(--text-muted);
         }
 
         .steps {
@@ -84,8 +104,89 @@
         .step-label {
             margin-top: 8px;
             font-size: 0.9rem;
-            color: #9095a0;
+            color: var(--text-muted);
         }
+
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--text-muted);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-muted);
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--error);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .modal-content {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+        }
+        .form-control::placeholder {
+        
+            color: var(--text-light);
+        }
+
+
+        /* Animation for progress steps */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .step .circle {
+            animation: fadeInScale 0.5s ease forwards;
+        }
+
+        .step:nth-child(1) .circle { animation-delay: 0.1s; }
+        .step:nth-child(2) .circle { animation-delay: 0.2s; }
+        .step:nth-child(3) .circle { animation-delay: 0.3s; }
+        .step:nth-child(4) .circle { animation-delay: 0.4s; }
+        .step:nth-child(5) .circle { animation-delay: 0.5s; }
     </style>
 </head>
 
@@ -98,17 +199,16 @@
             <%- include('../partials/sidebar') %>
             <%- include('../partials/tosta') %>
 
-
                 <div class="flex-grow-1 p-4">
-                    <h6 class="mb-4"><a class="text-decoration-none" style="color: #9590a0;"
-                            href="/worker/activejobs"><i class="bi bi-arrow-left" style="color: #9590a0;"></i> Back to
+                    <h6 class="mb-4"><a class="text-decoration-none" style="color: var(--text-muted);"
+                            href="/worker/activejobs"><i class="bi bi-arrow-left" style="color: var(--text-muted);"></i> Back to
                             List</a></h6>
                     <div class="row g-4 rounded-3 m-0 p-0"
-                        style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);">
+                        style="background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.05);">
 
                         <div class="col-md-10">
                             <div class="d-flex mb-3">
-                                <h6 class="mb-0 pb-0 me-3" style="color: #fff; font-size: 20px;">
+                                <h6 class="mb-0 pb-0 me-3" style="color: var(--text-light); font-size: 20px;">
                                     <%= task.title %>
                                 </h6>
                                 <label for="" style="font-size: 14px; height: 30px;"
@@ -116,22 +216,22 @@
                                     <%= task.progress %>
                                 </label>
                             </div>
-                            <p class="mt-0 pt-0 mb-2" style="color: #fff; font-size: 16px;">
+                            <p class="mt-0 pt-0 mb-2" style="color: var(--text-light); font-size: 16px;">
                                 <%= task.description %>
                             </p>
                             <div class="row align-items-center mb-2 mt-3">
 
                                 <div class="col-md-4">
-                                    <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:#9095a0;">Budget
+                                    <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:var(--text-muted);">Budget
                                     </h5>
-                                    <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #4ade80; font-size: 14px;">$
+                                    <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: var(--success); font-size: 14px;">$
                                         <%= task.amount %>
                                     </label>
                                 </div>
                                 <div class="col-md-4">
-                                    <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:#9095a0;">Dead
+                                    <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:var(--text-muted);">Dead
                                         line</h5>
-                                    <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: #fff; font-size: 14px;">
+                                    <label class="mt-0 pt-0 mb-1 fw-semibold" style="color: var(--text-light); font-size: 14px;">
                                         <%= new Date(task.deadline).toLocaleDateString('en-US', { month: 'short' ,
                                             day: 'numeric' , year: 'numeric' }) %>
                                     </label>
@@ -145,7 +245,7 @@
                                             method="POST" style="display:inline;"
                                             onsubmit="return confirm('Are you sure you want to mark this task as complete?');">
                                             <button type="submit" class="btn fw-lighter"
-                                                style="height: 32px; font-size: 14px; background:#16A34AFF; color:#fff;">
+                                                style="height: 32px; font-size: 14px; background:var(--success); color:var(--text-light);">
                                                 Mark As Complete
                                             </button>
                                         </form>
@@ -158,7 +258,7 @@
                                 <img class="rounded-circle me-1"
                                     src="<%= task.user_id?.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>" alt=""
                                     width="30px" height="30px">
-                                <h6 class="mt-2" style="font-size: 12px;">
+                                <h6 class="mt-2" style="font-size: 12px; color: var(--text-light);">
                                     <%= task.user_id.username %>
                                 </h6>
                             </div>
@@ -172,8 +272,8 @@
                     <div class="row g-4 mt-2">
                         <div class="col-md-8">
                             <div class="card p-3"
-                                style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);">
-                                <h6 class="text-white fw-bold mb-3">Project Progress</h6>
+                                style="background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.05);">
+                                <h6 class="fw-bold mb-3" style="color: var(--text-light);">Project Progress</h6>
                                 <div class="steps">
                                     <% 
                                         const stepOrder = ["Accepted", "Working", "Submitted", "Approved", "Paid"];
@@ -198,17 +298,20 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3"
-                                style="background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);">
-                                <h6 class="text-white fw-bold mb-2"> <img class="p-2 rounded-circle me-2"
+                                style="background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.05);">
+                                <h6 class="fw-bold mb-2" style="color: var(--text-light);"> 
+                                    <img class="p-2 rounded-circle me-2"
                                         src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538417/clock_zdpr3e.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #d38d00" />Deadline</h6>
+                                        style="height: 44px; width: 44px; background-color: #d38d00" />
+                                    Deadline
+                                </h6>
 
-                               <h1 class="text-center fw-bold" style="color: #d38d00; font-size: 24px;" id="countdown"
+                               <h1 class="text-center fw-bold" style="color: var(--warning); font-size: 24px;" id="countdown"
                                     data-deadline="<%= task.deadline ? task.deadline.toISOString() : '' %>">
                                     Loading...
                                 </h1>
 
-                                <h5 class="text-center my-auto mb-1" style="font-size: 12px; color:#9095a0;">Time
+                                <h5 class="text-center my-auto mb-1" style="font-size: 12px; color:var(--text-muted);">Time
                                     remaining</h5>
 
                             </div>
@@ -217,17 +320,17 @@
                     <!-- Report Modal -->
                     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content bg-dark text-white">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reportModalLabel">Submit Task Report</h5>
+                        <div class="modal-content">
+                        <div class="modal-header" style="background: var(--gradient); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <h5 class="modal-title" style="color: var(--text-light);" id="reportModalLabel">Submit Task Report</h5>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
                              <form id="reportForm">
                             <div class="mb-3">
-                                <label for="summary" class="form-label">Summary</label>
-                                <textarea class="form-control" id="summary" rows="4" name="summary" placeholder="Write your report..." required></textarea>
+                                <label for="summary" class="form-label" style="color: var(--text-light);">Summary</label>
+                                <textarea class="form-control text-white" id="summary" rows="4" name="summary" placeholder="Write your report..." required></textarea>
                             </div>
 
 
@@ -324,6 +427,4 @@
 
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
-
-
 </html>
