@@ -13,22 +13,58 @@
       src: url("/fonts/Inter-Regular.ttf");
     }
 
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1e40af;
+      --primary-darker: #1e3a8a;
+      --secondary: #0ea5e9;
+      --accent: #06b6d4;
+      --dark-bg: #0f172a;
+      --dark-card: #1e293b;
+      --dark-card-hover: #334155;
+      --text-light: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+    }
+
     body {
       font-family: "Inter";
-      background-color: #0f172a;
-      color: white;
+      background-color: var(--dark-bg);
+      color: var(--text-light);
     }
 
     .chat-container {
       display: flex;
-      height: 90vh;
+      height: 80vh;
+      flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+      .chat-container {
+        flex-direction: row;
+        height: 90vh;
+      }
     }
 
     .conversations {
-      background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+      background: var(--dark-card);
       border-radius: 10px;
       padding: 15px;
-      width: 280px;
+      width: 100%;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @media (min-width: 768px) {
+      .conversations {
+        width: 280px;
+        margin-bottom: 0;
+        margin-right: 20px;
+      }
     }
 
     .conversations .user {
@@ -47,13 +83,19 @@
 
     .chat-box {
       flex: 1;
-      background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+      background: var(--dark-card);
       border-radius: 10px;
-      margin-left: 20px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @media (min-width: 768px) {
+      .chat-box {
+        margin-left: 0;
+      }
     }
 
     .chat-header img {
@@ -68,56 +110,83 @@
       display: inline-block;
       padding: 10px 15px;
       border-radius: 8px;
-      width: 50%;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    @media (min-width: 768px) {
+      .chat-message {
+        max-width: 50%;
+      }
     }
 
     .chat-message.sent {
-      background-color: #4f46e5;
+      background: var(--gradient);
       text-align: left;
-    align-self: flex-end;
-      color: white;
+      align-self: flex-end;
+      color: var(--text-light);
+      margin-left: auto;
     }
 
     .chat-message.received {
-      background-color: #2c2f48;
-      
-      color: white;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-right: auto;
     }
+
     .chat-messages {
-  overflow-y: scroll;
-}
+      overflow-y: scroll;
+      flex: 1;
+      padding: 10px 0;
+    }
 
-.chat-messages::-webkit-scrollbar {
-  display: none;
-  }
+    .chat-messages::-webkit-scrollbar {
+      display: none;
+    }
 
-  .chat-messages {
-    -ms-overflow-style: none; 
-    scrollbar-width: none;
-  }
+    .chat-messages {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
     .chat-input {
       display: flex;
       align-items: center;
       margin-top: 15px;
+      gap: 10px;
     }
 
     .chat-input input {
-      background-color: #2c2f48;
-      border: none;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       padding: 12px;
-      color: white;
+      color: var(--text-light);
       flex: 1;
       outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .chat-input input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
     .chat-input button {
-      margin-left: 10px;
       border-radius: 50%;
-      background-color: #4f46e5;
+      background: var(--gradient);
       border: none;
       padding: 10px 15px;
-      color: white;
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .chat-input button:hover {
+      background: var(--gradient-dark);
+      transform: translateY(-1px);
     }
 
     .top-bar {
@@ -125,42 +194,97 @@
       justify-content: space-between;
       margin-bottom: 20px;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .ticket {
-      background: #353742;
-      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px;
       margin-bottom: 10px;
       border-radius: 12px;
       cursor: pointer;
       align-items: center;
       gap: 10px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .ticket:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.2);
     }
 
     .tiket-info {
       font-size: 12px;
-      color: #888;
+      color: var(--text-muted);
     }
-   #messageInput::placeholder {
-    color: #bcc1ca;
-   }
-   #messageInput:focus {
-    background-color: #2c2f48;
+
+    #messageInput::placeholder {
+      color: var(--text-muted);
+    }
+
+    .time-stamp {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .time-stamp2 {
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
+    hr.text-secondary {
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .text-secondary {
+      color: var(--text-muted) !important;
+    }
+
+    /* Mobile menu toggle */
+    .mobile-toggle {
+      display: block;
+      background: var(--gradient);
       border: none;
-      border-radius: 20px;
-      padding: 12px;
-      color: white;
-      flex: 1;
-      outline: none;
-   }
-   .time-stamp {
-    color: #9095a0; 
-    font-size: 12px; 
-   }
-   .time-stamp2 {
-    color: #ffffff; 
-    font-size: 12px; 
-   }
+      color: var(--text-light);
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-toggle {
+        display: none;
+      }
+    }
+
+    .conversations-mobile {
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .conversations-mobile {
+        display: block !important;
+      }
+    }
+
+    /* Animation for messages */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chat-message {
+      animation: fadeInUp 0.3s ease forwards;
+    }
   </style>
 </head>
 
@@ -169,37 +293,34 @@
   <%- include('../partials/header') %>
 
     <div class="d-flex">
+
       <%- include('../partials/sidebar') %>
 
-        <div class="flex-grow-1 p-4">
+        <div class="flex-grow-1 p-3 p-md-4">
           <div class="container-fluid">
             <div class="top-bar">
-              <h4 class="fw-bold">Messages & Notifications</h4>
+              <h4 class="fw-bold mb-0" style="color: var(--text-light);">Messages & Notifications</h4>
+              <button class="mobile-toggle" id="toggleConversations">
+                <i class="bi bi-list"></i> Conversations
+              </button>
             </div>
 
             <div class="chat-container">
 
               <!-- Left Sidebar: List of Users -->
-              <div class="conversations rounded-4">
-                <h5 class="fw-bold mb-3">Conversations</h5>
-
+              <div class="conversations rounded-4 conversations-mobile" id="conversationsSidebar">
+                <h5 class="fw-bold mb-3" style="color: var(--text-light);">Conversations</h5>
 
                 <% conversations.forEach(conv=> { %>
-                  <a href="/worker/messages/<%= conv._id %>" class="text-decoration-none text-white">
+                  <a href="/worker/messages/<%= conv._id %>" class="text-decoration-none" style="color: var(--text-light);">
                     <div class="ticket">
-                      <h6 class="fw-bold text-uppercase">
+                      <h6 class="fw-bold text-uppercase mb-1">
                         <%= conv.title %>
                       </h6>
-                      <label class="tiket-info">ticketid:<%= conv._id %></label>
+                      <label class="tiket-info">ticketid: <%= conv._id %></label>
                     </div>
                   </a>
-
-                  <% }) %>
-
-
-
-
-
+                <% }) %>
               </div>
 
               <!-- Chat Box -->
@@ -207,51 +328,51 @@
 
                 <div class="chat-header" id="chatHeader">
                   <% if (currentConv) { %>
-                    <strong id="chatUserName" class="fw-bold text-uppercase">
+                    <strong id="chatUserName" class="fw-bold text-uppercase" style="color: var(--text-light);">
                       <%= currentConv ? currentConv.title : '' %>
                     </strong><br>
                     <small class="text-secondary">ID: <%= currentConv._id %></small>
                     <% } else { %>
-                      <strong id="chatUserName">Select a user</strong>
+                      <strong id="chatUserName" style="color: var(--text-light);">Select a conversation</strong>
                       <br>
-                      <small class="text-secondary">Click on a user to start chat</small>
+                      <small class="text-secondary">Click on a conversation to start chat</small>
                       <% } %>
                 </div>
 
                 <hr class="text-secondary">
 
-
-                <div class="chat-messages d-flex flex-column overflow-y-scroll" id="chatMessages">
+                <div class="chat-messages d-flex flex-column" id="chatMessages">
                   <% if (messages && messages.length> 0) { %>
                     <% messages.forEach(msg=> { %>
                       <div class="chat-message <%= msg.senderType === 'user' ? 'received' : 'sent' %>">
                         <div class="<%= msg.senderType === 'user' ? 'text-start' : 'text-end' %>">
                           <div>
-                          <%= msg.message %>
+                            <%= msg.message %>
+                          </div>
                         </div>
-                      </div> <br>
+                        <br>
                         <div class="<%= msg.senderType === 'user' ? 'text-end' : 'text-start' %>">
                           <small class="<%= msg.senderType === 'user' ? 'time-stamp' : 'time-stamp2' %>">
-                           <%= new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) %>
+                            <%= new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) %>
                           </small>
-                          </div>
+                        </div>
                       </div>
-                      <% }) %>
-                        <% } else { %>
-                          <p class="text-center text-secondary mt-5">No messages yet</p>
-                          <% } %>
+                    <% }) %>
+                  <% } else { %>
+                    <p class="text-center text-secondary mt-5">No messages yet</p>
+                  <% } %>
                 </div>
 
                 <hr class="text-secondary">
 
                 <div class="chat-input">
-                  <form method="POST" action="/worker/send-message" class="d-flex w-100">
-                    <input type="hidden" name="conversationId" value="<%= currentConv ? currentConv._id : '' %>">
+                  <form method="POST" action="/worker/send-message" class="d-flex w-100 align-items-center">
+                    <input type="hidden" class="" name="conversationId" value="<%= currentConv ? currentConv._id : '' %>">
 
                     <input id="messageInput" type="text" name="message" placeholder="Type your message..."
-                      class="form-control" required>
+                      class="" required <%= !currentConv ? 'disabled' : '' %>>
 
-                    <button id="sendButton" class="btn">➤</button>
+                    <button id="sendButton" class="btn" <%= !currentConv ? 'disabled' : '' %>>➤</button>
                   </form>
                 </div>
 
@@ -261,6 +382,45 @@
           </div>
         </div>
     </div>
+
+    <script>
+      // Mobile toggle functionality
+      document.getElementById('toggleConversations').addEventListener('click', function() {
+        const sidebar = document.getElementById('conversationsSidebar');
+        if (sidebar.style.display === 'none') {
+          sidebar.style.display = 'block';
+        } else {
+          sidebar.style.display = 'none';
+        }
+      });
+
+      // Auto-scroll to bottom of chat messages
+      function scrollToBottom() {
+        const chatMessages = document.getElementById('chatMessages');
+        if (chatMessages) {
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+      }
+
+      // Initial scroll to bottom
+      document.addEventListener('DOMContentLoaded', function() {
+        scrollToBottom();
+        
+        // Hide conversations on mobile by default
+        if (window.innerWidth < 768) {
+          document.getElementById('conversationsSidebar').style.display = 'none';
+        }
+      });
+
+      // Handle window resize
+      window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+          document.getElementById('conversationsSidebar').style.display = 'block';
+        } else {
+          document.getElementById('conversationsSidebar').style.display = 'none';
+        }
+      });
+    </script>
 </body>
 
 </html>

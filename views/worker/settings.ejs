@@ -12,14 +12,32 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
         }
@@ -29,7 +47,7 @@
         }
 
         .profile-card {
-            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            background: var(--dark-card);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
@@ -70,7 +88,7 @@
 
         .stats-card,
         .review-card {
-            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            background: var(--dark-card);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
@@ -85,7 +103,7 @@
             display: none;
             border: none;
             background: transparent;
-            color: #fff;
+            color: var(--text-light);
             font-size: 14px;
             margin: 0 !important;
             padding: 0 !important;
@@ -94,19 +112,20 @@
         .hidden-input:focus {
             border: 0px;
             background: transparent;
-            color: #fff;
+            color: var(--text-light);
             outline: none;
             box-shadow: none;
         }
 
         .info-label {
             font-size: 14px;
-            color: #bcc1ca;
+            color: var(--text-muted);
             font-family: 'Inter';
         }
 
         .info-text {
             font-size: 14px;
+            color: var(--text-light);
         }
 
         .change-profile {
@@ -120,19 +139,19 @@
         }
 
         .text-per {
-            color: #9095a0;
+            color: var(--text-muted);
             font-size: 14px;
         }
 
         .verification-card {
-            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            background: var(--dark-card);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
         }
 
         .step-indicator {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: var(--gradient);
             color: white;
             font-weight: 600;
         }
@@ -155,21 +174,20 @@
         }
 
         .verify-button {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: var(--gradient);
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
             border: none;
         }
         .verify-button-success {
             background: linear-gradient(135deg, #4ade80, #22c55e, #15803d);
-
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(116, 241, 99, 0.3);
             border: none;
         }
 
         .verify-button:hover {
-            background-color: #4338ca;
+            background: var(--gradient-dark);
         }
 
         .otp-input {
@@ -177,7 +195,7 @@
             padding: 12px;
             border-radius: 8px;
             font-size: 16px;
-            color: #fff;
+            color: var(--text-light);
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
             outline: none;
@@ -189,13 +207,12 @@
         }
 
         .otp-input:focus {
-            border-color: #4f46e5;
-            /* Accent color */
-            box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
         }
 
         .card {
-            background: linear-gradient(-70deg, #222426FF 0%, #2A2C2FFF 100%);
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
         }
@@ -219,29 +236,28 @@
             border-color: #323743FF;
             border-style: solid;
             outline: none;
-            color: #bcc1ca;
+            color: var(--text-muted);
         }
 
         .label-set {
-            color: #9095a0;
+            color: var(--text-muted);
             font-size: 14px;
         }
-        #jobtittle::placeholder {
-             color: #9095a0;
+        #jobJOBSEEK::placeholder {
+             color: var(--text-muted);
             font-size: 14px;
         }
          #jobtittle:focus {
-             color: #9095a0;
+             color: var(--text-muted);
             font-size: 14px;
             background: transparent;
         }
         #location::placeholder {
-            color: #9095a0;
+            color: var(--text-muted);
             font-size: 14px;
-
         }
         #location:focus {
-             color: #9095a0;
+             color: var(--text-muted);
             font-size: 14px;
             background: transparent;
         }
@@ -251,17 +267,16 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            color: #f1f5f9;
+            color: var(--text-light);
             font-size: 1rem;
             transition: all 0.3s ease;
         }
         .otp-input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
     </style>
-
 </head>
 
 <body>
@@ -275,7 +290,7 @@
 
                 <div class="flex-grow-1 p-4">
                     <div class="container py-2">
-                        <h3 class="fw-bold mb-4">Settings</h3>
+                        <h3 class="fw-bold mb-4" style="color: var(--text-light);">Settings</h3>
                         <div class="row g-4">
                             <!-- Profile Card -->
                             <div class="col-md-4">
@@ -293,16 +308,16 @@
                                                 </div>
                                             </label>
                                             <br>
-                                            <h5 style="font-size: 20px;" class="info-text text-white"><%= user.username %></h5>
+                                            <h5 style="font-size: 20px;" class="info-text"><%= user.username %></h5>
                                             <input type="text" style="font-size: 20px;" name="username"
                                                 value="<%= user.username %>"
                                                 class="form-control text-center hidden-input"
                                                 value="<%= user.username %>">
 
                                             <p class="mb-2 text-center">
-                                                <span style="color: #bcc1ca; font-size: 16px;"
+                                                <span style="color: var(--text-muted); font-size: 16px;"
                                                     class="info-text text-center"><%= user.jobtittle %></span>
-                                                <input style="color: #bcc1ca; font-size: 16px;" type="text"
+                                                <input style="color: var(--text-muted); font-size: 16px;" type="text"
                                                     class="form-control text-center hidden-input" id="jobtittle" placeholder="Enter your jobtitle" name="jobtittle"
                                                     value="<%= user.jobtittle %>">
                                             </p>
@@ -343,7 +358,7 @@
 
                                         <p class="mb-2">
                                             <span class="info-label">Member Since</span><br>
-                                            <span style="font-size: 14px;">January 2025</span>
+                                            <span style="font-size: 14px; color: var(--text-light);">January 2025</span>
                                         </p>
                                     </div>
 
@@ -369,7 +384,7 @@
                             <div class="col-md-8">
                                 <!-- Skills -->
                                 <div class="profile-card">
-                                    <h5 class="fw-bold mb-3">Skills & Expertise</h5>
+                                    <h5 class="fw-bold mb-3" style="color: var(--text-light);">Skills & Expertise</h5>
                                     <div id="skillsContainer">
                                         <% if(worker.skills && worker.skills.length> 0) { %>
                                             <% worker.skills.forEach(skill=> { %>
@@ -391,10 +406,10 @@
 
                                 <!-- Stats -->
                                 <div class="stats-card">
-                                    <h5 class="mb-3 fw-bold">Performance Stats</h5>
+                                    <h5 class="mb-3 fw-bold" style="color: var(--text-light);">Performance Stats</h5>
                                     <div class="row text-center align-items-center">
                                         <div class="col-md-3">
-                                            <h5 class="fw-semibold" style="font-size: 20px;"><%= stats.totalReviews %></h5>
+                                            <h5 class="fw-semibold" style="font-size: 20px; color: var(--text-light);"><%= stats.totalReviews %></h5>
                                             <p class="text-per small">Total Reviews</p>
                                         </div>
                                         <div class="col-md-3">
@@ -402,11 +417,11 @@
                                             <p class="text-per small">Success Rate</p>
                                         </div>
                                         <div class="col-md-3">
-                                            <h5 class="fw-semibold" style="font-size: 20px;"><%= stats.avgRating %></h5>
+                                            <h5 class="fw-semibold" style="font-size: 20px; color: var(--text-light);"><%= stats.avgRating %></h5>
                                             <p class="text-per small">Avg Rating</p>
                                         </div>
                                         <div class="col-md-3">
-                                            <h5 class="fw-semibold" style="font-size: 20px;"><%= stats.completedTasks %></h5>
+                                            <h5 class="fw-semibold" style="font-size: 20px; color: var(--text-light);"><%= stats.completedTasks %></h5>
                                             <p class="text-per small">Completed Tasks</p>
                                         </div>
                                     </div>
@@ -414,15 +429,15 @@
 
                                 <!-- Reviews -->
                                 <div class="review-card">
-                                    <h5 class="fw-bold mb-3">Recent Reviews</h5>
+                                    <h5 class="fw-bold mb-3" style="color: var(--text-light);">Recent Reviews</h5>
                                     <div class="d-flex align-items-start">
                                         <div>
-                                            <strong>Alexw</strong><br>
-                                            <p class="small text-white mb-1">
+                                            <strong style="color: var(--text-light);">Alexw</strong><br>
+                                            <p class="small mb-1" style="color: var(--text-light);">
                                                 "Excellent work on the e-commerce website. Professional, timely, and
                                                 exceeded expectations!"
                                             </p>
-                                            <span class="review-star">★★★☆☆</span> <span>2.5</span>
+                                            <span class="review-star">★★★☆☆</span> <span style="color: var(--text-light);">2.5</span>
                                         </div>
                                     </div>
                                 </div>
@@ -430,12 +445,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="verification-card">
-                                    <h5 class="fw-bold mb-3">Two-Step Verification</h5>
-                                    <p style="color: #bcc1ca; font-size: 14px;">Secure your account with additional
+                                    <h5 class="fw-bold mb-3" style="color: var(--text-light);">Two-Step Verification</h5>
+                                    <p style="color: var(--text-muted); font-size: 14px;">Secure your account with additional
                                         verification steps</p>
 
                                     <!-- EMAIL VERIFICATION -->
-                                    <h6 class="d-flex align-items-center fw-semibold">
+                                    <h6 class="d-flex align-items-center fw-semibold" style="color: var(--text-light);">
                                         <div style="width: 1.5rem; height: 1.5rem;"
                                             class="step-indicator rounded-circle d-flex align-items-center justify-content-center me-2">
                                             1
@@ -447,10 +462,10 @@
                                         <div class="d-flex align-items-center flex-grow-1">
                                             <div class="icon-box"><i class="bi bi-envelope text-white"></i></div>
                                             <div class="flex-grow-1">
-                                                <p class="mb-0 fw-medium">
+                                                <p class="mb-0 fw-medium" style="color: var(--text-light);">
                                                     <%= user.email %>
                                                 </p>
-                                                <small style="color: rgb(156, 163, 175);">Primary email address</small>
+                                                <small style="color: var(--text-muted);">Primary email address</small>
                                             </div>
                                         </div>
                                         <% if (user.mail_verified) { %>
@@ -470,18 +485,18 @@
                                         <input type="text" id="emailOtp" class="otp-input mt-3"
                                             placeholder="Enter 6-digit OTP sent to your email" maxlength="6">
                                         <div class="d-flex justify-content-between align-items-center mt-2">
-                                            <p style="color: rgb(156, 163, 175); font-size: 14px;"
+                                            <p style="color: var(--text-muted); font-size: 14px;"
                                                 class="otp-info mb-0">
                                                 Code expires in <span id="emailTimer"
-                                                    style="color: rgb(99 102 241);">02:00</span>
+                                                    style="color: var(--primary);">02:00</span>
                                             </p>
                                             <button id="resendEmailBtn" class="bg-transparent border-0"
-                                                style="color: rgb(99 102 241); font-size: 14px;">Resend Code</button>
+                                                style="color: var(--primary); font-size: 14px;">Resend Code</button>
                                         </div>
                                     </div>
 
                                     <!-- PHONE VERIFICATION -->
-                                    <h6 class="d-flex align-items-center fw-semibold mt-3">
+                                    <h6 class="d-flex align-items-center fw-semibold mt-3" style="color: var(--text-light);">
                                         <div style="width: 1.5rem; height: 1.5rem;"
                                             class="step-indicator rounded-circle d-flex align-items-center justify-content-center me-2">
                                             2
@@ -493,10 +508,10 @@
                                         <div class="d-flex align-items-center flex-grow-1">
                                             <div class="icon-box"><i class="bi bi-telephone text-white"></i></div>
                                             <div class="flex-grow-1">
-                                                <p class="mb-0 fw-medium">
+                                                <p class="mb-0 fw-medium" style="color: var(--text-light);">
                                                     <%= user.phone %>
                                                 </p>
-                                                <small style="color: rgb(156, 163, 175);">Registered mobile
+                                                <small style="color: var(--text-muted);">Registered mobile
                                                     number</small>
                                             </div>
                                         </div>
@@ -518,20 +533,20 @@
                                         <input type="text" id="phoneOtp" class="otp-input mt-3"
                                             placeholder="Enter 6-digit SMS Code" maxlength="6">
                                         <div class="d-flex justify-content-between align-items-center mt-2">
-                                            <p style="color: rgb(156, 163, 175); font-size: 14px;"
+                                            <p style="color: var(--text-muted); font-size: 14px;"
                                                 class="otp-info mb-0">
                                                 Code expires in <span id="phoneTimer"
-                                                    style="color: rgb(99 102 241);">02:00</span>
+                                                    style="color: var(--primary);">02:00</span>
                                             </p>
                                             <button id="resendPhoneBtn" class="bg-transparent border-0"
-                                                style="color: rgb(99 102 241); font-size: 14px;">Resend Code</button>
+                                                style="color: var(--primary); font-size: 14px;">Resend Code</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="card p-3">
-                                    <h5 class="text-white fw-bold mb-2">Security Settings</h5>
+                                    <h5 class="fw-bold mb-2" style="color: var(--text-light);">Security Settings</h5>
                                     <form id="passwordForm" action="/worker/settings/password" method="POST"
                                         enctype="multipart/form-data">
                                         <label class="label-set fw-semibold mb-1" for="currentPassword">Current
@@ -560,7 +575,7 @@
                     <div class="modal fade" id="addSkillModal" tabindex="-1" aria-labelledby="addSkillModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content bg-dark text-white">
+                            <div class="modal-content" style="background: var(--dark-card); color: var(--text-light);">
                                 <div class="modal-header border-0">
                                     <h5 class="modal-title" id="addSkillModalLabel">Add a New Skill</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
@@ -568,7 +583,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <input type="text" id="newSkillInput"
-                                        class="form-control bg-secondary text-white border-0" placeholder="Enter skill">
+                                        class="form-control" placeholder="Enter skill" style="background: rgba(255, 255, 255, 0.05); color: var(--text-light); border: 1px solid rgba(255, 255, 255, 0.1);">
                                 </div>
                                 <div class="modal-footer border-0">
                                     <button type="button" class="btn btn-secondary"
@@ -578,8 +593,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <script>
 
@@ -747,7 +760,7 @@
                         const emailOtpInput = document.getElementById("emailOtp");
                         const resendEmailBtn = document.getElementById("resendEmailBtn");
                         const emailTimer = document.getElementById("emailTimer");
-                        let emailCountdown;w
+                        let emailCountdown;
 
                         emailSendBtn.addEventListener("click", async () => {
                             try {
@@ -790,7 +803,7 @@
                                         emailRowBtn.textContent = "Verified";
                                         emailRowBtn.disabled = true;
                                         emailRowBtn.classList.remove("verify-button");
-                                        emailRowBtn.classList.add("btn-success");
+                                        emailRowBtn.classList.add("verify-button-success");
 
                                         // Optionally, show a checkmark next to the email
                                         const emailVerifiedIcon = document.createElement("i");

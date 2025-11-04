@@ -12,16 +12,35 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-link.active {
@@ -37,23 +56,33 @@
             font-size: 14px;
             line-height: 22px;
             font-weight: 400;
-            background: #323743FF;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 9999px;
             border-width: 1px;
-            border-color: #323743FF;
+            border-color: rgba(255, 255, 255, 0.1);
             border-style: solid;
             outline: none;
-            color: #bcc1ca;
+            color: var(--text-muted);
         }
 
         .label-set {
-            color: #9095a0;
+            color: var(--text-muted);
             font-size: 14px;
         }
 
         #profilePhotoInput {
             display: none;
-            
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -66,12 +95,12 @@
             <%- include('../partials/tosta') %>
 
                 <div class="flex-grow-1 p-4">
-                    <h3 class="fw-bold mb-4">Settings</h3>
+                    <h3 class="fw-bold mb-4" style="color: var(--text-light);">Settings</h3>
                     <div class="row g-4">
                        
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold">Profile Settings</h5>
+                                <h5 class="fw-bold" style="color: var(--text-light);">Profile Settings</h5>
                                 <form id="profileForm" action="/admin/settings/profile" method="POST"
                                     enctype="multipart/form-data">
                                     <div class="d-flex align-items-center mb-3">
@@ -101,7 +130,7 @@
                       
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h5 class="text-white fw-bold mb-2">Security Settings</h5>
+                                <h5 class="fw-bold mb-2" style="color: var(--text-light);">Security Settings</h5>
                                 <form id="passwordForm" action="/admin/settings/password" method="POST">
                                     <label class="label-set fw-semibold mb-1" for="currentPassword">Current
                                         Password</label>

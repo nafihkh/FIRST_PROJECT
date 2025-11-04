@@ -14,16 +14,35 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-link.active {
@@ -39,13 +58,13 @@
             font-size: 14px;
             line-height: 22px;
             font-weight: 400;
-            background: #1f2937ff;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             border-width: 1px;
-            border-color: #1c222bff;
+            border-color: rgba(255, 255, 255, 0.1);
             border-style: solid;
             outline: none;
-            color: #BDC1CA;
+            color: var(--text-muted);
         }
 
         input[type="date"]::-webkit-calendar-picker-indicator {
@@ -69,7 +88,7 @@
             font-variant: normal;
             text-rendering: auto;
             display: inline-block;
-            color: #fff;
+            color: var(--text-light);
             position: absolute;
             right: 12px;
             top: 50%;
@@ -91,7 +110,7 @@
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            color: #fff;
+            color: var(--text-light);
             cursor: pointer;
         }
 
@@ -119,24 +138,24 @@
         }
 
         #searchFilter::placeholder {
-            color: #f3f4f6;
+            color: var(--text-muted);
         }
 
         .approved {
-            background: #10B98133;
-            color: #10b981;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
             font-size: 12px;
         }
 
         .pending {
-            background: #FACC1533;
-            color: #facc15;
+            background: rgba(250, 204, 21, 0.2);
+            color: var(--warning);
             font-size: 12px;
         }
 
         .rejected {
-            background: #F4403433;
-            color: #f44034;
+            background: rgba(244, 64, 52, 0.2);
+            color: var(--error);
             font-size: 12px;
         }
 
@@ -146,7 +165,7 @@
         }
 
         .input-box {
-            background-color: #0f172a;
+            background-color: var(--dark-bg);
             width: 100%;
             height: 40px;
             padding-left: 12px;
@@ -157,16 +176,21 @@
             font-weight: 400;
             border-radius: 10px;
             border-width: 1px;
-            border-color: rgb(59, 59, 59);
+            border-color: rgba(255, 255, 255, 0.1);
             border-style: solid;
             outline: none;
-            color: #BDC1CA;
+            color: var(--text-muted);
         }
 
         #pieChart,
         #barChart2 {
             height: 268px !important;
             max-height: 268px;
+        }
+
+        .filter-section {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
@@ -177,12 +201,12 @@
     <div class="d-flex">
         <%- include('../partials/sidebar') %>
 
-        <div class="p-4 w-100" style="background: #0f172a; min-height: 100vh; font-family: 'Inter', sans-serif; color: white;">
-            <h3 class="fw-bold mb-4">Problem Management</h3>
+        <div class="p-4 w-100" style="background: var(--dark-bg); min-height: 100vh; font-family: 'Inter', sans-serif; color: var(--text-light);">
+            <h3 class="fw-bold mb-4" style="color: var(--text-light);">Problem Management</h3>
 
-            <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
+            <div style="background-color: var(--dark-card)" class="d-flex gap-3 mb-4 p-4 rounded-3 filter-section">
                 <div class="d-flex align-items-center">
-                    <label style="color: #bdc1ca; font-size: 14px" for="">Status:</label>
+                    <label style="color: var(--text-muted); font-size: 14px" for="">Status:</label>
                     <select id="statusFilter" class="form-select inbox text-white border-0 ms-1" style="width: 150px">
                         <option value="all">All Status</option>
                         <option value="Approved">Approved</option>
@@ -191,7 +215,7 @@
                     </select>
                 </div>
                 <div class="d-flex align-items-center">
-                    <label style="color: #bdc1ca; font-size: 14px" for="">Date:</label>
+                    <label style="color: var(--text-muted); font-size: 14px" for="">Date:</label>
                     <div class="date-wrapper">
                         <input type="date" id="dateFilter" name="date" class="form-control text-white border-0 inbox ms-1 w-auto" />
                         <span class="calendar-icon"><i class="fa-solid fa-calendar-days"></i></span>
@@ -206,25 +230,25 @@
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold">User Growth</h5>
+                        <h5 class="fw-bold" style="color: var(--text-light);">User Growth</h5>
                         <canvas id="lineChart"></canvas>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold mb-2">Problem Resolution Time</h5>
+                        <h5 class="fw-bold mb-2" style="color: var(--text-light);">Problem Resolution Time</h5>
                         <canvas id="barChart"></canvas>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold mb-2">Department Performance</h5>
+                        <h5 class="fw-bold mb-2" style="color: var(--text-light);">Department Performance</h5>
                         <canvas id="pieChart" class=""></canvas>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card p-3">
-                        <h5 class="text-white fw-bold">Worker Ratings Distribution</h5>
+                        <h5 class="fw-bold" style="color: var(--text-light);">Worker Ratings Distribution</h5>
                         <canvas id="barChart2"></canvas>
                     </div>
                 </div>

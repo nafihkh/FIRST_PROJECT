@@ -13,14 +13,33 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .bg-blk {
-            background-color: #171c26;
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .d-4 {
@@ -28,11 +47,12 @@
         }
 
         .custom-table-wrapper {
-            background-color: #171c26;
-            color: #bdc1ca;
+            background-color: var(--dark-card);
+            color: var(--text-muted);
             border-radius: 19px;
             overflow: hidden;
             font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .custom-table {
@@ -43,16 +63,16 @@
         }
 
         .custom-table thead th {
-            color: #bdc1ca;
-            background: #262a33;
-            border-bottom: 1px solid #2f343d;
+            color: var(--text-muted);
+            background: var(--dark-card-hover);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 600;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr {
             background: transparent;
-            border-bottom: 1px solid #2f343d;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .custom-table tbody tr:last-child {
@@ -60,8 +80,7 @@
         }
 
         .custom-table tbody td {
-            color: #f3f4f6;
-
+            color: var(--text-light);
             background: transparent !important;
             vertical-align: middle;
             padding: 16px 18px;
@@ -70,15 +89,134 @@
         .custom-table tbody tr:hover td {
             background: rgba(255, 255, 255, 0.02);
         }
+        
         .Completed {
-            background: #10B98133;
-            color: #10b981;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
             font-size: 12px;
         }
+        
         .InProgress {
-             background: #FACC1533;
-            color: #facc15;
+            background: rgba(250, 204, 21, 0.2);
+            color: var(--warning);
             font-size: 12px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        .count-animate {
+            animation: countUp 0.8s ease-out forwards;
+        }
+
+        .pulse-hover {
+            transition: all 0.3s ease;
+        }
+
+        .pulse-hover:hover {
+            animation: pulse 0.5s ease;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .stagger-delay-1 { animation-delay: 0.1s; }
+        .stagger-delay-2 { animation-delay: 0.2s; }
+        .stagger-delay-3 { animation-delay: 0.3s; }
+        .stagger-delay-4 { animation-delay: 0.4s; }
+
+        .table-row-animate {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Loading shimmer */
+        @keyframes shimmer {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: 200px 0;
+            }
+        }
+
+        .loading-shimmer {
+            background: linear-gradient(90deg, var(--dark-card) 25%, var(--dark-card-hover) 50%, var(--dark-card) 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
         }
     </style>
 
@@ -93,43 +231,43 @@
             <%- include('../partials/sidebar') %>
 
                 <div class=" w-100"
-                    style="background:#0f172a; min-height:100vh; font-family: 'Inter', sans-serif; color:white; padding: 2.5rem;">
-                    <h6 class="mb-4"><a class="text-decoration-none" style="color: #9590a0;" href="/admin/workers"><i
-                                class="fa-solid fa-arrow-left" style="color: #9590a0;"></i> Back to List</a></h6>
+                    style="background: var(--dark-bg); min-height:100vh; font-family: 'Inter', sans-serif; color: var(--text-light); padding: 2.5rem;">
+                    <h6 class="mb-4 fade-in-up"><a class="text-decoration-none" style="color: var(--text-muted);" href="/admin/workers"><i
+                                class="fa-solid fa-arrow-left" style="color: var(--text-muted);"></i> Back to List</a></h6>
                     <div class="d-flex gap-3 w-100">
-                        <div class="left rounded-4 bg-blk text-center py-5" style="width: 33.33%;">
-                            <img class="rounded-circle" src="<%= worker.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>" alt="" height="100px" width="100px">
+                        <div class="left rounded-4 bg-blk text-center py-5 slide-in-left pulse-hover" style="width: 33.33%;">
+                            <img class="rounded-circle pulse-hover" src="<%= worker.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg' %>" alt="" height="100px" width="100px">
                             <h3 class="fw-semibold my-1"><%= worker.username %></h3>
-                            <h6 style="color: #BDC1CAFF; font-size: 14px;">#W<%= worker._id.toString().slice(-5) %></h6>
-                            <h6 style="color: #BDC1CAFF; font-size: 14px;" class="email"><%= worker.email %></h6>
+                            <h6 style="color: var(--text-muted); font-size: 14px;">#W<%= worker._id.toString().slice(-5) %></h6>
+                            <h6 style="color: var(--text-muted); font-size: 14px;" class="email"><%= worker.email %></h6>
                         </div>
                         <div class="right col-8" width="66.66%">
                             <div class="top d-flex justify-content-between">
-                                <div class="content p-3 d-4 rounded-4 bg-blk">
+                                <div class="content p-3 d-4 rounded-4 bg-blk card-hover slide-in-right stagger-delay-1">
                                     <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538412/check-blue_d97azf.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #3B82F630" />
-                                    <h3 class="fw-bold ms-1 my-1"><%= stats.totalWorksDone %></h3>
-                                    <h6 style="font-size: 14px; color:#BDC1CAFF;" class="fw-semibold">TOTAL WORKS DONE
+                                        style="height: 44px; width: 44px; background-color: rgba(59, 130, 246, 0.2)" />
+                                    <h3 class="fw-bold ms-1 my-1 count-animate"><%= stats.totalWorksDone %></h3>
+                                    <h6 style="font-size: 14px; color: var(--text-muted);" class="fw-semibold">TOTAL WORKS DONE
                                     </h6>
                                 </div>
-                                <div class="content p-3 d-4 rounded-4 bg-blk">
+                                <div class="content p-3 d-4 rounded-4 bg-blk card-hover slide-in-right stagger-delay-2">
                                     <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538418/clock-yellow_ykbk5a.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #EAB30836" />
-                                    <h3 class="fw-bold ms-1 my-1"><%= stats.worksInProgress %></h3>
-                                    <h6 style="font-size: 14px; color:#BDC1CAFF; " class="fw-semibold">WORKS IN PROGRESS
+                                        style="height: 44px; width: 44px; background-color: rgba(234, 179, 8, 0.2)" />
+                                    <h3 class="fw-bold ms-1 my-1 count-animate"><%= stats.worksInProgress %></h3>
+                                    <h6 style="font-size: 14px; color: var(--text-muted);" class="fw-semibold">WORKS IN PROGRESS
                                     </h6>
                                 </div>
-                                <div class="content p-3 d-4  rounded-4 bg-blk">
+                                <div class="content p-3 d-4 rounded-4 bg-blk card-hover slide-in-right stagger-delay-3">
                                     <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538440/money-green_woj7ev.svg" alt=""
-                                        style="height: 44px; width: 44px; background-color: #10B98130" />
-                                    <h3 class="fw-bold ms-1 my-1">$<%= stats.totalMoneyEarned %></h3>
-                                    <h6 style="font-size: 14px; color:#BDC1CAFF;" class="fw-semibold">TOTAL MONEY SAVED
+                                        style="height: 44px; width: 44px; background-color: rgba(16, 185, 129, 0.2)" />
+                                    <h3 class="fw-bold ms-1 my-1 count-animate">$<%= stats.totalMoneyEarned %></h3>
+                                    <h6 style="font-size: 14px; color: var(--text-muted);" class="fw-semibold">TOTAL MONEY SAVED
                                     </h6>
                                 </div>
                             </div>
                             <div class="buttom">
-                                <h5 class="fw-semibold mt-4">Work History</h5>
-                                <div class="table-responsive custom-table-wrapper">
+                                <h5 class="fw-semibold mt-4 fade-in-up">Work History</h5>
+                                <div class="table-responsive custom-table-wrapper fade-in-up">
                                     <table id="table" class="table table-borderless align-middle custom-table">
                                         <thead>
                                             <tr>
@@ -142,15 +280,14 @@
                                         </thead>
                                         <tbody>
                                              <% tasks.forEach((task, index) => { %>
-                                            <tr>
+                                            <tr class="table-row-animate" style="animation-delay: <%= (index * 0.1) %>s;">
                                                 <td class="text-start"><%= index + 1 %></td>
                                                 <td class="text-start">
                                                     <%= task.title %>
                                                 </td>
-                                                <td class="text-center"><span class="btn <%= task.progress %> fw-semibold rounded-5"><%= task.progress %></span></td>
+                                                <td class="text-center"><span class="btn <%= task.progress %> fw-semibold rounded-5 pulse-hover"><%= task.progress %></span></td>
                                                 <td><%= task.created_at_formatted %></td>
                                                 <td>$<%= task.amount %></td>
-                                            
                                             </tr>
                                              <% }) %>
                                         </tbody>
@@ -161,23 +298,83 @@
                     </div>
                 </div>
 
-
         </div>
 
 </body>
 <script>
-    document.querySelector(".calendar-icon").addEventListener("click", () => {
-        document.getElementById("date").showPicker();
-    });
-    const formattedTasks = tasks.map(t => ({
-  ...t.toObject(),
-  created_at_formatted: t.created_at.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  }).replace(/ /, ' ') // ensure space after comma if needed
-}));
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add loading animation to elements
+        const elements = document.querySelectorAll('.count-animate');
+        elements.forEach((element, index) => {
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
 
+        // Add hover effects to cards
+        const cards = document.querySelectorAll('.card-hover');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Table row animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.table-row-animate').forEach(row => {
+            row.style.animationPlayState = 'paused';
+            observer.observe(row);
+        });
+    });
+
+    const formattedTasks = tasks.map(t => ({
+        ...t.toObject(),
+        created_at_formatted: t.created_at.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        }).replace(/ /, ' ')
+    }));
+
+    // Number counting animation for stats
+    function animateStats() {
+        const statElements = document.querySelectorAll('.count-animate');
+        statElements.forEach(element => {
+            const finalValue = parseInt(element.textContent.replace('$', ''));
+            let currentValue = 0;
+            const duration = 2000;
+            const increment = finalValue / (duration / 16);
+            
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= finalValue) {
+                    element.textContent = finalValue;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(currentValue);
+                }
+            }, 16);
+        });
+    }
+
+    // Start animation when page loads
+    setTimeout(animateStats, 500);
 </script>
 
 </html>

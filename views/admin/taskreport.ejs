@@ -15,14 +15,33 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .bg-blk {
-            background-color: #171c26;
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .d-4 {
@@ -30,11 +49,12 @@
         }
 
         .custom-table-wrapper {
-            background-color: #171c26;
-            color: #bdc1ca;
+            background-color: var(--dark-card);
+            color: var(--text-muted);
             border-radius: 19px;
             overflow: hidden;
             font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .custom-table {
@@ -45,16 +65,16 @@
         }
 
         .custom-table thead th {
-            color: #bdc1ca;
-            background: #262a33;
-            border-bottom: 1px solid #2f343d;
+            color: var(--text-muted);
+            background: var(--dark-card-hover);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 600;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr {
             background: transparent;
-            border-bottom: 1px solid #2f343d;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .custom-table tbody tr:last-child {
@@ -62,8 +82,7 @@
         }
 
         .custom-table tbody td {
-            color: #f3f4f6;
-
+            color: var(--text-light);
             background: transparent !important;
             vertical-align: middle;
             padding: 16px 18px;
@@ -74,8 +93,8 @@
         }
 
         .completed {
-            background: #10B98133;
-            color: #10b981;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
             font-size: 12px;
         }
 
@@ -97,10 +116,10 @@
             <%- include('../partials/sidebar') %>
 
                 <div class=" w-100"
-                    style="background:#0f172a; min-height:100vh; font-family: 'Inter', sans-serif; color:white; padding: 2.5rem;">
-                    <h6 class="mb-4"><a class="text-decoration-none" style="color: #9590a0;" href="/admin/problems"><i
-                                class="fa-solid fa-arrow-left" style="color: #9590a0;"></i> Back to List</a></h6>
-                    <h5 class="fw-bold mb-4">Reports</h5>
+                    style="background: var(--dark-bg); min-height:100vh; font-family: 'Inter', sans-serif; color: var(--text-light); padding: 2.5rem;">
+                    <h6 class="mb-4"><a class="text-decoration-none" style="color: var(--text-muted);" href="/admin/problems"><i
+                                class="fa-solid fa-arrow-left" style="color: var(--text-muted);"></i> Back to List</a></h6>
+                    <h5 class="fw-bold mb-4" style="color: var(--text-light);">Reports</h5>
 
                     <div class="table-responsive custom-table-wrapper" style="position: relative; z-index: 1;">
                         <table id="table" class="table table-borderless align-middle custom-table">
@@ -130,7 +149,7 @@
                                         <td class="d-flex justify-content-evenly">
                                             
                                              <div id="report-<%= report._id %>"  onclick="deleteReport('<%= report._id %>')" style="cursor:pointer;">
-                                                    <img src="/images/tick.svg" class="p-2 rounded-circle" style="background: #16A34A33;" alt="Delete Report">
+                                                    <img src="/images/tick.svg" class="p-2 rounded-circle" style="background: rgba(22, 163, 74, 0.2);" alt="Delete Report">
                                                 </div>
                                         </td>
                                     </tr>

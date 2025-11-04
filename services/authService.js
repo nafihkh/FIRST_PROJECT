@@ -5,21 +5,36 @@ const nodemailer = require("nodemailer");
 
 const userRepo = require("../repositories/userRepository");
 
-async function login(email, password, role, rememberMe = false) {
-  const user = await userRepo.findByEmailAndRole(email, role);
-  if (!user) throw new Error("Invalid User");
+async function login(email, password) {
+  const user = await userRepo.findByEmail( email );
+  if (!user) throw new Error("Invalid email or password");
 
   const isMatch = await bcrypt.compare(password + process.env.CUSTOM_SALT, user.password);
-  if (!isMatch) throw new Error("Invalid Password");
+  if (!isMatch) throw new Error("Invalid email or password");
 
   const token = jwt.sign(
     { userId: user._id, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: rememberMe ? "7d" : "1h" }
+    { expiresIn: "1h" }
   );
 
-  return { user, token, role: user.role, rememberMe };
+  return { token, role: user.role };
 }
+// async function login(email, password, role, rememberMe = false) {
+//   const user = await userRepo.findByEmailAndRole(email, role);
+//   if (!user) throw new Error("Invalid User");
+
+//   const isMatch = await bcrypt.compare(password + process.env.CUSTOM_SALT, user.password);
+//   if (!isMatch) throw new Error("Invalid Password");
+
+//   const token = jwt.sign(
+//     { userId: user._id, role: user.role },
+//     process.env.JWT_SECRET,
+//     { expiresIn: rememberMe ? "7d" : "1h" }
+//   );
+
+//   return { user, token, role: user.role, rememberMe };
+// }
 
 async function register({ username, email, phone, password, role }) {
   const existing = await userRepo.findByEmail(email);
@@ -57,14 +72,14 @@ async function forgotPassword(email) {
   });
 
   await transporter.sendMail({
-    from: `"NEIGHBOURHOOD" <${process.env.EMAIL_USER}>`,
+    from: `"JOBSEEK" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Verify Your Email with NEIGHBOURHOOD",
+    subject: "Verify Your Email with JOBSEEK",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #f9fafc;">
         
         <h2 style="text-align: center; color: #2d89ef; margin-bottom: 10px;">
-          Welcome to NEIGHBOURHOOD 
+          Welcome to JOBSEEK 
         </h2>
         
         <p style="font-size: 15px; color: #444;">
@@ -89,7 +104,7 @@ async function forgotPassword(email) {
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         
         <p style="font-size: 12px; color: #999; text-align: center;">
-          © 2025 NEIGHBOURHOOD — All rights reserved
+          © 2025 JOBSEEK — All rights reserved
         </p>
       </div>
     `,

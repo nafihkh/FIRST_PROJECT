@@ -131,35 +131,41 @@
                     eyeIcon.src = "https://res.cloudinary.com/dqugwh4su/image/upload/v1761538430/eyeclose_oamg8x.svg";
                 }
             }
-            document
-                .getElementById("loginForm")
-                .addEventListener("submit", async (e) => {
-                    e.preventDefault();
-                    const email = document.getElementById("email").value;
-                    const password = document.getElementById("password").value;
+            document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-                    try {
-                        const res = await fetch("/auth/user/login", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ email, password }),
-                            credentials: "include" // ⬅️ this line is critical
-                        });
-                        const data = await res.json();
-                        if (res.ok) {
-                            showToast('success', 'Login successful!', `Role: ${data.role}`)
-                            setTimeout(() => {
-                                window.location.href = data.role === "user" ? "/user/dashboard" : "/tasks";
-                            }, 1500);
-                        } else {
-                            showToast('warning', 'Login failed', `${data.errors?.[0]?.msg || data.error}`)
-                        }
-
-                    } catch (err) {
-                        console.log(err);
-                        showToast('error', 'Something went wrong', `${err.message}`)
-                    }
+            try {
+                const res = await fetch("/auth/user/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+                credentials: "include"
                 });
+
+                const data = await res.json();
+                if (res.ok) {
+                showToast("success", "Login successful!", `Role: ${data.role}`);
+
+                setTimeout(() => {
+                    if (data.role === "admin") {
+                    window.location.href = "/admin/dashboard";
+                    } else if (data.role === "worker") {
+                    window.location.href = "/worker/dashboard";
+                    } else {
+                    window.location.href = "/user/dashboard";
+                    }
+                }, 1500);
+                } else {
+                showToast("warning", "Login failed", data.error || "Invalid credentials");
+                }
+            } catch (err) {
+                console.error(err);
+                alert(err.message)
+                showToast("error", "Something went wrong", err.message);
+            }
+            });
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }

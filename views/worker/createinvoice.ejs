@@ -13,36 +13,72 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(59, 130, 246, 0.2);
         }
 
         .nav-link.active {
-            background: #6366f1 !important;
+            background: var(--gradient) !important;
+            color: var(--text-light) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .invoice-box {
-            background: #171C26;
+            background: var(--dark-card);
             border-radius: 16px;
             width: 100%;
             max-width: 510px;
             text-align: center;
-            box-shadow: 0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1F;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             padding: 40px 20px;
             margin: 20px auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .invoice-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
         .invoice-text {
             font-weight: 700;
-            color: #fff;
+            color: var(--text-light);
         }
 
         .input-box {
@@ -52,17 +88,20 @@
             padding-left: 20px;
             padding-right: 10px;
             font-size: 14px;
-            background: transparent;
-            border-radius: 9999px;
-            border: 1px solid #323743;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             outline: none;
-            color: #BDC1CA;
+            color: var(--text-light);
             display: block;
             margin: 10px auto;
+            transition: all 0.3s ease;
         }
 
         .input-box:focus {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .select-box {
@@ -71,16 +110,22 @@
             height: 40px;
             padding: 0 20px;
             font-size: 14px;
-            color: #BDC1CA;
-            background: #1E293B;
-            border: 1px solid #323743;
-            border-radius: 9999px;
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
             outline: none;
             position: relative;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-box:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         /* Custom arrow */
@@ -91,7 +136,7 @@
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            color: #BDC1CA;
+            color: var(--text-muted);
             font-size: 12px;
         }
 
@@ -105,18 +150,32 @@
         }
 
         .input-box::placeholder {
-            color: #BDC1CA;
+            color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         button.invoice-btn {
             width: 100%;
             max-width: 384px;
-            border-radius: 9999px;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: 600;
         }
 
         p.label {
             font-size: 14px;
-            color: #BDC1CA;
+            color: var(--text-muted);
             margin-top: 10px;
         }
 
@@ -132,13 +191,41 @@
 
         #error-msg {
             font-size: 14px;
-            color: red;
+            color: var(--error);
         }
 
         .info-text {
             text-align: left;
             font-size: 14px;
+            color: var(--text-muted);
         }
+
+        /* Animation for form elements */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .invoice-box form > * {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .invoice-box form > *:nth-child(1) { animation-delay: 0.1s; }
+        .invoice-box form > *:nth-child(2) { animation-delay: 0.2s; }
+        .invoice-box form > *:nth-child(3) { animation-delay: 0.3s; }
+        .invoice-box form > *:nth-child(4) { animation-delay: 0.4s; }
+        .invoice-box form > *:nth-child(5) { animation-delay: 0.5s; }
+        .invoice-box form > *:nth-child(6) { animation-delay: 0.6s; }
+        .invoice-box form > *:nth-child(7) { animation-delay: 0.7s; }
+        .invoice-box form > *:nth-child(8) { animation-delay: 0.8s; }
+        .invoice-box form > *:nth-child(9) { animation-delay: 0.9s; }
     </style>
 </head>
 
@@ -157,7 +244,7 @@
                         <form id="invoiceForm" class="text-left">
 
                             <div class="select-wrapper">
-                                <div class="text-start px-2"> <label for="task_id" class="info-text">Servies</label>
+                                <div class="text-start px-2"> <label for="task_id" class="info-text">Services</label>
                                 </div>
                                 <select class="select-box" name="task_id" id="task_id" required>
                                     <option value="">Select Task</option>
@@ -169,7 +256,7 @@
                                         <% }) %>
                                 </select>
                             </div>
-                            <div class="text-start px-5"> <label for="customer_name" class="info-text">Coustomer
+                            <div class="text-start px-5"> <label for="customer_name" class="info-text">Customer
                                     name</label></div>
 
                             <input type="text" id="customer_name" name="customer_name" class="input-box"
@@ -258,7 +345,7 @@
                             .then(res => {
                                 if (res.success) {
                                      showToast('success', '"Invoice Created successfully!', `Please waite for user Payment`)
-                                    window.location.href = "/worker/earnings";
+                                    window.location.href = "/worker/earnings/invoice";
                                 } else {
                                     showToast('error', 'Invoice Creation Failed!', `${res.message}`)
                                 }

@@ -1,5 +1,30 @@
 const authService = require("../services/authService");
 
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const { token, role } = await authService.login(email, password);
+    console.log("hello",email,password)
+
+    // Set cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 3600000, // 1 hour
+    });
+
+    res.json({
+      message: "Login successful",
+      role,
+      token,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
 exports.loginAdmin = async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;

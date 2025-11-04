@@ -14,14 +14,32 @@
             src: url("/fonts/Inter-Regular.ttf");
         }
 
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-darker: #1e3a8a;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+        }
+
         body {
             font-family: "Inter";
-            background-color: #0f172a;
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
 
         .card {
-            background: #1e293b;
+            background: var(--dark-card);
             border: none;
             border-radius: 15px;
         }
@@ -31,11 +49,12 @@
         }
 
         .custom-table-wrapper {
-            background-color: #171c26;
-            color: #bdc1ca;
+            background-color: var(--dark-card);
+            color: var(--text-muted);
             border-radius: 19px;
             overflow: hidden;
             font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .custom-table {
@@ -46,16 +65,16 @@
         }
 
         .custom-table thead th {
-            color: #bdc1ca;
-            background: #262a33;
-            border-bottom: 1px solid #2f343d;
+            color: var(--text-muted);
+            background: var(--dark-card-hover);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 600;
             padding: 16px 18px;
         }
 
         .custom-table tbody tr {
             background: transparent;
-            border-bottom: 1px solid #2f343d;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .custom-table tbody tr:last-child {
@@ -63,8 +82,7 @@
         }
 
         .custom-table tbody td {
-            color: #f3f4f6;
-
+            color: var(--text-light);
             background: transparent !important;
             vertical-align: middle;
             padding: 16px 18px;
@@ -83,12 +101,13 @@
             font-size: 14px;
             line-height: 22px;
             font-weight: 400;
-            background: #1f2937ff;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             border-width: 1px;
-            border-color: #1c222bff;
+            border-color: rgba(255, 255, 255, 0.1);
             border-style: solid;
             outline: none;
+            color: var(--text-muted);
         }
 
         input[type="date"]::-webkit-calendar-picker-indicator {
@@ -112,8 +131,7 @@
             font-variant: normal;
             text-rendering: auto;
             display: inline-block;
-
-            color: #fff;
+            color: var(--text-light);
             position: absolute;
             right: 12px;
             top: 50%;
@@ -135,7 +153,7 @@
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            color: #fff;
+            color: var(--text-light);
             cursor: pointer;
         }
 
@@ -166,11 +184,11 @@
         #searchFilter {
             padding-left: 34px;
             width: 100%;
-            color: #bdc1ca;
+            color: var(--text-muted);
         }
 
         #searchFilter::placeholder {
-            color: #f3f4f6;
+            color: var(--text-muted);
         }
 
         .icon-box {
@@ -179,18 +197,64 @@
         }
 
         .Active {
-            background: #10b98133 !important;
-            color: #10b981 !important;
+            background: rgba(16, 185, 129, 0.2) !important;
+            color: var(--success) !important;
             font-size: 12px !important;
             border: none !important;
         }
 
         .Inactive {
-            background: #6c757d33 !important;
-            color: #bdbdbd !important;
+            background: rgba(108, 117, 125, 0.2) !important;
+            color: var(--text-muted) !important;
             font-size: 12px !important;
             border: none !important;
         }
+
+        .filter-section {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-danger {
+            background: var(--error);
+            border: none;
+        }
+
+        .btn-success {
+            background: var(--success);
+            border: none;
+        }
+           .custom-table tfoot td {
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+        }
+          #itemsPerPage {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background-image: none;
+            padding-right: 10px; 
+            text-align: center;
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-radius: 6px;
+            font-size: 14px;
+            height: 32px;
+            transition: all 0.3s ease;
+        }
+
+        #itemsPerPage:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+         option {
+              background: var(--dark-card-hover);
+            color: var(--text-muted);
+            }
+
     </style>
 </head>
 
@@ -201,16 +265,16 @@
             <%- include('../partials/sidebar') %>
 
                 <div class="p-4 w-100" style="
-          background: #0f172a;
+          background: var(--dark-bg);
           min-height: 100vh;
           font-family: 'Inter', sans-serif;
-          color: white;
+          color: var(--text-light);
         ">
-                    <h3 class="fw-bold mb-4">User Management</h3>
+                    <h3 class="fw-bold mb-4" style="color: var(--text-light);">User Management</h3>
 
-                    <div style="background-color: #171c26" class="d-flex gap-3 mb-4 p-4 rounded-3">
+                    <div style="background-color: var(--dark-card)" class="d-flex gap-3 mb-4 p-4 rounded-3 filter-section">
                         <div class="d-flex align-items-center">
-                            <label style="color: #bdc1ca; font-size: 14px" for="">Status:</label>
+                            <label style="color: var(--text-muted); font-size: 14px" for="">Status:</label>
                             <select id="statusFilter" class="form-select inbox text-white border-0 ms-1"
                                 style="width: 150px">
                                 <option value="all">All Status</option>
@@ -219,12 +283,12 @@
                             </select>
                         </div>
                         <div class="d-flex align-items-center">
-                            <label style="color: #bdc1ca; font-size: 14px" for="">Satus:</label>
+                            <label style="color: var(--text-muted); font-size: 14px" for="">Status:</label>
                             <select id="statusFilter2" class="form-select inbox text-white border-0 ms-1"
                                 style="width: 150px">
                                 <option value="all">All Status</option>
                                 <option value="Blicked">Blocked</option>
-                                <option value="Unbloked">Unbloked</option>
+                                <option value="Unbloked">Unblocked</option>
                             </select>
                         </div>
 
@@ -257,7 +321,6 @@
                                             Active
                                         </button>
                                     </td>
-                                    <td>2 hours ago</td>
                                     <td class="d-flex justify-content-between align-items-center">
                                         <span class="btn bg-danger rounded-3 text-white fw-bold"
                                             style="font-size: 12px">Block</span>
@@ -268,6 +331,34 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7">
+                                    <div class="d-flex justify-content-between align-items-center mt-3 px-3 flex-wrap gap-3 text-white">
+                                        <div>
+                                        Show
+                                        <select id="itemsPerPage" class="inbox text-white border-0 mx-2" style="width: 70px;">
+                                            <option value="5">5</option>
+                                            <option value="7" selected>7</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                        items per page
+                                        </div>
+                                        <div id="pageInfo" class="text-center flex-grow-1">Showing 0 to 0 of 0 results</div>
+                                        <div class="d-flex align-items-center gap-2">
+                                        <button id="prevBtn" class="btn btn-outline-light btn-sm">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </button>
+                                        <span id="currentPage" class="mx-2 fw-bold text-light">1</span>
+                                        <button id="nextBtn" class="btn btn-outline-light btn-sm">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </button>
+                                        </div>
+                                    </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+
                         </table>
                     </div>
                 </div>
@@ -281,7 +372,7 @@
             const res = await fetch("/admin/users/list");
             if (!res.ok) throw new Error("Failed to fetch users");
             allUsers = await res.json();
-             applyFilters();
+             displayPage(1);
         } catch (err) {
             console.error("Error loading users:", err.message);
         }
@@ -441,6 +532,50 @@
 
     loadUser();
 });
+    let currentPage = 1;
+    let itemsPerPage = 7;
+
+    function displayPage(page) {
+    const tbody = document.getElementById("tbody");
+    const totalItems = tasks.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Boundaries
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    currentPage = page;
+
+    // Slice tasks for current page
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageTasks = tasks.slice(start, end);
+
+    renderTasks(pageTasks);
+    updatePaginationInfo(start, end, totalItems, totalPages);
+    }
+
+    function updatePaginationInfo(start, end, totalItems, totalPages) {
+    document.getElementById("pageInfo").textContent =
+        `Showing ${totalItems === 0 ? 0 : start + 1} to ${Math.min(end, totalItems)} of ${totalItems} results`;
+
+    document.getElementById("currentPage").textContent = currentPage;
+    document.getElementById("prevBtn").disabled = currentPage === 1;
+    document.getElementById("nextBtn").disabled = currentPage === totalPages;
+    }
+
+    // Event listeners
+    document.getElementById("prevBtn").addEventListener("click", () => {
+    if (currentPage > 1) displayPage(currentPage - 1);
+    });
+    document.getElementById("nextBtn").addEventListener("click", () => {
+    const totalPages = Math.ceil(tasks.length / itemsPerPage);
+    if (currentPage < totalPages) displayPage(currentPage + 1);
+    });
+    document.getElementById("itemsPerPage").addEventListener("change", (e) => {
+    itemsPerPage = parseInt(e.target.value);
+    currentPage = 1;
+    displayPage(currentPage);
+    });
 </script>
 
 

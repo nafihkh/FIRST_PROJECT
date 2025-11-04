@@ -27,14 +27,14 @@ exports.sendEmailOtp = async (userId) => {
   });
 
   const mailOptions = {
-    from: `"NEIGHBOURHOOD" <${process.env.EMAIL_USER}>`,
+    from: `"JOBSEEK" <${process.env.EMAIL_USER}>`,
     to: user.email,
-    subject: "Verify Your Email with NEIGHBOURHOOD",
+    subject: "Verify Your Email with JOBSEEK",
      html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #f9fafc;">
         
         <h2 style="text-align: center; color: #2d89ef; margin-bottom: 10px;">
-          Welcome to NEIGHBOURHOOD 
+          Welcome to JOBSEEK 
         </h2>
         
         <p style="font-size: 15px; color: #444;">
@@ -59,7 +59,7 @@ exports.sendEmailOtp = async (userId) => {
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         
         <p style="font-size: 12px; color: #999; text-align: center;">
-          © 2025 NEIGHBOURHOOD — All rights reserved
+          © 2025 JOBSEEK — All rights reserved
         </p>
       </div>
     `,
@@ -120,7 +120,7 @@ exports.sendPhoneOtp = async (userId) => {
   const toNumber = user.phone.startsWith('+') ? user.phone : '+91' + user.phone;
   let support = 8921232409;
   await client.messages.create({
-    body: `Your NEIGHBOURHOOD  verification code is ${otp}. It expires in 2 minutes. If you did not request this, contact ${support}.`,
+    body: `Your JOBSEEK  verification code is ${otp}. It expires in 2 minutes. If you did not request this, contact ${support}.`,
     from: process.env.TWILIO_PHONE_NUMBER,
     to: toNumber,
   });

@@ -44,8 +44,8 @@
         }
 
         .cart-img {
-            width: 358px;
-            height: 196px;
+            width: 376px;
+            height: 215px;
             object-fit: cover;
         }
 
@@ -96,38 +96,6 @@
                 <div class="flex-grow-1 p-4">
                     <h3 class="fw-bold mb-4" style="color: var(--text-light);">Active Jobs</h3>
                     <div id="itemcontainer">
-                        <div class="row align-items-center rounded-3 job-card mb-3"
-                            style="background: var(--dark-card); border-left: 4px solid var(--primary); padding: 20px;">
-                            <img class="cart-img rounded-start-3 col-md-5 m-0 p-0" src="/images/task4.png" alt="">
-                            <div class="col-md-5">
-                                <h6 class="mb-0 pb-0 fw-semibold" style="color: var(--text-light); font-size: 20px;">Need a full
-                                    stack
-                                    developer</h6>
-                                <label class="mt-0 pt-0 mb-1" style="color: var(--text-muted); font-size: 14px;">by
-                                    shafipuvattuparambil</label>
-                                <p class="mt-0 pt-0 mb-2" style="color: var(--text-light); font-size: 14px;">need a full stack
-                                    developer for compleat my project</p>
-                                <div class="row align-items-center mb-2 mt-5">
-
-                                    <div class="col-md-4">
-                                        <h5 class="fw-semibold my-auto mb-2" style="font-size: 14px; color:var(--text-light);">Budget
-                                        </h5>
-                                        <label class="mt-0 pt-0 mb-1 fw-semibold"
-                                            style="color: var(--success); font-size: 14px;">$2,850</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h5 class="fw-semibold my-auto mb-1" style="font-size: 14px; color:var(--text-light);">Dead
-                                            line</h5>
-                                        <label class="mt-0 pt-0 mb-1 fw-semibold"
-                                            style="color: var(--text-light); font-size: 14px;">Dec 15, 2025</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2 text-center mx-auto">
-                                <button onclick="window.location.href='/worker/activejobs/viewmore'"
-                                    class="btn rounded-2 btn-secondary w-100">View More</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <script>
@@ -143,12 +111,12 @@
                             tasks.forEach((task, index) => {
                                 const div = document.createElement("div");
                                 div.className = `row align-items-center rounded-3 mb-3 job-card`;
-                                div.style = `background: var(--dark-card); border-left: 4px solid var(--primary); padding: 20px; animation-delay: ${index * 0.1}s;`;
+                                div.style = `background: var(--dark-card); border-left: 4px solid var(--primary); animation-delay: ${index * 0.1}s;`;
 
                                 div.innerHTML = `
                                     <img class="cart-img rounded-start-3 col-md-5 m-0 p-0" src="${task.photo || '/images/task4.png'}" alt="${task.title || 'Task Image'}" onerror="this.src='/images/task4.png'">
                                     <div class="col-md-5">
-                                        <h6 class="mb-0 pb-0 fw-semibold" style="color: var(--text-light); font-size: 20px;">${task.title || 'No Title'}</h6>
+                                        <h6 class="mb-0 pb-0 fw-semibold" style="color: var(--text-light); font-size: 20px; margin-top:20px;">${task.title || 'No Title'}</h6>
                                         <label class="mt-0 pt-0 mb-1" style="color: var(--text-muted); font-size: 14px;">by ${task.user_id?.username || 'Unknown'}</label>
                                         <p class="mt-0 pt-0 mb-2" style="color: var(--text-light); font-size: 14px;">${task.description || ''}</p>
                                         <div class="row align-items-center mb-2 mt-5">
