@@ -413,56 +413,107 @@
         <script>
         const tasksContainer = document.getElementById("tasksContainer");
         const cartContainer = document.getElementById("cartContainer");
+        let allTasks = [];
+        let filteredTasks = [];
 
         // Load tasks dynamically
         async function loadTasks() {
             try {
                 const res = await fetch("/worker/tasks/progress-nontaken");
                 if (!res.ok) throw new Error("HTTP error " + res.status);
-                const tasks = await res.json();
-                tasksContainer.innerHTML = "";
+                allTasks = await res.json();
+                filteredTasks = allTasks;
+                renderTasks(filteredTasks);
 
-                tasks.forEach((task, index) => {
-                    const card = document.createElement("div");
-                    card.className = `col-md-3 task-card`;
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    card.innerHTML = `
-                        <div class="card rounded-3">
-                            <img class="top" src="${task.photo || '/images/task1.png'}" alt="${task.title}" 
-                                 onerror="this.src='/images/task1.png'">
-                            <div class="card-content">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex position-relative align-items-center">
-                                        <img class="rounded-circle me-2" src="${task.user_info?.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg'}" 
-                                             width="25" height="25" alt="Profile" 
-                                             onerror="this.src='https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg'">
-                                        <span class="onlineornot rounded-circle"></span>
-                                        <span style="color: var(--text-muted); font-size: 14px;" class="fw-semibold">${task.user_info?.username || 'Unknown'}</span>
-                                    </div>
-                                    <h2 class="fw-bold my-auto" style="font-size: 14px; color: var(--text-light);">
-                                        <i class="bi bi-star-fill text-warning"></i> ${task.worker_info?.rating ?? 'N/A'}
-                                    </h2>
-                                </div>
-                                <p style="color: var(--text-muted); font-size: 14px;" class="mt-2 mb-2 card-description">${task.description || 'No description available'}</p>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <h2 class="fw-bold my-auto" style="font-size: 18px; color:var(--text-light);">$${task.amount || 0}</h2>
-                                    <span style="color: var(--text-muted); font-size: 14px;">Due: ${task.duration || 'N/A'}</span>
-                                </div>
-                                <div class="text-end mt-2">
-                                    <button data-id="${task._id}" class="btn rounded-3 btn-primary btn-sm add-to-cart">
-                                        <i class="bi bi-bookmark-fill me-2"></i> Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    tasksContainer.appendChild(card);
-                });
+
             } catch (err) {
                 console.error(err);
                 tasksContainer.innerHTML = `<div class="col-12 text-center" style="color: var(--text-muted);">Error loading tasks. Please try again.</div>`;
             }
         }
+        function renderTasks(list) {
+            tasksContainer.innerHTML = "";
+
+            if (list.length === 0) {
+                tasksContainer.innerHTML =
+                    `<div class="col-12 text-center" style="color: var(--text-muted);">No matching tasks</div>`;
+                return;
+            }
+
+            list.forEach((task, index) => {
+                const card = document.createElement("div");
+                card.className = `col-md-3 task-card`;
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <div class="card rounded-3">
+                        <img class="top" src="${task.photo || '/images/task1.png'}">
+                        <div class="card-content">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex position-relative align-items-center">
+                                    <img class="rounded-circle me-2" src="${task.user_info?.profile_photo || 'https://res.cloudinary.com/dqugwh4su/image/upload/v1761538454/profileeg_tnbpak.jpg'}"
+                                        width="25" height="25">
+                                    <span class="onlineornot rounded-circle"></span>
+                                    <span class="fw-semibold" style="color: var(--text-muted); font-size: 14px;">
+                                        ${task.user_info?.username || 'Unknown'}
+                                    </span>
+                                </div>
+                                <h2 class="fw-bold my-auto" style="font-size: 14px; color: var(--text-light);">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    ${task.worker_info?.rating ?? 'N/A'}
+                                </h2>
+                            </div>
+
+                            <p style="color: var(--text-muted); font-size: 14px;" class="card-description">
+                                ${task.description}
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <h2 class="fw-bold" style="font-size: 18px; color:var(--text-light);">$${task.amount}</h2>
+                                <span style="color: var(--text-muted); font-size: 14px;">Due: ${task.duration}</span>
+                            </div>
+
+                            <div class="text-end mt-2">
+                                <button data-id="${task._id}" class="btn rounded-3 btn-primary btn-sm add-to-cart">
+                                    <i class="bi bi-bookmark-fill me-2"></i> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                tasksContainer.appendChild(card);
+            });
+        }
+        function applyFilters() {
+            const status = document.getElementById("statusFilter").value;
+            const date = document.getElementById("dateFilter").value;
+            const search = document.getElementById("searchFilter").value.toLowerCase();
+
+            filteredTasks = allTasks.filter(task => {
+                
+                // ✅ Status filter
+                const statusMatch =
+                    status === "all" || (task.status && task.status.toLowerCase() === status.toLowerCase());
+
+                // ✅ Date filter
+                const dateMatch =
+                    !date || (task.created_at && task.created_at.slice(0, 10) === date);
+
+                // ✅ Search: title + description + username
+                const searchMatch =
+                    !search ||
+                    (task.title || "").toLowerCase().includes(search) ||
+                    (task.description || "").toLowerCase().includes(search) ||
+                    (task.user_info?.username || "").toLowerCase().includes(search);
+
+                return statusMatch && dateMatch && searchMatch;
+            });
+
+            renderTasks(filteredTasks);
+        }
+        document.getElementById("statusFilter").addEventListener("change", applyFilters);
+        document.getElementById("dateFilter").addEventListener("change", applyFilters);
+        document.getElementById("searchFilter").addEventListener("input", applyFilters);
+
 
         // Load cart dynamically
         async function loadCart() {
@@ -511,10 +562,14 @@
                                 body: JSON.stringify({ taskId })
                             });
                             if (res.ok) {
-                                loadCart();
+                               
                                 showToast('success', 'Task removed from saved jobs','remove from saved jobs check out');
+                                closeCartOffcanvas();
+                                loadCart();
+                                loadTasks();
                             } else {
                                 showToast('error', 'Failed to remove task', 'Somthing wrong');
+                                closeCartOffcanvas();
                             }
                         } catch (err) {
                             console.error(err);
@@ -527,6 +582,11 @@
                 console.error(err);
                 cartContainer.innerHTML = `<div class="text-center" style="color: var(--text-muted);">Error loading saved jobs</div>`;
             }
+        }
+        function closeCartOffcanvas() {
+            const cartOffcanvas = document.getElementById("cart");
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(cartOffcanvas);
+            bsOffcanvas && bsOffcanvas.hide();
         }
 
         // Add to Cart button (event delegation)
@@ -543,6 +603,7 @@
                 if (res.ok) {
                     showToast('success', 'Task added to saved jobs!','Check out saved jobs');
                     loadCart();
+                    loadTasks();
                 } else {
                     showToast('error', data.error || "Error adding task" ,'check details');
                 }
@@ -574,10 +635,12 @@
                 const data = await res.json();
                 if (data.success) {
                     showToast('success', 'Task moved to Active job', 'PLease Waite for User Responce');
+                    closeCartOffcanvas();
                     loadCart();
                     loadTasks(); // Reload tasks to reflect changes
                 } else {
                     showToast('warning', '"Something went wrong', data.error);
+                    closeCartOffcanvas();
                 }
             } catch (err) {
                 console.error(err);

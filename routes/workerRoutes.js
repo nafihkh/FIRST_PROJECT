@@ -35,7 +35,7 @@ router.get("/reset-password", (req, res) => {
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
-  res.redirect("/worker/login");
+  res.redirect("/user/login");
 });
 
 router.get("/dashboard", checkLogin, auth(["worker"]), (req, res) => {

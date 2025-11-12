@@ -14,7 +14,7 @@ exports.getReports = async (req, res) => {
     const reports = await taskService.getReports();
 
     if (!reports) {
-      return res.status(404).json({ success: false, message: "Task not found" });
+      return res.status(404).render("404");
     }
      res.render("admin/taskreport", {
       title: "Task Reports",
@@ -51,7 +51,7 @@ exports.updateTask = async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.message === "Task not found") {
-      return res.status(404).json({ error: err.message });
+      return res.status(404).render("404");
     }
     res.status(500).json({ error: "Server Error" });
   }
@@ -65,7 +65,7 @@ exports.deleteTask = async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.message === "Task not found") {
-      return res.status(404).json({ error: err.message });
+      return res.status(404).render("404");
     }
     res.status(500).json({ error: "Server Error" });
   }
@@ -78,7 +78,7 @@ exports.deleteReport = async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.message === "Report not found") {
-      return res.status(404).json({ error: err.message });
+      return res.status(404).render("404");
     }
     res.status(500).json({ error: "Server Error" });
   }
@@ -92,7 +92,7 @@ exports.updateStatus = async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.message === "Task not found") {
-      return res.status(404).json({ error: err.message });
+      return res.status(404).render("404");
     }
     res.status(500).json({ error: "Server Error" });
   }
@@ -128,7 +128,7 @@ exports.viewMoreTask = async (req, res) => {
     const task = await taskService.getTaskById(taskId);
 
     if (!task) {
-      return res.status(404).json({ massage: "Task not found" })
+      return res.status(404).render("404");
     }
     res.render("worker/task-details", {
       title: "Task Details",
@@ -149,7 +149,7 @@ exports.createReport = async (req, res) => {
     const taskId = req.params.id;
     const task = await taskService.getTaskById(taskId);
     if (!task) {
-      return res.status(404).json({ success: false, message: "Task not found" });
+      return res.status(404).render("404");
     }
 
     // 2️⃣ Build report data from the request
@@ -249,7 +249,7 @@ exports.rateTask = async (req, res) => {
 exports.taskapprove = async (req, res) => {
 try {
     const taskId = req.params.task;
-    const task = await taskService.updateProgress(taskId, "Completed");
+    const task = await taskService.updateProgress(taskId, "Approved");
 
      if (!task) {
       return res.status(404).send("Task not found");
@@ -267,7 +267,7 @@ try {
     const task = await taskService.updateProgress(taskId, "InProgress");
 
      if (!task) {
-      return res.status(404).send("Task not found");
+      return res.status(404).render("404");
     }
 
     res.redirect(`/user/approvals`);

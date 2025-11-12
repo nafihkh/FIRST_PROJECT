@@ -53,7 +53,10 @@ const getTasksCompleted = (userId) =>
     .populate("worker_id", "username");
 
 const getInprogressTasksByWorker = (workerId) =>
-  Tasks.find({ worker_id: workerId })
+   Tasks.find({ 
+      worker_id: workerId,
+      progress: { $ne: "Completed" },
+    })
     .select("title location description duration amount progress status photo deadline")
     .populate("user_id", "username profile_photo");
 
@@ -168,8 +171,7 @@ async function getTasksCompletedLast7Days() {
 
 const getActiveTasks = async (workerId) => {
   return Tasks.find({
-    worker_id: workerId,
-    progress: { $nin: ["Completed"] },
+    progress: "Not Taken",
   });
 };
 
@@ -179,6 +181,12 @@ const getCompletedTasks = async (workerId) => {
     progress: "Completed",
   });
 };
+
+const findCompletedTasksByWorker = (workerId) =>
+  Tasks.find({ worker_id: workerId, progress: "Approved" }).populate("user_id", "username");
+
+const findTaskByIdWithUser = (taskId) =>
+  Tasks.findById(taskId).populate("user_id");
 
 module.exports = {
   countAll,
@@ -205,4 +213,7 @@ module.exports = {
   getTasksCompletedLast7Days,
   getActiveTasks,
   getCompletedTasks,
+
+  findCompletedTasksByWorker,
+  findTaskByIdWithUser,
 };

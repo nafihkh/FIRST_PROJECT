@@ -13,6 +13,11 @@ const findWorkerById = (id) => User.findOne({ _id: id, role: "worker" });
 
 const findByUserId = (userId) => Worker.findOne({ user_id: userId });
 
+const findWorkerByUserId = (userId) => Worker.findOne({ user_id: userId });
+
+
+
+
 const deleteWorker = (id) => User.findOneAndDelete({ _id: id, role: "worker" });
 
 const updateWorker = (id, updates) =>
@@ -211,6 +216,7 @@ module.exports = {
   getAverageTaskRating,
   getCompletedTasksCount,
   getPerformanceStats,
+  findWorkerByUserId
 
   
 };

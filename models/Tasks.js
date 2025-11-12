@@ -9,6 +9,7 @@ const taskSchema = new mongoose.Schema({
     status:{type:String, enum: ["active", "hidden"], default: 'active'},
     progress: { type: String, enum: ["Not Taken", "InProgress", "Submitted", "Approved","Completed"], default: "Not Taken" },
     created_at:{type: Date, default: Date.now},
+    completed_at:{type: Date},
     duration:{type:String, required: true},
     deadline:{type: Date, required: true},
     response: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

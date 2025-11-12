@@ -1,5 +1,6 @@
 
 const Invoice = require("../models/Invoice");
+const Payment = require("../models/Payment");
 
 const countAll = () => Invoice.countDocuments({status: "unpaid"});
 
@@ -36,10 +37,48 @@ const getMonthlyEarnings = async (workerId) => {
   return result[0]?.total || 0;
 };
 
-module.exports = { 
-    countAll,
-    getTotalEarnings ,
-    getPendingPayments,
-    getMonthlyEarnings,
-    
+
+// Payments (actual money records)
+const createPayment = (data) => Payment.create(data);
+
+const findPaymentsByUser = (userId) =>
+  Payment.find({ user_id: userId }).populate("task_id").sort({ createdAt: -1 });
+
+const findPaymentsByWorker = (workerId) =>
+  Payment.find({ worker_id: workerId }).populate("task_id").sort({ createdAt: -1 });
+
+const countCompletedPaymentsByUser = (userId) =>
+  Payment.countDocuments({ user_id: userId, status: "completed" });
+
+const sumCompletedPaymentsAmountByUser = async (userId) => {
+  const res = await Payment.aggregate([
+    { $match: { user_id: userId, status: "completed" } },
+    { $group: { _id: null, totalAmount: { $sum: "$amount" } } },
+  ]);
+  return res[0]?.totalAmount || 0;
+};
+
+const countCompletedPaymentsByWorker = (workerId) =>
+  Payment.countDocuments({ worker_id: workerId, status: "completed" });
+
+const sumCompletedPaymentsAmountByWorker = async (workerId) => {
+  const res = await Payment.aggregate([
+    { $match: { worker_id: workerId, status: "completed" } },
+    { $group: { _id: null, totalAmount: { $sum: "$amount" } } },
+  ]);
+  return res[0]?.totalAmount || 0;
+};
+
+module.exports = {
+  createPayment,
+  findPaymentsByUser,
+  findPaymentsByWorker,
+  countCompletedPaymentsByUser,
+  sumCompletedPaymentsAmountByUser,
+  countCompletedPaymentsByWorker,
+  sumCompletedPaymentsAmountByWorker,
+  countAll,
+  getTotalEarnings ,
+  getPendingPayments,
+  getMonthlyEarnings,
 };

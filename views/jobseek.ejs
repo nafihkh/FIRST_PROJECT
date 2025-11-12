@@ -861,11 +861,11 @@
             <h1>Connect Skills with Opportunities</h1>
             <p>JobSeek bridges the gap between skilled workers and clients needing trusted services. Find perfect matches, get work done efficiently, and build lasting professional relationships.</p>
             <div class="cta-buttons">
-                <button class="btn btn-signup btn-cta" onclick="showSignup()">
+                <button class="btn btn-signup btn-cta" onclick="window.location.href='/user/signup'">
                     <i class="bi bi-rocket-takeoff"></i> Get Started Free
                 </button>
-                <button class="btn btn-demo btn-cta" onclick="showDemo()">
-                    <i class="bi bi-play-circle"></i> Watch Demo
+                <button class="btn btn-demo btn-cta" onclick="window.location.href='/user/login'">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
                 </button>
             </div>
         </div>
@@ -1103,20 +1103,6 @@
         observer.observe(document.querySelector('.stats'));
 
         // Button click handlers
-        function showLogin() {
-            alert('Login modal would open here! Redirecting to login page...');
-            // window.location.href = '/login';
-        }
-
-        function showSignup() {
-            alert('Signup modal would open here! Redirecting to registration...');
-            // window.location.href = '/register';
-        }
-
-        function showDemo() {
-            alert('Product demo video would play here!');
-        }
-
         // Add scroll animations to elements
         const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {

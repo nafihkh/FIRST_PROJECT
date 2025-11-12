@@ -24,7 +24,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const user = await userService.updateUser(req.params.id, req.body);
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user) return res.status(404).render("404");;
 
     res.json(user);
   } catch (err) {
@@ -35,7 +35,7 @@ exports.updateUser = async (req, res) => {
 exports.toggleBlock = async (req, res) => {
   try {
     const user = await userService.toggleBlock(req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user) return res.status(404).render("404");
 
     res.json({
       message: `User ${user.accessibility ? "unblocked" : "blocked"}`,
@@ -91,10 +91,7 @@ exports.requestWorker = async (req, res) => {
     const result = await userService.requestWorker(identifier);
 
     if (!result.success) {
-      return res.status(404).json({
-        success: false,
-        message: result.message || "No worker found with that identifier.",
-      });
+      return res.status(404).render("404");
     }
 
     return res.status(200).json({
@@ -177,6 +174,7 @@ exports.getDashboard = async (req, res) => {
 
         // 3️⃣ Ongoing Tasks
         const ongoingTasks = await Task.countDocuments({ user_id: userId, progress: "InProgress" });
+        const nottaken = await Task.countDocuments({ user_id: userId, progress: "Not Taken" })
 
 
      
@@ -194,6 +192,7 @@ exports.getDashboard = async (req, res) => {
             totalPosts,
             completedTasks,
             ongoingTasks,
+            nottaken,
             spendSave: spendSave[0] || { totalSpend: 0, totalSave: 0 },
             title: "Overview", 
             activePage: "overview"

@@ -1,198 +1,125 @@
-const Conversation = require("../models/Conversation");
-const Message = require("../models/message");
-const jwt = require("jsonwebtoken");
+// controllers/messageController.js
+const {
+  createConversationService,
+  getConversationMessagesService,
+  sendMessageService,
+  getUserConversationsService,
+  getMessagesByConversationUserService,
+  getUserConversationsWorkerService,
+  getMessagesByConversationWorkerService,
+  deleteConversationWithMessages,
+} = require("../services/messageService");
 
+// KEEP NAME: exports.createConversation
 exports.createConversation = async (req, res) => {
   try {
-    // 1️⃣ Get Token from Cookie
-    const token = req.cookies.token; // Make sure your cookie name is 'token'
-    if (!token) return res.status(401).send("Not logged in");
-
-    // 2️⃣ Decode Token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const loggedUserId = decoded.userId;
-    const loggedUserType = decoded.role; // "worker" or "user"
-
-    // 3️⃣ Get target user from URL
-    const targetUserId = req.params.userId;
-    const targetUserType = req.params.type;
-    const tasktitle = req.params.title;
-    const taskId = req.params.taskId; // Add type in your URL
-    console.log("Logged In:", loggedUserId, loggedUserType);
-    console.log("Target:", targetUserId, targetUserType);
-
-    // 4️⃣ Check if conversation already exists
-   const existingConversation = await Conversation.findOne({task_id: taskId});
-
-    if (existingConversation) {
-      return res.redirect(`/${loggedUserType}/messages/${existingConversation._id}`);
-    }
-
-    // 5️⃣ Create new conversation
-    const newConversation = new Conversation({
-      title: tasktitle,
-      task_id: taskId,
-      participants: [
-        { participantId: loggedUserId, participantType: loggedUserType },
-        { participantId: targetUserId, participantType: targetUserType }
-      ]
+    const result = await createConversationService({
+      token: req.cookies.token,
+      jwtSecret: process.env.JWT_SECRET,
+      params: {
+        userId: req.params.userId,
+        type: req.params.type,
+        title: req.params.title,
+        taskId: req.params.taskId,
+      },
     });
-    
-
-    await newConversation.save();
-    res.redirect(`/${loggedUserType}/messages/${newConversation._id}`);
-
+    return res.redirect(result.redirectTo);
   } catch (error) {
     console.error("Error creating conversation:", error);
-    res.status(500).send("Server Error");
+    const status = error.status || 500;
+    return res.status(status).send(status === 401 ? "Not logged in" : "Server Error");
   }
 };
 
+// KEEP NAME: exports.getConversationMessages (worker)
 exports.getConversationMessages = async (req, res) => {
   try {
     const { conversationId } = req.params;
-    const messages = await Message.find({ conversationId }).sort({ createdAt: 1 });
-    const conversation = await Conversation.findById(conversationId);
-    console.log(conversation);
-    res.render("worker/messages", { messages, conversation });
+    const result = await getConversationMessagesService({ conversationId });
+    return res.render(result.view, result.data);
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error(err);
+    return res.status(500).send(err.message || "Server Error");
   }
 };
+
+// KEEP NAME: exports.sendMessage
 exports.sendMessage = async (req, res) => {
   try {
-    const { conversationId, message } = req.body;
-
-   
-    const token = req.cookies.token;
-    if (!token) return res.status(401).send("Not logged in");
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const senderId = decoded.userId;
-    const senderType = decoded.role; 
-
-    const conversation = await Conversation.findById(conversationId);
-    if (!conversation) return res.status(404).send("Conversation not found");
-
-   
-    const receiver = conversation.participants.find(
-      (p) => p.participantId.toString() !== senderId
-    );
-
-    if (!receiver) return res.status(400).send("Receiver not found");
-
-    const receiverId = receiver.participantId;
-    const receiverType = receiver.participantType;
-
-   
-    await Message.create({
-      conversationId,
-      senderId,
-      senderType,
-      receiverId,
-      receiverType,
-      message,
+    const result = await sendMessageService({
+      token: req.cookies.token,
+      jwtSecret: process.env.JWT_SECRET,
+      body: req.body,
     });
-
-    
-    res.redirect(`/${senderType}/messages/${conversationId}`);
-
+    return res.redirect(result.redirectTo);
   } catch (error) {
     console.error("Error sending message:", error);
-    res.status(500).send("Server Error");
+    const status = error.status || 500;
+    return res.status(status).send(status === 401 ? "Not logged in" : error.message || "Server Error");
   }
 };
 
+// KEEP NAME: exports.getUserConversations (user)
 exports.getUserConversations = async (req, res) => {
   try {
-    const userId = req.user._id;
-    const userRole = req.user.role;
-
-    const conversations = await Conversation.find({
-      "participants.participantId": userId
-    });
-
-    res.render("user/messages", {
-      conversations,   
-      messages: [],     
-      currentConv: null,
-      title: "Messages",
-      activePage: "messages"
-    });
+    const result = await getUserConversationsService({ user: req.user });
+    return res.render(result.view, result.data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error loading conversations");
+    return res.status(500).send("Error loading conversations");
   }
 };
+
+// KEEP NAME: exports.getMessagesByConversationUser (user)
 exports.getMessagesByConversationUser = async (req, res) => {
   try {
     const conversationId = req.params.conversationId;
-
-    const messages = await Message.find({ conversationId })
-      .sort({ createdAt: 1 });
-
-    const conversations = await Conversation.find({
-      "participants.participantId": req.user._id
+    const result = await getMessagesByConversationUserService({
+      user: req.user,
+      conversationId,
     });
-
-    const currentConv = await Conversation.findById(conversationId);
-
-    res.render("user/messages", {
-      conversations,    
-      messages,           
-      currentConv,
-      title: "Messages",
-      activePage: "messages"
-    });
+    return res.render(result.view, result.data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    return res.status(500).send("Server Error");
   }
 };
 
+// KEEP NAME: exports.getUserConversationsworker (worker)
 exports.getUserConversationsworker = async (req, res) => {
   try {
-    const userId = req.user._id;
-    const userRole = req.user.role;
-
-    const conversations = await Conversation.find({
-      "participants.participantId": userId
-    });
-
-    res.render("worker/messages", {
-      conversations,   
-      messages: [],     
-      currentConv: null,
-      title: "Messages",
-      activePage: "messages"
-    });
+    const result = await getUserConversationsWorkerService({ user: req.user });
+    return res.render(result.view, result.data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error loading conversations");
+    return res.status(500).send("Error loading conversations");
   }
 };
+
+// KEEP NAME: exports.getMessagesByConversationworker (worker)
 exports.getMessagesByConversationworker = async (req, res) => {
   try {
     const conversationId = req.params.conversationId;
-
-    const messages = await Message.find({ conversationId })
-      .sort({ createdAt: 1 });
-
-    const conversations = await Conversation.find({
-      "participants.participantId": req.user._id
+    const result = await getMessagesByConversationWorkerService({
+      user: req.user,
+      conversationId,
     });
-
-    const currentConv = await Conversation.findById(conversationId);
-
-    res.render("worker/messages", {
-      conversations,      
-      messages,           
-      currentConv,
-      title: "Messages",
-      activePage: "messages"
-    });
+    return res.render(result.view, result.data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    return res.status(500).send("Server Error");
+  }
+};
+
+exports.deleteConversation = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await deleteConversationWithMessages(id);
+
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete conversation" });
   }
 };

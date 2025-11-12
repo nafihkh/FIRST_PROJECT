@@ -27,7 +27,7 @@ const deleteWorker = async (req, res) => {
 const updateWorker = async (req, res) => {
   try {
     const worker = await workerService.updateWorker(req.params.id, req.body);
-    if (!worker) return res.status(404).json({ error: "Worker not found" });
+    if (!worker) return res.status(404).render("404");
 
     res.json(worker);
   } catch (err) {
@@ -39,7 +39,7 @@ const updateWorker = async (req, res) => {
 const toggleBlock = async (req, res) => {
   try {
     const worker = await workerService.toggleBlock(req.params.id);
-    if (!worker) return res.status(404).json({ error: "Worker not found" });
+    if (!worker) return res.status(404).render("404");
 
     res.json({
       message: `Worker ${worker.accessibility ? "unblocked" : "blocked"}`,
@@ -111,7 +111,7 @@ const getSkills = async (req, res) => {
   try {
     const skills = await workerService.getSkills(req.user._id);
     if (!skills)
-      return res.status(404).json({ success: false, message: "Worker not found" });
+      return res.status(404).render("404");
 
     res.json({ success: true, skills });
   } catch (err) {
@@ -125,7 +125,7 @@ const addSkill = async (req, res) => {
     const { skill } = req.body;
 
     const result = await workerService.addSkill(userId, skill);
-    if (!result) return res.status(404).json({ success: false, error: "Worker not found" });
+    if (!result) return res.status(404).render("404");
     if (result === "exists") return res.status(400).json({ success: false, error: "Skill already exists" });
 
     return res.json({ success: true, skills: result });
@@ -147,7 +147,7 @@ const removeSkill = async (req, res) => {
 
     const result = await workerService.removeSkill(userId, skill);
 
-    if (!result) return res.status(404).json({ success: false, error: "Worker not found" });
+    if (!result) return res.status(404).render("404");
 
     res.json({ success: true, skills: result });
   } catch (err) {
@@ -173,7 +173,7 @@ const getSettings = async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.message === "Worker not found") {
-      return res.status(404).send(err.message);
+      return res.status(404).render("404");
     }
     res.status(500).send("Internal Server Error");
   }

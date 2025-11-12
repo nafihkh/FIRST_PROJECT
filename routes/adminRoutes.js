@@ -26,11 +26,11 @@ router.get("/user-growth", checkLogin, auth(["admin"]), adminController.getUserG
 router.get("/user-rating", checkLogin, auth(["admin"]), adminController.getWorkerRating);
 router.get("/tasks-completed", checkLogin, auth(["admin"]), adminController.getTasksCompleted);
 
-// Problems
-router.get("/problems", checkLogin, auth(["admin"]), (req, res) =>
-  res.render("admin/problems", { title: "Problems", activePage: "problems" })
+// services
+router.get("/services", checkLogin, auth(["admin"]), (req, res) =>
+  res.render("admin/services", { title: "services", activePage: "services" })
 );
-router.get("/problems/reports", checkLogin, auth(["admin"]), taskController.getReports);
+router.get("/services/reports", checkLogin, auth(["admin"]), taskController.getReports);
 router.delete("/report/:id", auth(["admin"]), taskController.deleteReport);
 
 // Tasks Management
@@ -80,7 +80,7 @@ router.post("/settings/password", checkLogin, auth(["admin"]), userController.up
 // Logout
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
-  res.redirect("/admin/login");
+  res.redirect("/user/login");
 });
 
 module.exports = router;

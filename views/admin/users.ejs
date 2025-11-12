@@ -364,15 +364,20 @@
                 </div>
         </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
     let allUsers = [];
-    async function loadUser() {
+    let filteredUsers = [];
+
+   async function loadUser() {
         try {
             const res = await fetch("/admin/users/list");
             if (!res.ok) throw new Error("Failed to fetch users");
             allUsers = await res.json();
-             displayPage(1);
+            
+            filteredUsers = allUsers; // default
+            displayPage(1);
         } catch (err) {
             console.error("Error loading users:", err.message);
         }
@@ -400,9 +405,13 @@
                         style="font-size: 12px">
                         ${user.accessibility ? "Block" : "Unblock"}
                     </button>
-                    <a onclick="deleteUser('${user._id}')" href="#" class="text-danger">
-                        <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg" alt="" />
-                    </a>
+                    <button 
+                        onclick="deleteUser('${user._id}')" 
+                        class="border-0 bg-transparent p-0" 
+                        style="cursor: pointer;"
+                    >
+                        <img class="icon-box" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538422/delete_nttln1.svg">
+                    </button>
                 </td>
             `;
             tbody.appendChild(row);
@@ -411,26 +420,31 @@
     
     function applyFilters() {
         const statusValue = document.getElementById("statusFilter").value; 
-        const blockValue = document.getElementById("statusFilter2").value; 
+        const blockValue = document.getElementById("statusFilter2").value;
         const searchValue = document.getElementById("searchFilter").value.toLowerCase();
 
-        const filtered = allUsers.filter(user => {
-            // Status filter
-            let statusMatch = statusValue === "all" ||
-                  (statusValue === "Active" && user.status === "Active") ||
-                  (statusValue === "Inactive" && user.status === "Inactive");
+        filteredUsers = allUsers.filter(user => {
+            let statusMatch =
+                statusValue === "all" ||
+                (statusValue === "Active" && user.status === "Active") ||
+                (statusValue === "Inactive" && user.status === "Inactive");
 
-            let blockMatch = blockValue === "all" || 
-                             (blockValue === "Blicked" && user.accessibility) || 
-                             (blockValue === "Unbloked" && !user.accessibility);
+            let blockMatch =
+                blockValue === "all" ||
+                (blockValue === "Blicked" && user.accessibility) ||
+                (blockValue === "Unbloked" && !user.accessibility);
 
-            let searchMatch = !searchValue || (user.username || "").toLowerCase().includes(searchValue) || (user._id || "").toLowerCase().includes(searchValue);
+            let searchMatch =
+                !searchValue ||
+                (user.username || "").toLowerCase().includes(searchValue) ||
+                (user._id || "").toLowerCase().includes(searchValue);
 
             return statusMatch && blockMatch && searchMatch;
         });
 
-        renderUser(filtered);
+        displayPage(1);  // ✅ reset pagination after filtering
     }
+
     document.getElementById("statusFilter").addEventListener("change", applyFilters);
     document.getElementById("statusFilter2").addEventListener("change", applyFilters);
     document.getElementById("searchFilter").addEventListener("input", applyFilters);
@@ -531,28 +545,29 @@
     }
 
     loadUser();
-});
+
     let currentPage = 1;
     let itemsPerPage = 7;
 
     function displayPage(page) {
-    const tbody = document.getElementById("tbody");
-    const totalItems = tasks.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const tbody = document.getElementById("tbody");
 
-    // Boundaries
-    if (page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
-    currentPage = page;
+        const totalItems = filteredUsers.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
 
-    // Slice tasks for current page
-    const start = (page - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    const pageTasks = tasks.slice(start, end);
+        if (page < 1) page = 1;
+        if (page > totalPages) page = totalPages;
+        currentPage = page;
 
-    renderTasks(pageTasks);
-    updatePaginationInfo(start, end, totalItems, totalPages);
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        const pageUsers = filteredUsers.slice(start, end);
+
+        renderUser(pageUsers);
+        updatePaginationInfo(start, end, totalItems, totalPages);
     }
+
 
     function updatePaginationInfo(start, end, totalItems, totalPages) {
     document.getElementById("pageInfo").textContent =
@@ -567,15 +582,17 @@
     document.getElementById("prevBtn").addEventListener("click", () => {
     if (currentPage > 1) displayPage(currentPage - 1);
     });
-    document.getElementById("nextBtn").addEventListener("click", () => {
-    const totalPages = Math.ceil(tasks.length / itemsPerPage);
-    if (currentPage < totalPages) displayPage(currentPage + 1);
+   document.getElementById("nextBtn").addEventListener("click", () => {
+        const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+        if (currentPage < totalPages) displayPage(currentPage + 1);
     });
+
     document.getElementById("itemsPerPage").addEventListener("change", (e) => {
     itemsPerPage = parseInt(e.target.value);
     currentPage = 1;
     displayPage(currentPage);
     });
+});
 </script>
 
 

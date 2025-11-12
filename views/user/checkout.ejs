@@ -6,94 +6,71 @@
   <title>Checkout</title>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     @font-face {
       font-family: "Inter";
       src: url("/fonts/Inter-Regular.ttf");
     }
 
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1e40af;
+      --primary-darker: #1e3a8a;
+      --secondary: #0ea5e9;
+      --accent: #06b6d4;
+      --dark-bg: #0f172a;
+      --dark-card: #1e293b;
+      --dark-card-hover: #334155;
+      --text-light: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+    }
+
     body {
       font-family: "Inter";
-      background-color: #0f172a;
-      color: white;
+      background-color: var(--dark-bg);
+      color: var(--text-light);
     }
 
     .topbar {
       width: 100%;
-      border-bottom: 1px solid #777777;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .topbar a {
       font-size: 14px;
-      color: #bcc1ca;
+      color: var(--text-muted);
       margin-right: 10px;
     }
 
     .active {
-      border-bottom: 2px solid #2450b1;
+      border-bottom: 2px solid var(--primary);
       padding-bottom: 3px;
     }
 
     .card {
-      background: #1e293b;
+      background: var(--dark-card);
       border: none;
       border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .paid {
-      background: #10B98133;
-      color: #10b981;
-      font-size: 12px;
+
+    .btn-primary {
+      background: var(--gradient);
+      border: none;
+      transition: all 0.3s ease;
     }
 
-    .unpaid {
-      background: #ff000033;
-      color: #db0000;
-      font-size: 12px;
-    }
-
-    .custom-table-wrapper {
-      background-color: #171c26;
-      color: #bdc1ca;
-      border-radius: 19px;
-      overflow: hidden;
-      font-size: 14px;
-    }
-
-    .custom-table {
-      background: transparent !important;
-      margin-bottom: 0;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-
-    .custom-table thead th {
-      color: #bdc1ca;
-      background: #262a33;
-      border-bottom: 1px solid #2f343d;
-      font-weight: 600;
-      padding: 16px 18px;
-    }
-
-    .custom-table tbody tr {
-      background: transparent;
-      border-bottom: 1px solid #2f343d;
-    }
-
-    .custom-table tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    .custom-table tbody td {
-      color: #f3f4f6;
-
-      background: transparent !important;
-      vertical-align: middle;
-      padding: 16px 18px;
-    }
-
-    .custom-table tbody tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
+    .btn-primary:hover {
+      background: var(--gradient-dark);
+      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -104,19 +81,17 @@
     <div class="d-flex">
       <%- include('../partials/sidebar') %>
 
-        <div class="container">
-          <h2>Processing Your Payment...</h2>
-          <p>Invoice ID: <%= invoice._id %>
+        <div class="p-4">
+          <h2 style="color: var(--text-light);">Processing Your Payment...</h2>
+          <p style="color: var(--text-muted);">Invoice ID: <%= invoice._id %>
           </p>
-          <p>Total Amount: ₹<%= invoice.total_amount %>
+          <p style="color: var(--text-muted);">Total Amount: ₹<%= invoice.total_amount %>
           </p>
         </div>
     </div>
 
-    <!-- <button id="payBtn" class="btn btn-primary">Pay Now</button> -->
-
-    <script>
-      window.onload = async function () {
+   <script>
+  window.onload = async function () {
     console.log("Pay button clicked!");
 
     const res = await fetch("/user/create-order/<%= invoice._id %>/pay");
@@ -124,7 +99,14 @@
     console.log("Received Order Data:", data);
 
     if (!data.success) {
-      alert("Order creation failed: " + data.message);
+      Swal.fire({
+        icon: "error",
+        title: "Order Error!",
+        text: data.message,
+        background: "#1e293b",
+        color: "#f3f4f6",
+        confirmButtonColor: "#3b82f6",
+      });
       return;
     }
 
@@ -135,8 +117,9 @@
       name: "Your Platform Name",
       description: "Invoice Payment",
       order_id: data.order_id,
+
       handler: async function (response) {
-        // ✅ Send to backend for verification
+        // ✅ verification request
         const verifyRes = await fetch("/user/verify-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -149,21 +132,35 @@
         });
 
         const result = await verifyRes.json();
+
         if (result.success) {
-          alert("Invoice Paid Successfully!");
-          window.location.href = "/user/payments/invoice";
+          Swal.fire({
+            icon: "success",
+            title: "Payment Successful!",
+            text: "Your invoice has been paid successfully.",
+            background: "#1e293b",
+            color: "#f3f4f6",
+            confirmButtonColor: "#10b981",
+          }).then(() => {
+            window.location.href = "/user/payments/invoice";
+          });
         } else {
-          alert("Verification Failed!");
+          Swal.fire({
+            icon: "error",
+            title: "Verification Failed!",
+            text: "Payment could not be verified.",
+            background: "#1e293b",
+            color: "#f3f4f6",
+            confirmButtonColor: "#ef4444",
+          });
         }
       },
     };
 
     const rzp = new Razorpay(options);
     rzp.open();
-      }
-    </script>
- 
-
+  };
+</script>
 
 </body>
 

@@ -81,6 +81,8 @@ router.get("/messages/:conversationId",
   messageController.getMessagesByConversationUser
 );
 
+router.delete("/delete/conversation/:id", checkLogin, auth(["user"]), messageController.deleteConversation);
+
 
 
 router.get("/postapproval", checkLogin, auth(["user"]), userController.getWorkerRequests);

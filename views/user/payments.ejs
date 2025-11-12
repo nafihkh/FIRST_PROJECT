@@ -266,10 +266,10 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538447/orengeclock_f0aofm.svg.svg" alt="" style="
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538447/orengeclock_f0aofm.svg" alt="" style="
                                             height: 44px;
                                             width: 44px;
-                                            background: rgba(245, 158, 11, 0.2);
+                                            background: rgba(255, 77, 0, 0.202);
                                         " />
                                     <h3 class="text-white fw-bold ms-1 mt-2" id="completedTasks"><%= unpaidInvoices %></h3>
                                 </div>
@@ -281,7 +281,7 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <div class="d-flex justify-content-between">
-                                    <img class="p-2 rounded-4" src="/images/uparrow.svg" alt="" style="
+                                    <img class="p-2 rounded-4" src="https://res.cloudinary.com/dqugwh4su/image/upload/v1761538477/uparrow_acxqwk.svg" alt="" style="
                                             height: 44px;
                                             width: 44px;
                                             background: rgba(239, 68, 68, 0.2);
@@ -334,11 +334,11 @@
                                                             <% } %>
                                                 </td>
                                                 <td class="text-center" style="color: var(--text-light);">
-                                                    <%= new Date(payment.createdAt).toDateString() %>
+                                                    <%= new Date(payment.created_at).toDateString() %>
                                                 </td>
                                                 <td class="text-center">
                                                     <a class="btn btn-primary rounded-3"
-                                                        href="/user/payments/<%= payment._id %>"
+                                                        href="/user/invoice/<%= payment.invoice_id %>"
                                                         style="font-size: 14px;">View More</a>
                                                 </td>
                                             </tr>
