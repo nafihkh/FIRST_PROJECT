@@ -8,6 +8,8 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { setupChatSocket } = require("./sockets/chatSocket");
 const cors = require("cors");
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
